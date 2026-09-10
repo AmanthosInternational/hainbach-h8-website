@@ -59,6 +59,16 @@
    Die Gliederung der Themen laeuft ueber die schon vorgesehene Huelle: .h8-band um jeden
    zweiten .h8-abschnitt. Kein neuer Name, nur der vorhandene endlich benutzt.
 
+   NACHGETRAGEN am 11.09.2026, dritte Runde:
+
+     .h8-kennzahl__ziel    der Verweis, der die Kachel ganz ausfuellt. Frueher trug das <a>
+                           dieselbe Klasse wie das <li>: zwei Karten ineinander, doppelte
+                           Polsterung, unentschiedenes Ueberfahren
+     .h8-kennzahl__zusatz  die ruhige zweite Zeile unter dem Wert, haelt ihn einzeilig
+     .h8-kennzahl--stark   die EINE Kachel, die verkauft, in Tinte. Bei zweien hebt sich
+                           keine mehr ab
+     .h8-fuss__block       Marke, Anschrift und Hinweis als ein Block neben den Rechtszielen
+
    Die drei Kennwerte --h8-luft, --h8-uebergang und --h8-schwung tragen Rhythmus und
    Bewegung. Wer einen vierten Abstandswert braucht, aendert die Luft, statt eine Zahl
    in eine Regel zu schreiben. */
@@ -471,9 +481,14 @@ p:last-child { margin-bottom: 0; }
 
 /* Kennzahlen (Abschnitte 2 und 9) ------------------------------------------ */
 
+/* FLEX STATT RASTER. Bei sieben Kacheln in sechs Spalten blieb die siebte allein, und die
+   fuenf leeren Zellen zeigten den Behaelterton als grosses graues Loch neben ihr. Im Fluss
+   dehnen sich stattdessen die Kacheln der letzten Zeile auf die volle Breite, und zwar bei
+   jeder Anzahl; ein Raster muesste man bei jeder neuen Kachel nachrechnen. Am 11.09.2026
+   gemeldet. Der 1px-Abstand auf dem Linienton bleibt: er zeichnet die Trennlinien. */
 .h8-kennzahlen {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(172px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1px;
   margin: 0;
   padding: 0;
@@ -482,33 +497,64 @@ p:last-child { margin-bottom: 0; }
   border: 1px solid var(--h8-linie);
 }
 .h8-kennzahl {
+  flex: 1 1 190px;
   margin: 0;
-  padding: 16px 14px;
   background: var(--h8-karte);
-  /* Die Mindestbreite oben ist so gewaehlt, dass "Doppelparker" und "provisionsfrei"
-     in eine Zeile passen. break-word ist die Notbremse fuer noch laengere Werte und
-     bricht nur, wenn ein Wort allein wirklich nicht passt. */
-  overflow-wrap: break-word;
+}
+/* Die Kachel ist ein Verweis in den Abschnitt, der die Zahl ausfuehrt. Das Ziel fuellt sie
+   ganz aus, damit die Flaeche klickbar ist und nicht nur die zwei Zeilen Text. Frueher trug
+   das <a> dieselbe Klasse wie das <li>: zwei Karten ineinander, doppelte Polsterung, und ein
+   Ueberfahren, das sich nicht entscheiden konnte. */
+.h8-kennzahl__ziel {
+  display: block;
+  height: 100%;
+  padding: 18px 16px 16px;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--h8-uebergang);
 }
 .h8-kennzahl__name {
   display: block;
-  margin: 0 0 4px;
-  font-size: 13px;
-  letter-spacing: 0.06em;
+  margin: 0 0 7px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--h8-leise);
+  /* NIE mitten im Wort. "Baugenehmigung" brach zu "BAUGENEHMIGUN | G", weil die Notbremse
+     fuer lange Werte auf der ganzen Kachel lag statt nur auf dem Wert. */
+  overflow-wrap: normal;
+  hyphens: none;
 }
 .h8-kennzahl__wert {
   display: block;
   margin: 0;
   font-family: var(--h8-titelschrift);
-  font-size: 21px;
-  line-height: 1.25;
+  font-size: clamp(22px, 1.9vw, 27px);
+  line-height: 1.15;
   font-variant-numeric: tabular-nums;
+  /* Die Notbremse gehoert hierher, nicht auf die Kachel. */
+  overflow-wrap: anywhere;
 }
-/* Eine anklickbare Kachel bleibt eine Kachel, nur mit Tippziel. */
-a.h8-kennzahl { display: block; text-decoration: none; }
-a.h8-kennzahl:hover { background: #fff; }
+/* Die zweite Zeile haelt den Wert kurz und einzeilig. "12 Doppelparker" lief sonst ueber
+   zwei Zeilen, waehrend die Nachbarkachel einzeilig blieb, und die Reihe franste aus. */
+.h8-kennzahl__zusatz {
+  display: block;
+  margin: 5px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--h8-leise);
+}
+/* Die eine Kachel, die verkauft. Genau eine: bei zweien hebt sich keine mehr ab. */
+.h8-kennzahl--stark { background: var(--h8-text); }
+.h8-kennzahl--stark .h8-kennzahl__name { color: rgba(255, 255, 255, 0.62); }
+.h8-kennzahl--stark .h8-kennzahl__wert { color: #fff; }
+.h8-kennzahl--stark .h8-kennzahl__zusatz { color: rgba(255, 255, 255, 0.72); }
+
+@media (hover: hover) {
+  .h8-kennzahl__ziel:hover { background: #fff; }
+  .h8-kennzahl--stark .h8-kennzahl__ziel:hover { background: #2c2f2d; }
+}
 
 /* Ampel und Wohnungskarten (Abschnitte 3 und 5) ---------------------------- */
 
@@ -710,6 +756,25 @@ a.h8-kennzahl:hover { background: #fff; }
   padding: 0;
   list-style: none;
 }
+/* ZWEI SPALTEN AB DEM SCHREIBTISCH. Vorher stand alles untereinander links, der
+   Haftungshinweis auf 62 Zeichen begrenzt, und rechts blieb die halbe Breite leer; das
+   sieht nach Fehler aus, nicht nach Absicht. Am 11.09.2026 gemeldet. Auf dem Telefon
+   bleibt es eine Spalte, dort ist Nebeneinander falsch. */
+@media (min-width: 860px) {
+  /* Flex und nicht Raster: bei einem Raster spannte die Navigation ueber alle Zeilen, und
+     das Raster verteilte ihre Hoehe auf die Textzeilen daneben. Zwei Bloecke nebeneinander
+     ist ohnehin das, was es inhaltlich ist. */
+  .h8-fuss__innen {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 56px;
+  }
+  .h8-fuss__block { flex: 1 1 auto; min-width: 0; }
+  .h8-fuss__nav { flex: 0 0 auto; }
+  .h8-fuss__gewaehr { max-width: 70ch; margin-bottom: 0; }
+  .h8-fuss__liste { flex-direction: column; align-items: flex-end; gap: 0; }
+}
 /* NUR fuer die Ziele der Fusszeilen-Navigation. `inline-flex` mit 44 px Mindesthoehe ist ein
    Fingerziel; mitten im Fliesstext sprengt es die Zeile und schiebt den Verweis allein auf
    eine neue. Am 11.09.2026 genau so im Haftungshinweis passiert. Ein Verweis IM Satz traegt
@@ -751,14 +816,15 @@ a.h8-kennzahl:hover { background: #fff; }
    Telefon bliebe der Zustand nach der Beruehrung haengen und sieht dann aus wie ein
    Fehler. */
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  /* Kennzahlkacheln heben sich NICHT an: sie sitzen in einem Verbund mit 1px-Fugen, und
+     eine einzelne angehobene Kachel reisst die Linien auf. Sie wechseln stattdessen den
+     Grundton, was in einem Verbund die ruhigere und deutlichere Antwort ist. */
   .h8-karte,
-  .h8-person,
-  .h8-kennzahl {
+  .h8-person {
     transition: transform 0.5s var(--h8-schwung), box-shadow 0.5s var(--h8-schwung);
   }
   .h8-karte:hover,
-  .h8-person:hover,
-  .h8-kennzahl:hover {
+  .h8-person:hover {
     transform: translateY(-4px);
     box-shadow: var(--h8-schatten);
   }
