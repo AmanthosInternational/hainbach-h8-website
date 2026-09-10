@@ -1,0 +1,15 @@
+# Hainbach H8
+
+> Neubauprojekt Hainbach H8, Hainbachstrasse 8, 73730 Esslingen am Neckar. 12 Eigentumswohnungen, 27 bis 83 m², Standard KfW 40 QNG. Baubeginn Frühjahr 2027.
+
+## Seiten
+
+- [Uebersicht](https://hainbach-h8.de/): Wohnungen, Lage, Energie, Zeitplan, Kontakt
+- [Kapitalanlage-Rechner](https://hainbach-h8.de/rechner/): Rendite, Steuerwirkung, Finanzierung
+- [Impressum](https://hainbach-h8.de/impressum/)
+- [Datenschutz](https://hainbach-h8.de/datenschutz/)
+
+## Hinweise
+
+- Alle Preise, Flaechen und Mietannahmen stehen im ausgelieferten HTML, nicht erst im JavaScript.
+- Angaben ohne Gewaehr, keine Anlageberatung. Massgeblich ist allein der notarielle Kaufvertrag.

@@ -1,0 +1,94 @@
+# Qualitaetswaechter, Hauskonvention der vier Schwesterrepos (M12).
+# Er baut nichts. Er prueft die live ausgelieferte Seite, nach jedem Push und woechentlich.
+name: Qualitaet
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SITE_URL: https://hainbach-h8.de
+
+concurrency:
+  group: qualitaet-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  links:
+    name: Links (lychee)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --max-concurrency 4 --accept 200,206,429 './**/*.html'
+          fail: true
+
+  vitals:
+    name: Web Vitals (Unlighthouse)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - run: npx --yes unlighthouse-ci --site "$SITE_URL" --build-static
+        env:
+          SITE_URL: ${{ env.SITE_URL }}
+
+  barrierefreiheit:
+    name: Barrierefreiheit (Playwright und axe)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Werkzeuge holen
+        run: npm install --no-save playwright @axe-core/playwright
+      - run: npx playwright install --with-deps chromium
+      - name: Vier Adressen pruefen
+        env:
+          SITE_URL: ${{ env.SITE_URL }}
+        run: |
+          node -e "
+          const { chromium } = require('playwright');
+          const { AxeBuilder } = require('@axe-core/playwright');
+          const seiten = ['/', '/rechner/', '/impressum/', '/datenschutz/'];
+          (async () => {
+            const browser = await chromium.launch();
+            let verstoesse = 0;
+            for (const pfad of seiten) {
+              const seite = await browser.newPage();
+              await seite.goto(process.env.SITE_URL + pfad, { waitUntil: 'load' });
+              const bericht = await new AxeBuilder({ page: seite })
+                .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+                .analyze();
+              for (const fund of bericht.violations) {
+                verstoesse++;
+                console.log(pfad, fund.id, fund.impact, fund.nodes.length);
+              }
+              await seite.close();
+            }
+            await browser.close();
+            process.exit(verstoesse > 0 ? 1 : 0);
+          })();
+          "
+
+  suchkonsole:
+    name: Search-Console-Datei
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bestaetigungsdatei muss ausgeliefert werden
+        env:
+          SITE_URL: ${{ env.SITE_URL }}
+        run: |
+          code=$(curl -s -o /tmp/gsc.html -w '%{http_code}' "$SITE_URL/google934323b2771e6a9a.html")
+          echo "Statuscode $code"
+          test "$code" = "200"
+          grep -q 'google-site-verification' /tmp/gsc.html

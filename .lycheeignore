@@ -1,0 +1,8 @@
+# Adressen, die lychee nicht pruefen kann oder nicht pruefen soll.
+# Einbettungen Dritter antworten auf ein nacktes GET absichtlich nicht mit 200.
+^https://app\.cal\.com/
+^https://challenges\.cloudflare\.com/
+^https://www\.facebook\.com/
+^https://www\.googletagmanager\.com/
+^mailto:
+^tel:

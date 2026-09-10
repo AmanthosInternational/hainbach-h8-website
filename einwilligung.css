@@ -1,0 +1,181 @@
+/*
+ * Stil des Einwilligungsbanners (Plan h8-website, Arbeitspaket 5, E5).
+ *
+ * Eigene Datei, damit das Banner ohne stil.css (Arbeitspaket 2) vollstaendig aussieht: faellt der
+ * Seitenstil aus, bleibt die Wahl trotzdem bedienbar. Farben und Radius kommen als Variablen
+ * mit Rueckfallwert, so faerbt Arbeitspaket 2 spaeter mit, ohne dass hier etwas geaendert wird.
+ *
+ * Der Kern dieser Datei in einem Satz: die beiden Schaltflaechen sind gleich gross, gleich
+ * schwer und gleich sichtbar. Wer "Nur notwendige" kleiner, blasser oder weiter unten machen
+ * will, aendert Groesse oder Sichtbarkeit, und genau darauf schaut seite/tests/einwilligung.test.js.
+ *
+ * Kein Verweis nach draussen: keine Schrift, kein Bild, kein import. Die Seite laedt hier nichts.
+ */
+
+.am-einwilligung {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  background: var(--am-ew-schleier, rgba(15, 23, 32, 0.35));
+  font-family: var(--am-schrift, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+}
+
+.am-ew-inhalt {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 720px;
+  padding: 20px;
+  border-radius: var(--am-radius, 10px);
+  background: var(--am-flaeche, #ffffff);
+  color: var(--am-text, #14202b);
+  box-shadow: 0 8px 32px rgba(15, 23, 32, 0.28);
+}
+
+.am-ew-titel {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.am-ew-text {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.am-ew-stand {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--am-text-leise, #4a5a68);
+}
+
+/* Beide Schaltflaechen in einer Zeile, jede mit demselben Anteil an der Breite. */
+.am-ew-wahl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/*
+ * Groesse, Gewicht und Sichtbarkeit stehen genau einmal, fuer beide Knoepfe gemeinsam.
+ * Die beiden Modifikatoren darunter setzen ausschliesslich Farben.
+ */
+.am-ew-knopf {
+  flex: 1 1 200px;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 12px 20px;
+  border: 2px solid var(--am-akzent, #0b5c8a);
+  border-radius: var(--am-radius, 10px);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+}
+
+.am-ew-knopf--ja {
+  background: var(--am-akzent, #0b5c8a);
+  color: var(--am-akzent-text, #ffffff);
+}
+
+.am-ew-knopf--nein {
+  background: var(--am-flaeche, #ffffff);
+  color: var(--am-akzent, #0b5c8a);
+}
+
+.am-ew-knopf:hover {
+  filter: brightness(0.94);
+}
+
+.am-ew-knopf:focus-visible,
+.am-ew-schliessen:focus-visible,
+.am-ew-link:focus-visible {
+  outline: 3px solid var(--am-fokus, #d97706);
+  outline-offset: 2px;
+}
+
+.am-ew-fuss {
+  margin: 12px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.am-ew-link {
+  color: var(--am-akzent, #0b5c8a);
+  text-decoration: underline;
+}
+
+/*
+ * Der Schliessen-Knopf entsteht nur, wenn bereits eine Wahl gespeichert ist (einwilligung.js).
+ * Er ist deshalb kein Weg an der Entscheidung vorbei, sondern der Weg aus dem erneut
+ * geoeffneten Banner heraus.
+ */
+.am-ew-schliessen {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--am-linie, #c8d2da);
+  border-radius: var(--am-radius, 10px);
+  background: transparent;
+  color: var(--am-text-leise, #4a5a68);
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .am-ew-inhalt {
+    padding: 16px;
+  }
+
+  /* Untereinander, aber weiterhin gleich gross und beide oberhalb der Fusszeile. */
+  .am-ew-knopf {
+    flex: 1 1 100%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .am-ew-knopf,
+  .am-ew-schliessen {
+    transition: filter 120ms ease-in-out;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .am-ew-inhalt {
+    background: var(--am-flaeche-dunkel, #101b24);
+    color: var(--am-text-dunkel, #eef3f7);
+  }
+
+  .am-ew-stand {
+    color: var(--am-text-leise-dunkel, #b3c1cc);
+  }
+
+  .am-ew-knopf--nein {
+    background: transparent;
+    color: var(--am-akzent-dunkel, #7cc4ea);
+  }
+
+  .am-ew-knopf--ja {
+    background: var(--am-akzent-dunkel, #7cc4ea);
+    color: var(--am-akzent-text-dunkel, #06202e);
+  }
+
+  .am-ew-knopf {
+    border-color: var(--am-akzent-dunkel, #7cc4ea);
+  }
+
+  .am-ew-link {
+    color: var(--am-akzent-dunkel, #7cc4ea);
+  }
+}

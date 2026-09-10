@@ -1,0 +1,517 @@
+/* Stil der Projektwebsite Hainbach H8 (Plan h8-website, Arbeitspaket 2).
+
+   MOBIL ZUERST. Jede Regel gilt zunaechst fuer das schmale Geraet; breitere Bildschirme
+   bekommen ihre Abweichung in einer min-width-Abfrage. Der Seitenrand ist an keiner Breite
+   kleiner als 16 px: er sitzt einmal als padding-inline auf den drei Behaeltern
+   .h8-kopf__innen, .h8-abschnitt und .h8-fuss__innen, und nirgends sonst.
+
+   PALETTE UND MASSE folgen rechner/rechner.css, damit der eingebettete Rechnerblock auf
+   /rechner/ nicht wie ein Fremdkoerper wirkt: Grund #efebe2, Karte #fbfaf7, Text #202221,
+   leiser Text #5e5d56, Linie #c9c4b8, Salbei #7c8b7d als Akzent. Das Band #ddd8ce ist der
+   Grundton der Schwesterseite wohnidyll-w5.de und traegt hier Kopf, Fuss und jeden zweiten
+   Abschnitt. Kein Textton liegt unter 4,5:1 auf seinem Grund, kein Tippziel unter 44 px.
+
+   SCHRIFTEN. Selbstgehostet, sagt der Plan. Im Repo liegt keine einzige Schriftdatei, und
+   dieses Arbeitspaket laedt nichts aus dem Netz. Es steht deshalb eine Ersatzkette aus
+   Systemschriften hier, und seite/statisch/schriften/README.md nennt die vier fehlenden
+   Dateien und die zwei Zeilen, die sich danach aendern. Eine erfundene Schriftdatei waere
+   ein toter Verweis auf jeder Seite.
+
+   DER KLASSENVERTRAG. Arbeitspaket 3 schreibt das Markup der elf Abschnitte, dieses Arbeitspaket den
+   Stil dazu. Damit sich beide nicht verfehlen, sind hier alle Klassen gesetzt, die die
+   Abschnitte brauchen, auch wenn ihr Markup noch nicht existiert. Wer eine weitere braucht,
+   sagt es, statt eine eigene zu erfinden:
+
+     Gerueste   .h8-band (volle Breite, Grundton) > .h8-abschnitt (Breite und Rand)
+                .h8-abschnitt__kopf, .h8-obertitel, .h8-abschnitt__titel, .h8-fliesstext
+                .h8-raster, .h8-raster--bild-rechts, .h8-raster--bild-links
+     Bausteine  .h8-knopf, .h8-knopf--primaer, .h8-knopfreihe
+                .h8-liste, .h8-liste--merkmale, .h8-fussnote, .h8-bild, .h8-grosszahl
+     Abschnitte .h8-hero (1), .h8-kennzahlen + .h8-kennzahl (2 und 9), .h8-ampel (3 und 5),
+                .h8-karten + .h8-karte (5), .h8-zeitleiste (8), .h8-personen + .h8-person (10)
+     Tabelle    .h8-tabelle in .h8-tabelle__rahmen (laeuft quer, nie die Seite)
+
+   Formular und Einwilligungsbanner haben ihren eigenen Stil (Arbeitspakete 7 und 5). */
+
+/* Kennwerte ---------------------------------------------------------------- */
+
+:root {
+  --h8-text: #202221;
+  --h8-leise: #5e5d56;
+  --h8-linie: #c9c4b8;
+  --h8-grund: #efebe2;
+  --h8-band: #ddd8ce;
+  --h8-karte: #fbfaf7;
+  --h8-akzent: #7c8b7d;
+  --h8-rot: #b3261e;
+  --h8-gruen: #1e7a44;
+  --h8-gelb: #8a6100;
+
+  /* Ersatzkette, solange keine Schriftdatei vorliegt. Merriweather und Lato stehen
+     absichtlich vorn: liegen die Dateien einmal da, greifen sie ohne weitere Aenderung
+     an dieser Stelle. */
+  --h8-titelschrift: Merriweather, Georgia, "Times New Roman", serif;
+  --h8-textschrift: Lato, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+
+  --h8-breite: 1120px;
+  --h8-rand: 16px;
+  --h8-kopfhoehe: 60px;
+}
+
+/* Grundlagen --------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  /* Der Kopf liegt fest oben. Ohne diesen Abstand verschwindet die Ueberschrift eines
+     angesprungenen Abschnitts darunter. */
+  scroll-padding-top: calc(var(--h8-kopfhoehe) + 12px);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  /* Spalte mit Mindesthoehe, damit die Fussleiste auf einer kurzen Seite (404,
+     Impressum) unten steht und nicht mitten im Bild endet. */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--h8-grund);
+  color: var(--h8-text);
+  font-family: var(--h8-textschrift);
+  font-size: 17px;
+  line-height: 1.6;
+  /* Nichts auf dieser Seite darf sie quer laufen lassen. Wer etwas Breiteres braucht
+     (Tabelle), stellt es in .h8-tabelle__rahmen. Bewusst clip statt hidden: hidden macht
+     den Rumpf zum Scrollbehaelter und nimmt der Kopfleiste ihr position: sticky. Kennt
+     ein Browser clip nicht, gilt der Vorgabewert, und es geht nichts kaputt. */
+  overflow-x: clip;
+}
+
+.h8-inhalt { flex: 1 0 auto; }
+
+img, svg, video { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+
+a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible {
+  outline: 2px solid var(--h8-text);
+  outline-offset: 2px;
+}
+
+h1, h2, h3 {
+  font-family: var(--h8-titelschrift);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.4px;
+  text-wrap: balance;
+  margin: 0 0 14px;
+}
+h1 { font-size: clamp(30px, 7vw, 46px); }
+h2 { font-size: clamp(25px, 5vw, 34px); }
+h3 { font-size: clamp(19px, 3.4vw, 23px); }
+p { margin: 0 0 16px; }
+p:last-child { margin-bottom: 0; }
+
+/* Sprungmarke fuer die Tastatur: sichtbar, sobald sie den Fokus hat. */
+.h8-sprung {
+  position: absolute;
+  left: -9999px;
+  z-index: 20;
+  padding: 12px 16px;
+  background: var(--h8-text);
+  color: var(--h8-karte);
+  text-decoration: none;
+}
+.h8-sprung:focus {
+  left: 8px;
+  top: 8px;
+}
+
+/* Kopfleiste --------------------------------------------------------------- */
+
+.h8-kopf {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--h8-band);
+  border-bottom: 1px solid var(--h8-linie);
+}
+.h8-kopf__innen {
+  max-width: calc(var(--h8-breite) + 2 * var(--h8-rand));
+  margin-inline: auto;
+  padding: 10px var(--h8-rand);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+.h8-kopf__marke {
+  font-family: var(--h8-titelschrift);
+  font-size: 19px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  /* Wortmarke und Knopf liegen in der ersten Zeile, die Ziele darunter. */
+  margin-right: auto;
+  padding: 8px 0;
+}
+.h8-kopf__nav {
+  /* Auf dem Handy eine eigene Zeile ueber die volle Breite, damit die sechs Ziele
+     umbrechen koennen statt quer zu laufen. */
+  order: 3;
+  flex-basis: 100%;
+}
+.h8-kopf__liste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.h8-kopf__ziel {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  text-decoration: none;
+  color: var(--h8-leise);
+}
+.h8-kopf__ziel:hover,
+.h8-kopf__ziel:focus-visible { color: var(--h8-text); text-decoration: underline; }
+.h8-kopf__knopf { flex: 0 0 auto; }
+
+@media (min-width: 900px) {
+  .h8-kopf__innen { flex-wrap: nowrap; padding-block: 6px; }
+  .h8-kopf__marke { margin-right: 28px; }
+  .h8-kopf__nav { order: 0; flex-basis: auto; margin-right: auto; }
+  .h8-kopf__liste { flex-wrap: nowrap; gap: 22px; }
+}
+
+/* Abschnitte --------------------------------------------------------------- */
+
+.h8-band { background: var(--h8-band); }
+.h8-band--karte { background: var(--h8-karte); }
+
+.h8-abschnitt {
+  max-width: calc(var(--h8-breite) + 2 * var(--h8-rand));
+  margin-inline: auto;
+  padding: 44px var(--h8-rand);
+}
+@media (min-width: 760px) {
+  .h8-abschnitt { padding-block: 64px; }
+}
+
+.h8-abschnitt__kopf { max-width: 62ch; margin-bottom: 24px; }
+.h8-obertitel {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--h8-leise);
+}
+.h8-abschnitt__titel { margin-bottom: 12px; }
+.h8-fliesstext { max-width: 62ch; }
+.h8-fussnote {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--h8-leise);
+}
+.h8-grosszahl {
+  display: block;
+  font-family: var(--h8-titelschrift);
+  font-size: clamp(32px, 7vw, 48px);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Zwei Spalten, auf dem Handy untereinander. --bild-links dreht die Reihenfolge auf
+   breiten Bildschirmen um; im Quelltext steht das Bild immer hinter dem Text, damit die
+   Vorlesereihenfolge stimmt. */
+.h8-raster { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+@media (min-width: 860px) {
+  .h8-raster { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+  .h8-raster--bild-links > :first-child { order: 2; }
+}
+
+.h8-bild {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--h8-linie);
+  background: var(--h8-karte);
+}
+
+/* Listen ------------------------------------------------------------------- */
+
+.h8-liste { margin: 0 0 16px; padding: 0 0 0 20px; }
+.h8-liste li { margin-bottom: 6px; }
+.h8-liste--merkmale {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.h8-liste--merkmale li {
+  padding-left: 16px;
+  border-left: 4px solid var(--h8-akzent);
+  font-size: 16px;
+}
+
+/* Knoepfe ------------------------------------------------------------------ */
+
+.h8-knopfreihe { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0 0; }
+.h8-knopf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 22px;
+  border: 1px solid var(--h8-text);
+  background: transparent;
+  color: var(--h8-text);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+.h8-knopf:hover { background: rgba(32, 34, 33, 0.06); }
+.h8-knopf--primaer { background: var(--h8-text); color: var(--h8-karte); }
+.h8-knopf--primaer:hover { background: #343836; }
+
+/* Hero (Abschnitt 1) ------------------------------------------------------- */
+
+.h8-hero { position: relative; background: var(--h8-band); }
+.h8-hero__bild {
+  display: block;
+  width: 100%;
+  height: clamp(220px, 46vw, 460px);
+  object-fit: cover;
+  /* Das Motiv ist hell; ohne Abtoenung steht die Schrift darunter nicht sicher genug. */
+  filter: brightness(0.82);
+}
+.h8-hero__innen {
+  max-width: calc(var(--h8-breite) + 2 * var(--h8-rand));
+  margin-inline: auto;
+  padding: 28px var(--h8-rand) 40px;
+}
+.h8-hero__titel { margin-bottom: 12px; }
+.h8-hero__unterzeile {
+  max-width: 46ch;
+  font-size: clamp(17px, 2.4vw, 20px);
+  color: var(--h8-leise);
+}
+.h8-hero__text { max-width: 62ch; }
+
+/* Kennzahlen (Abschnitte 2 und 9) ------------------------------------------ */
+
+.h8-kennzahlen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(172px, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--h8-linie);
+  border: 1px solid var(--h8-linie);
+}
+.h8-kennzahl {
+  margin: 0;
+  padding: 16px 14px;
+  background: var(--h8-karte);
+  /* Die Mindestbreite oben ist so gewaehlt, dass "Doppelparker" und "provisionsfrei"
+     in eine Zeile passen. break-word ist die Notbremse fuer noch laengere Werte und
+     bricht nur, wenn ein Wort allein wirklich nicht passt. */
+  overflow-wrap: break-word;
+}
+.h8-kennzahl__name {
+  display: block;
+  margin: 0 0 4px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--h8-leise);
+}
+.h8-kennzahl__wert {
+  display: block;
+  margin: 0;
+  font-family: var(--h8-titelschrift);
+  font-size: 21px;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+/* Eine anklickbare Kachel bleibt eine Kachel, nur mit Tippziel. */
+a.h8-kennzahl { display: block; text-decoration: none; }
+a.h8-kennzahl:hover { background: #fff; }
+
+/* Ampel und Wohnungskarten (Abschnitte 3 und 5) ---------------------------- */
+
+.h8-ampel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--h8-leise);
+}
+.h8-ampel::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: 1px solid currentColor;
+  background: currentColor;
+  flex: 0 0 auto;
+}
+/* Die Farbe steht nie allein: jede Ampel traegt ihr Wort daneben, sonst waere der
+   Verkaufsstand fuer Farbfehlsichtige nicht lesbar. */
+.h8-ampel--frei { color: var(--h8-gruen); }
+.h8-ampel--reserviert { color: var(--h8-gelb); }
+.h8-ampel--verkauft { color: var(--h8-leise); }
+
+.h8-karten {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 640px) { .h8-karten { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .h8-karten { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.h8-karte {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 16px;
+  border: 1px solid var(--h8-linie);
+  background: var(--h8-karte);
+}
+.h8-karte__nr {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--h8-leise);
+}
+.h8-karte__titel { margin: 0; font-size: 19px; }
+.h8-karte__zeilen { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 15px; }
+.h8-karte__zeilen dt { color: var(--h8-leise); }
+.h8-karte__zeilen dd { margin: 0; font-variant-numeric: tabular-nums; }
+.h8-karte__preis {
+  font-family: var(--h8-titelschrift);
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Zeitleiste (Abschnitt 8) ------------------------------------------------- */
+
+.h8-zeitleiste { margin: 0; padding: 0 0 0 22px; list-style: none; border-left: 2px solid var(--h8-linie); }
+.h8-zeitleiste__punkt { position: relative; padding-bottom: 22px; }
+.h8-zeitleiste__punkt::before {
+  content: "";
+  position: absolute;
+  left: -29px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  background: var(--h8-akzent);
+  border: 2px solid var(--h8-grund);
+}
+.h8-zeitleiste__datum { display: block; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--h8-leise); }
+.h8-zeitleiste__text { margin: 2px 0 0; }
+
+/* Ansprechpartner (Abschnitt 10) ------------------------------------------- */
+
+.h8-personen {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 700px) { .h8-personen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.h8-person { padding: 18px 16px; border: 1px solid var(--h8-linie); background: var(--h8-karte); }
+.h8-person__name { margin: 0 0 2px; font-size: 19px; }
+.h8-person__rolle { margin: 0 0 10px; font-size: 14px; color: var(--h8-leise); }
+.h8-person__zeile { margin: 0 0 4px; font-size: 15px; }
+
+/* Tabelle ------------------------------------------------------------------ */
+
+.h8-tabelle__rahmen { overflow-x: auto; margin: 0 0 16px; }
+.h8-tabelle { width: 100%; border-collapse: collapse; font-size: 15px; }
+.h8-tabelle th, .h8-tabelle td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--h8-linie);
+  text-align: left;
+  vertical-align: top;
+}
+.h8-tabelle th { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--h8-leise); }
+.h8-tabelle td { font-variant-numeric: tabular-nums; }
+
+/* Fehlerseite -------------------------------------------------------------- */
+
+.h8-fehler { min-height: 52vh; }
+.h8-fehler__titel { margin-bottom: 12px; }
+.h8-fehler__text { max-width: 52ch; }
+.h8-fehler__wege { margin-top: 32px; }
+.h8-fehler__wege .h8-liste { margin-bottom: 0; }
+
+/* Fussleiste --------------------------------------------------------------- */
+
+.h8-fuss {
+  margin-top: 8px;
+  background: var(--h8-band);
+  border-top: 1px solid var(--h8-linie);
+}
+.h8-fuss__innen {
+  max-width: calc(var(--h8-breite) + 2 * var(--h8-rand));
+  margin-inline: auto;
+  padding: 32px var(--h8-rand);
+}
+.h8-fuss__marke { margin: 0 0 4px; font-family: var(--h8-titelschrift); font-size: 18px; }
+.h8-fuss__anschrift { margin: 0 0 14px; font-size: 15px; color: var(--h8-leise); }
+.h8-fuss__liste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.h8-fuss__ziel {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  color: var(--h8-text);
+}
+.h8-fuss__knopf {
+  border: 0;
+  padding: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--h8-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* Druck: die Seite soll als Blatt lesbar bleiben, ohne Leiste und ohne Knoepfe. */
+@media print {
+  .h8-kopf, .h8-fuss__nav, .h8-knopfreihe, .h8-sprung { display: none !important; }
+  body { background: #fff; font-size: 12pt; }
+  .h8-abschnitt { padding-block: 12px; }
+}
