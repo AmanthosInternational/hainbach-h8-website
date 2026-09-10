@@ -331,6 +331,27 @@
     w.amEinwilligung = stand;
     w.amEinwilligungOeffnen = oeffnen;
 
+    // Der Knopf "Cookie-Einstellungen" in der Fussleiste traegt nur das Merkmal
+    // data-am-einwilligung-oeffnen und kein onclick, weil die Richtlinie kein Inline-Skript
+    // erlaubt. fuss.html sagt dazu ausdruecklich, dieses Arbeitspaket haenge sich daran.
+    // Es tat es nicht: der Knopf war wirkungslos, und wer einmal "Nur notwendige" gewaehlt
+    // hatte, kam an seine Wahl nicht mehr heran. Ein Widerruf muss so leicht sein wie die
+    // Zustimmung, sonst ist die Zustimmung keine. Am 10.09.2026 im Klickdurchlauf gefunden.
+    // Delegiert am Dokument, damit auch ein spaeter eingesetzter Knopf wirkt.
+    if (w.document && typeof w.document.addEventListener === 'function') {
+      w.document.addEventListener('click', function (ereignis) {
+        var knoten = ereignis && ereignis.target;
+        while (knoten && knoten !== w.document) {
+          if (knoten.getAttribute && knoten.getAttribute('data-am-einwilligung-oeffnen') !== null) {
+            if (typeof ereignis.preventDefault === 'function') ereignis.preventDefault();
+            oeffnen();
+            return;
+          }
+          knoten = knoten.parentNode;
+        }
+      });
+    }
+
     if (stand() === 'unknown') oeffnen();
 
     return {

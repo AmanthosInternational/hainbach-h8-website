@@ -18,6 +18,8 @@
 <meta property="og:image" content="https://hainbach-h8.de/bilder/aussen-01-strassenansicht-2400.jpg">
 <meta property="og:image:alt" content="Strassenansicht des Neubaus Hainbachstrasse 8 in Esslingen am Neckar">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="stylesheet" href="/stil.css">
 <link rel="stylesheet" href="/einwilligung.css">
 <link rel="stylesheet" href="/formular.css">
@@ -27,6 +29,7 @@
 <script src="/js/einwilligung.js" defer></script>
 <script src="/js/messkette.js" defer></script>
 <script src="/js/formular.js" defer></script>
+<script src="/js/feinschliff.js" defer></script>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
 
 </head>
@@ -54,22 +57,27 @@
 
   <section class="h8-hero" id="start">
     <img class="h8-hero__bild" src="/bilder/aussen-01-strassenansicht-2400.jpg" alt="Strassenansicht, Balkonseite" width="2400" height="1753" fetchpriority="high" decoding="async">
+    <div class="h8-hero__schleier" aria-hidden="true"></div>
     <div class="h8-hero__innen">
+      <p class="h8-obertitel h8-hero__vorzeile">Hainbachstrasse 8 · Oberesslingen · provisionsfrei vom Bauherrn</p>
       <h1 class="h8-hero__titel">12 Neubauwohnungen in Esslingen am Neckar</h1>
       <p class="h8-hero__unterzeile">Hainbachstrasse 8, Oberesslingen. 27 bis 83 m², KfW 40 QNG, ab 188.000 EUR. Provisionsfrei direkt vom Bauherrn.</p>
-      <p class="h8-hero__text">Zwölf Eigentumswohnungen in ruhiger Lage, 600 m von der S-Bahn Oberesslingen und 13 km vom Flughafen Stuttgart. Gebaut wird massiv, geheizt wird mit Wärmepumpe und Photovoltaik im Standard KfW 40 QNG. Die Baugenehmigung ist am 27.08.2026 erteilt worden. Rechnen Sie in 60 Sekunden durch, was eine dieser Wohnungen für Sie bedeutet.</p>
-      <ul class="h8-liste h8-liste--merkmale">
-        <li>ab 188.000 EUR</li>
-        <li>1 bis 3 Zimmer, 27 bis 83 m²</li>
-        <li>provisionsfrei, Verkauf direkt durch den Bauherrn</li>
-      </ul>
       <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/">RENDITE BERECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a></p>
     </div>
   </section>
 
+  <section class="h8-abschnitt" id="ueberblick">
+    <p class="h8-hero__text h8-fliesstext" data-am-einblenden>Zwölf Eigentumswohnungen in ruhiger Lage, 600 m von der S-Bahn Oberesslingen und 13 km vom Flughafen Stuttgart. Gebaut wird massiv, geheizt wird mit Wärmepumpe und Photovoltaik im Standard KfW 40 QNG. Die Baugenehmigung ist am 27.08.2026 erteilt worden. Rechnen Sie in 60 Sekunden durch, was eine dieser Wohnungen für Sie bedeutet.</p>
+    <ul class="h8-liste h8-liste--merkmale" data-am-einblenden>
+      <li>ab 188.000 EUR</li>
+      <li>1 bis 3 Zimmer, 27 bis 83 m²</li>
+      <li>provisionsfrei, Verkauf direkt durch den Bauherrn</li>
+    </ul>
+  </section>
+
   <section class="h8-abschnitt" id="kennzahlen">
-    <h2 class="h8-abschnitt__titel">Das Projekt in Zahlen</h2>
-    <ul class="h8-kennzahlen">
+    <h2 class="h8-abschnitt__titel" data-am-einblenden>Das Projekt in Zahlen</h2>
+    <ul class="h8-kennzahlen" data-am-einblenden>
       <li class="h8-kennzahl"><a class="h8-kennzahl" href="#wohnungen"><span class="h8-kennzahl__name">Wohnungen</span><span class="h8-kennzahl__wert">12</span></a></li>
       <li class="h8-kennzahl"><a class="h8-kennzahl" href="#wohnungen"><span class="h8-kennzahl__name">Wohnfläche</span><span class="h8-kennzahl__wert">27 bis 83 m²</span></a></li>
       <li class="h8-kennzahl"><a class="h8-kennzahl" href="#wohnungen"><span class="h8-kennzahl__name">Zimmer</span><span class="h8-kennzahl__wert">1 bis 3</span></a></li>
@@ -85,7 +93,7 @@
   <section class="h8-abschnitt verkaufsstand" id="verkaufsstand">
     <img class="h8-bild" src="/bilder/innen-03-wohnen-kueche-offen-2400.jpg" alt="Wohnen mit offener Küche" width="2400" height="1754" loading="lazy" decoding="async">
     <div class="h8-inhalt">
-      <h2 class="h8-abschnitt__titel">Verkaufsstand</h2>
+      <h2 class="h8-abschnitt__titel" data-am-einblenden>Verkaufsstand</h2>
       <p class="h8-fliesstext">Der Vertrieb läuft seit September 2026. Reserviert wird mit einer Reservierungsvereinbarung, der notarielle Kaufvertrag folgt, sobald die Teilungserklärung vorliegt. Welche Wohnung noch frei ist, steht in der Übersicht weiter unten und wird laufend nachgeführt.</p>
       <ul class="h8-ampel">
         <li class="h8-ampel" data-status="frei"><span class="h8-ampel" aria-hidden="true"></span>grün = frei</li>
@@ -99,7 +107,7 @@
   <section class="h8-abschnitt steuern" id="steuern">
     <img class="h8-bild" src="/bilder/innen-02a-wohnen-sofa-braun-2400.jpg" alt="Wohnen mit Schlafbereich" width="2400" height="1754" loading="lazy" decoding="async">
     <div class="h8-inhalt">
-      <h2 class="h8-abschnitt__titel">Doppelt abschreiben: bis zu 10 Prozent im Jahr</h2>
+      <h2 class="h8-abschnitt__titel" data-am-einblenden>Doppelt abschreiben: bis zu 10 Prozent im Jahr</h2>
       <p class="h8-fliesstext">Für neu gebaute Mietwohnungen lassen sich zwei Abschreibungen kombinieren: die degressive Abschreibung nach § 7 Abs. 5a EStG mit 5 Prozent und die Sonderabschreibung nach § 7b EStG mit 5 Prozent in den ersten vier Jahren. Zusammen sind das bis zu 10 Prozent des Gebäudeanteils im Jahr. Ob es im Einzelfall dazu kommt, hängt an acht Bedingungen. Der Rechner prüft sie für jede Wohnung einzeln und zeigt das Ergebnis mit dem Rechenweg.</p>
       <h3 class="h8-obertitel">Die acht Bedingungen der Sonderabschreibung (§ 7b EStG)</h3>
       <ol class="h8-liste">
@@ -112,13 +120,13 @@
         <li>Zehn Jahre entgeltliche Vermietung.</li>
         <li>De-minimis-Erklärung.</li>
       </ol>
-      <p class="h8-fussnote">Ob die Sonderabschreibung greift, entscheidet Ihr Finanzamt, nicht diese Seite. Die Angaben ersetzen keine Steuerberatung.</p>
+      <p class="h8-fussnote">Alle steuerlichen Angaben erfolgen ohne Gewähr. Ob die Sonderabschreibung greift, entscheidet Ihr Finanzamt, nicht diese Seite. Die Angaben sind allgemeine Hinweise zur Rechtslage im September 2026, hängen von Ihren persönlichen Verhältnissen ab, können sich durch Gesetzesänderungen ändern und ersetzen keine Steuerberatung. Eine Haftung für Richtigkeit und Vollständigkeit wird nicht übernommen.</p>
       <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/">STEUERVORTEIL BERECHNEN</a><a class="h8-knopf" href="/rechner/#detail">ZUM DETAILRECHNER</a></p>
     </div>
   </section>
 
   <section class="h8-abschnitt wohnungen" id="wohnungen">
-    <h2 class="h8-abschnitt__titel">Die zwölf Wohnungen</h2>
+    <h2 class="h8-abschnitt__titel" data-am-einblenden>Die zwölf Wohnungen</h2>
     <p class="h8-fliesstext">Vom kompakten Apartment mit 27,49 m² bis zum Penthouse mit 82,92 m². Alle Preise verstehen sich ohne Stellplatz, ein Doppelparkerplatz kostet 20.000 EUR. Die Kaltmiete ist eine Annahme aus der Projektkalkulation, kein zugesagter Mietertrag.</p>
     <div class="h8-karten">
       <article class="h8-karte" id="wohnung-1" data-status="frei">
@@ -297,7 +305,7 @@
   <section class="h8-abschnitt lage" id="lage">
     <img class="h8-bild" src="/bilder/aussen-02-strassenansicht-2400.jpg" alt="Strassenansicht mit Giebel und Dachgeschoss" width="2400" height="1753" loading="lazy" decoding="async">
     <div class="h8-inhalt">
-      <h2 class="h8-abschnitt__titel">Oberesslingen: gewachsen, versorgt, angebunden</h2>
+      <h2 class="h8-abschnitt__titel" data-am-einblenden>Oberesslingen: gewachsen, versorgt, angebunden</h2>
       <p class="h8-fliesstext">Esslingen am Neckar ist ein etablierter Wohn- und Wirtschaftsstandort in der Region Stuttgart, mit Altstadt, Hochschule und eigener Wirtschaft. Die Hainbachstrasse liegt in Oberesslingen, einem Stadtteil mit vollständiger Nahversorgung. Zur S-Bahn sind es 600 m, zur nächsten Bushaltestelle 150 m, zum Flughafen Stuttgart 13 km.</p>
       <ul class="h8-liste">
         <li>S-Bahn Oberesslingen 600 m</li>
@@ -316,7 +324,7 @@
   <section class="h8-abschnitt energie" id="energie">
     <img class="h8-bild" src="/bilder/innen-05-bad-2400.jpg" alt="Bad mit Walk-in-Dusche" width="1920" height="2400" loading="lazy" decoding="async">
     <div class="h8-inhalt">
-      <h2 class="h8-abschnitt__titel">Gebaut für die nächsten Jahrzehnte</h2>
+      <h2 class="h8-abschnitt__titel" data-am-einblenden>Gebaut für die nächsten Jahrzehnte</h2>
       <p class="h8-fliesstext">Das Haus wird massiv gebaut. Geheizt wird mit einer Wärmepumpe, auf dem Dach liegt eine Photovoltaikanlage. Angestrebt ist der Standard KfW 40 QNG, den Planfaktor 3 (Herr Praxl) planerisch begleitet und der Käufern das KfW-Programm 298 eröffnet. Ein Aufzug erschliesst alle Geschosse vom Gartengeschoss bis zum Dachgeschoss.</p>
       <ul class="h8-liste h8-liste--merkmale">
         <li>Massivbau, Entscheidung vom 04. und 08.09.2026 gegen die Holzbauvariante</li>
@@ -333,9 +341,9 @@
   <section class="h8-abschnitt zeitplan" id="zeitplan">
     <img class="h8-band" src="/bilder/innen-04-wohnen-gross-2400.jpg" alt="Grosser Wohnraum" width="2400" height="1754" loading="lazy" decoding="async">
     <div class="h8-inhalt">
-      <h2 class="h8-abschnitt__titel">Wo das Projekt steht</h2>
+      <h2 class="h8-abschnitt__titel" data-am-einblenden>Wo das Projekt steht</h2>
       <p class="h8-fliesstext">Der Zeitplan steht offen auf der Seite, mit dem, was erledigt ist, und dem, was noch aussteht. Gezahlt wird nach der Makler- und Bauträgerverordnung in Raten nach Baufortschritt; die erste Rate wird mit dem Baubeginn fällig.</p>
-      <ol class="h8-zeitleiste">
+      <ol class="h8-zeitleiste" data-am-einblenden>
       <li class="h8-zeitleiste__punkt" data-stand="erledigt"><span class="h8-zeitleiste__datum" aria-hidden="true"></span><span class="h8-zeitleiste__text">Bauantrag eingereicht</span><span class="h8-zeitleiste__datum">28.11.2025</span><span class="h8-zeitleiste__text">erledigt</span></li>
       <li class="h8-zeitleiste__punkt" data-stand="erledigt"><span class="h8-zeitleiste__datum" aria-hidden="true"></span><span class="h8-zeitleiste__text">Baugenehmigung erteilt</span><span class="h8-zeitleiste__datum">27.08.2026</span><span class="h8-zeitleiste__text">erledigt</span></li>
       <li class="h8-zeitleiste__punkt" data-stand="läuft"><span class="h8-zeitleiste__datum" aria-hidden="true"></span><span class="h8-zeitleiste__text">Bestandskraft der Genehmigung</span><span class="h8-zeitleiste__datum">voraussichtlich Oktober 2026</span><span class="h8-zeitleiste__text">läuft</span></li>
@@ -351,9 +359,9 @@
   <section class="h8-abschnitt vertrauen" id="vertrauen">
     <img class="h8-bild" src="/bilder/innen-04-wohnen-gross-2400.jpg" alt="Grosser Wohnraum" width="2400" height="1754" loading="lazy" decoding="async">
     <div class="h8-inhalt">
-      <h2 class="h8-abschnitt__titel">Wer hinter dem Projekt steht</h2>
+      <h2 class="h8-abschnitt__titel" data-am-einblenden>Wer hinter dem Projekt steht</h2>
       <p class="h8-fliesstext">Wir verkaufen kein vermitteltes Objekt. Das Grundstück in der Hainbachstrasse gehört seit November 2020 zur Amanthos-Gruppe, Planung und Baugenehmigung haben wir selbst betrieben. Deshalb ist der Kauf für Sie provisionsfrei.</p>
-      <ul class="h8-personen">
+      <ul class="h8-personen" data-am-einblenden>
         <li>Bauherrin: Amanthos, Eigentümerin des Grundstücks seit November 2020</li>
         <li>Notar: Dr. Sebastian Köbler, Leinfelden-Echterdingen, Teilungserklärung und Kaufverträge</li>
         <li>Energieplanung: Planfaktor 3 (Herr Praxl), Nachweis KfW 40 QNG</li>
@@ -367,9 +375,9 @@
   <section class="h8-abschnitt kontakt" id="kontakt">
     <img class="h8-bild" src="/bilder/innen-03-wohnen-kueche-offen-2400.jpg" alt="Wohnen mit offener Küche" width="2400" height="1754" loading="lazy" decoding="async">
     <div class="h8-inhalt">
-      <h2 class="h8-abschnitt__titel">Ihre Ansprechpartner</h2>
+      <h2 class="h8-abschnitt__titel" data-am-einblenden>Ihre Ansprechpartner</h2>
       <p class="h8-fliesstext">Sie erreichen uns direkt, ohne Maklerbüro dazwischen. Für eine Besichtigung der Lage, für Fragen zur Finanzierung oder zur Reservierung: rufen Sie an oder buchen Sie ein Telefonat.</p>
-      <ul class="h8-personen">
+      <ul class="h8-personen" data-am-einblenden>
         <li class="h8-person"><span class="h8-person__name">Julian Neyer</span><span class="h8-person__rolle">Immobilienberater und Vertrieb</span><a class="h8-person__zeile" href="tel:+4971120909575">+49 (0) 711 209 095 75</a><a class="h8-person__zeile" href="mailto:julian.neyer@amanthos.com">julian.neyer@amanthos.com</a></li>
         <li class="h8-person"><span class="h8-person__name">Bosko Trifunovic</span><span class="h8-person__rolle">Geschäftsführer und Projektleitung</span><a class="h8-person__zeile" href="tel:+4971120909567">+49 (0) 711 209 095 67</a><a class="h8-person__zeile" href="mailto:bosko.trifunovic@amanthos.com">bosko.trifunovic@amanthos.com</a></li>
       </ul>
@@ -380,7 +388,7 @@
   <section class="h8-abschnitt broschuere" id="broschuere">
     <img class="h8-bild" src="/bilder/innen-02b-wohnen-sofa-rot-2400.jpg" alt="Wohnen mit rotem Sofa" width="2400" height="1754" loading="lazy" decoding="async">
     <div class="h8-inhalt">
-      <h2 class="h8-abschnitt__titel">Broschüre anfordern</h2>
+      <h2 class="h8-abschnitt__titel" data-am-einblenden>Broschüre anfordern</h2>
       <p class="h8-fliesstext">Grundrisse, Ausstattung und Kaufpreise aller zwölf Wohnungen. Sie erhalten die PDF sofort im Anschluss.</p>
       <p class="h8-fliesstext">Ihre Angaben gehen direkt an Julian Neyer und werden nur zur Beantwortung Ihrer Anfrage genutzt. Es folgt kein Newsletter.</p>
       <p class="h8-knopfreihe"><button class="h8-knopf h8-knopf--primaer" type="button" data-am-gate>BROSCHÜRE ANFORDERN</button></p>
@@ -450,6 +458,10 @@
   <div class="h8-fuss__innen">
     <p class="h8-fuss__marke">Hainbach H8</p>
     <p class="h8-fuss__anschrift">Hainbachstrasse 8, 73730 Esslingen am Neckar</p>
+    <p class="h8-fuss__gewaehr">Alle Angaben ohne Gewähr. Flächen, Preise, Termine und steuerliche
+      Hinweise beruhen auf dem Planungsstand und ersetzen keine Steuerberatung; verbindlich sind
+      allein die bei Vertragsabschluss beurkundeten Unterlagen. Einzelheiten im
+      <a class="h8-fuss__ziel" href="/impressum/">Impressum</a>.</p>
     <nav class="h8-fuss__nav" aria-label="Rechtliches">
       <ul class="h8-fuss__liste">
         <li><a class="h8-fuss__ziel" href="/impressum/">Impressum</a></li>

@@ -31,7 +31,23 @@
                 .h8-karten + .h8-karte (5), .h8-zeitleiste (8), .h8-personen + .h8-person (10)
      Tabelle    .h8-tabelle in .h8-tabelle__rahmen (laeuft quer, nie die Seite)
 
-   Formular und Einwilligungsbanner haben ihren eigenen Stil (Arbeitspakete 7 und 5). */
+   Formular und Einwilligungsbanner haben ihren eigenen Stil (Arbeitspakete 7 und 5).
+
+   NACHGETRAGEN am 10.09.2026, Feinschliff nach dem Vorbild von amanthos.com. Der Vertrag
+   sagt "wer eine weitere braucht, sagt es"; hier ist es gesagt:
+
+     .h8-hero__schleier    der Verlauf zwischen Motiv und Schrift im Held
+     .h8-hero__vorzeile    die gesperrte Vorzeile ueber dem Titel (nutzt .h8-obertitel)
+     .h8-fuss__gewaehr     der Haftungshinweis in der Fussleiste jeder Seite
+     data-am-einblenden    Merkmal, kein Klassenname: der Abschnitt blendet beim Scrollen
+                           ein. Gesetzt von der Vorlage, geschaltet von js/feinschliff.js.
+                           VERSTECKT WIRD NUR unter html.hat-einblendung, und diese Klasse
+                           setzt allein das Skript. Faellt es aus, ist nichts verborgen.
+     .ist-sichtbar         der eingeblendete Zustand dazu
+
+   Die drei Kennwerte --h8-luft, --h8-uebergang und --h8-schwung tragen Rhythmus und
+   Bewegung. Wer einen vierten Abstandswert braucht, aendert die Luft, statt eine Zahl
+   in eine Regel zu schreiben. */
 
 /* Kennwerte ---------------------------------------------------------------- */
 
@@ -57,6 +73,17 @@
   --h8-breite: 1120px;
   --h8-rand: 16px;
   --h8-kopfhoehe: 60px;
+
+  /* Luft, Bewegung und Tiefe. Drei Kennwerte statt verstreuter Zahlen, damit der
+     Rhythmus der Seite an einer Stelle steht und nicht in vierzig Regeln driftet.
+     Die Luft waechst mit der Breite: auf dem Telefon 64 px, auf dem Schreibtisch bis
+     116 px. Enge Abschnitte sind das, was eine Seite billig aussehen laesst, noch vor
+     der Schriftwahl. */
+  --h8-luft: clamp(64px, 8vw, 116px);
+  --h8-uebergang: 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --h8-schwung: cubic-bezier(0.23, 1, 0.32, 1);
+  --h8-schatten: 0 18px 40px rgba(32, 34, 33, 0.10);
+  --h8-schatten-tief: 0 26px 60px rgba(32, 34, 33, 0.16);
 }
 
 /* Grundlagen --------------------------------------------------------------- */
@@ -177,15 +204,41 @@ p:last-child { margin-bottom: 0; }
   list-style: none;
 }
 .h8-kopf__ziel {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  font-size: 15px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
   text-decoration: none;
   color: var(--h8-leise);
+  transition: color var(--h8-uebergang);
+}
+/* Der Strich waechst aus der Mitte, statt beim Ueberfahren zu erscheinen. Ein
+   Unterstrich, der schlagartig da ist, wirkt wie ein Fehler; einer, der waechst, wie
+   eine Antwort. Er liegt auf einem ::after, damit die Zeile nicht springt. */
+.h8-kopf__ziel::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9px;
+  height: 1px;
+  margin-inline: auto;
+  width: 0;
+  background: currentColor;
+  transition: width var(--h8-uebergang);
 }
 .h8-kopf__ziel:hover,
-.h8-kopf__ziel:focus-visible { color: var(--h8-text); text-decoration: underline; }
+.h8-kopf__ziel:focus-visible { color: var(--h8-text); }
+.h8-kopf__ziel:hover::after,
+.h8-kopf__ziel:focus-visible::after { width: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  .h8-kopf__ziel::after { transition: none; }
+  .h8-kopf__ziel:hover { text-decoration: underline; }
+}
 .h8-kopf__knopf { flex: 0 0 auto; }
 
 @media (min-width: 900px) {
@@ -203,18 +256,20 @@ p:last-child { margin-bottom: 0; }
 .h8-abschnitt {
   max-width: calc(var(--h8-breite) + 2 * var(--h8-rand));
   margin-inline: auto;
-  padding: 44px var(--h8-rand);
+  padding: var(--h8-luft) var(--h8-rand);
 }
 @media (min-width: 760px) {
-  .h8-abschnitt { padding-block: 64px; }
+  .h8-abschnitt { padding-block: var(--h8-luft); }
 }
 
 .h8-abschnitt__kopf { max-width: 62ch; margin-bottom: 24px; }
 .h8-obertitel {
-  margin: 0 0 8px;
-  font-size: 13px;
+  margin: 0 0 10px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  /* Weit gesperrt. Eine Vorzeile ist kein kleiner Text, sie ist ein Signal, und ihre
+     Wirkung kommt aus dem Abstand der Zeichen, nicht aus der Groesse. */
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--h8-leise);
 }
@@ -285,32 +340,106 @@ p:last-child { margin-bottom: 0; }
   text-decoration: none;
   text-align: center;
   cursor: pointer;
+  transition: transform var(--h8-uebergang), box-shadow var(--h8-uebergang),
+    background-color var(--h8-uebergang), border-color var(--h8-uebergang);
 }
 .h8-knopf:hover { background: rgba(32, 34, 33, 0.06); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .h8-knopf:hover { transform: translateY(-2px); box-shadow: var(--h8-schatten); }
+  .h8-knopf:active { transform: translateY(0); box-shadow: none; }
+}
 .h8-knopf--primaer { background: var(--h8-text); color: var(--h8-karte); }
 .h8-knopf--primaer:hover { background: #343836; }
 
 /* Hero (Abschnitt 1) ------------------------------------------------------- */
 
-.h8-hero { position: relative; background: var(--h8-band); }
+/* Der Titel steht IM Bild, nicht darunter. Ein Bildband mit Text darauf folgend ist die
+   Anordnung eines Prospekts; ein Motiv, das die ganze Flaeche traegt und die Schrift
+   mittraegt, ist die einer Marke. Damit die Schrift sicher steht, liegt zwischen Bild und
+   Text ein Verlauf, kein pauschales Abdunkeln des Motivs: der Verlauf ist unten dicht, wo
+   die Schrift steht, und oben fast klar, wo das Motiv wirken soll. */
+/* Bild und Verlauf liegen absolut, nicht im Fluss. In einem Raster bestimmt sonst die
+   natuerliche Hoehe des Motivs die Zeile, und der Held wird hoeher als das Fenster: die
+   Knoepfe stehen dann unter der Kante, wo sie niemand sieht. Die Hoehe kommt aus
+   min-height und dem Inhalt, nie aus dem Bild. */
+.h8-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  /* Unter dem festen Kopf bleibt Luft: 100vh waere unter ihm angeschnitten. */
+  min-height: clamp(420px, calc(88vh - var(--h8-kopfhoehe)), 640px);
+  background: var(--h8-band);
+  overflow: hidden;
+  isolation: isolate;
+}
+.h8-hero__bild,
+.h8-hero__schleier {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
 .h8-hero__bild {
   display: block;
-  width: 100%;
-  height: clamp(220px, 46vw, 460px);
   object-fit: cover;
-  /* Das Motiv ist hell; ohne Abtoenung steht die Schrift darunter nicht sicher genug. */
-  filter: brightness(0.82);
+  z-index: 0;
+}
+.h8-hero__schleier {
+  z-index: 1;
+  /* Unten dicht, oben fast klar. Die Schrift steht unten, das Motiv wirkt oben. */
+  background:
+    linear-gradient(to top, rgba(22, 24, 23, 0.92) 0%, rgba(22, 24, 23, 0.80) 22%,
+      rgba(22, 24, 23, 0.46) 48%, rgba(22, 24, 23, 0.16) 74%, rgba(22, 24, 23, 0.06) 100%);
 }
 .h8-hero__innen {
+  position: relative;
+  z-index: 2;
+  width: 100%;
   max-width: calc(var(--h8-breite) + 2 * var(--h8-rand));
   margin-inline: auto;
-  padding: 28px var(--h8-rand) 40px;
+  padding: 0 var(--h8-rand) clamp(30px, 4.6vw, 54px);
+  color: #fff;
 }
-.h8-hero__titel { margin-bottom: 12px; }
+.h8-hero__vorzeile { color: rgba(255, 255, 255, 0.82); margin-bottom: 14px; }
+.h8-hero__titel {
+  margin: 0 0 14px;
+  color: #fff;
+  max-width: 20ch;
+  /* Grosse Schrift braucht engere Zeilen und engere Zeichen, sonst zerfaellt sie. */
+  font-size: clamp(31px, 4.6vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
 .h8-hero__unterzeile {
   max-width: 46ch;
-  font-size: clamp(17px, 2.4vw, 20px);
-  color: var(--h8-leise);
+  margin: 0 0 26px;
+  font-size: clamp(17px, 2.4vw, 21px);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+}
+.h8-hero .h8-knopfreihe { margin: 0; }
+/* Die Knoepfe stehen auf dem Motiv, nicht auf Sand. Der Hauptknopf ist sonst dunkel auf
+   dunklem Verlauf und verschwindet; hier traegt er die helle Flaeche und die dunkle
+   Schrift, also genau umgekehrt zum Rest der Seite. */
+.h8-hero .h8-knopf--primaer {
+  background: var(--h8-grund);
+  border-color: var(--h8-grund);
+  color: var(--h8-text);
+}
+.h8-hero .h8-knopf--primaer:hover,
+.h8-hero .h8-knopf--primaer:focus-visible { background: #fff; border-color: #fff; }
+/* Der zweite Knopf steht auf dem Motiv, nicht auf Sand: er braucht einen eigenen Rand. */
+.h8-hero .h8-knopf:not(.h8-knopf--primaer) {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(2px);
+}
+.h8-hero .h8-knopf:not(.h8-knopf--primaer):hover,
+.h8-hero .h8-knopf:not(.h8-knopf--primaer):focus-visible {
+  background: rgba(255, 255, 255, 0.20);
+  border-color: rgba(255, 255, 255, 0.85);
 }
 .h8-hero__text { max-width: 62ch; }
 
@@ -443,9 +572,22 @@ a.h8-kennzahl:hover { background: #fff; }
 }
 @media (min-width: 700px) { .h8-personen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .h8-person { padding: 18px 16px; border: 1px solid var(--h8-linie); background: var(--h8-karte); }
+/* Name, Rolle und die beiden Zeilen sind im Markup span und a, also von Haus aus inline.
+   Vertikale Abstaende greifen an einem inline-Element nicht, und ein Umbruch entsteht auch
+   nicht: die vier Angaben liefen in einer einzigen Zeile zusammen. Auf dem Telefon brach die
+   Telefonnummer mitten in der Ziffernfolge um, ihre letzten beiden Ziffern standen dadurch
+   vor der Adresse, und es las sich als "75julian.neyer@amanthos.com", also als eine Adresse,
+   die es nicht gibt. Am 10.09.2026 auf dem Telefon gemessen. */
+.h8-person__name,
+.h8-person__rolle,
+.h8-person__zeile { display: block; }
 .h8-person__name { margin: 0 0 2px; font-size: 19px; }
 .h8-person__rolle { margin: 0 0 10px; font-size: 14px; color: var(--h8-leise); }
 .h8-person__zeile { margin: 0 0 4px; font-size: 15px; }
+/* Eine Rufnummer wird nie umgebrochen; eine Adresse darf im Notfall in der Karte umbrechen,
+   statt aus ihr herauszulaufen. */
+.h8-person__zeile[href^='tel:'] { white-space: nowrap; }
+.h8-person__zeile[href^='mailto:'] { overflow-wrap: anywhere; }
 
 /* Tabelle ------------------------------------------------------------------ */
 
@@ -481,7 +623,16 @@ a.h8-kennzahl:hover { background: #fff; }
   padding: 32px var(--h8-rand);
 }
 .h8-fuss__marke { margin: 0 0 4px; font-family: var(--h8-titelschrift); font-size: 18px; }
-.h8-fuss__anschrift { margin: 0 0 14px; font-size: 15px; color: var(--h8-leise); }
+.h8-fuss__anschrift { margin: 0 0 8px; font-size: 15px; color: var(--h8-leise); }
+/* Der Haftungshinweis steht auf jeder Seite, auch auf denen ohne Zahlen: eine Aussage, die
+   nur dort steht, wo gerechnet wird, deckt die Preise im Wohnungsabschnitt nicht mit ab. */
+.h8-fuss__gewaehr {
+  max-width: 62ch;
+  margin: 0 0 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--h8-leise);
+}
 .h8-fuss__liste {
   display: flex;
   flex-wrap: wrap;
@@ -514,4 +665,65 @@ a.h8-kennzahl:hover { background: #fff; }
   .h8-kopf, .h8-fuss__nav, .h8-knopfreihe, .h8-sprung { display: none !important; }
   body { background: #fff; font-size: 12pt; }
   .h8-abschnitt { padding-block: 12px; }
+}
+
+
+/* Zustaende und Bewegung ----------------------------------------------------
+   Alles hier ist Zugabe: die Seite ist ohne eine einzige dieser Regeln vollstaendig
+   lesbar und bedienbar. Deshalb steht der Block am Ende und deshalb steht jede
+   Bewegung hinter `prefers-reduced-motion: no-preference`. Wer Bewegung abbestellt
+   hat, bekommt die Seite in ihrem Ruhezustand, nicht eine langsamere Fassung. */
+
+/* Karten heben sich beim Ueberfahren leicht an. Nur bei echtem Zeigergeraet: auf dem
+   Telefon bliebe der Zustand nach der Beruehrung haengen und sieht dann aus wie ein
+   Fehler. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .h8-karte,
+  .h8-person,
+  .h8-kennzahl {
+    transition: transform 0.5s var(--h8-schwung), box-shadow 0.5s var(--h8-schwung);
+  }
+  .h8-karte:hover,
+  .h8-person:hover,
+  .h8-kennzahl:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--h8-schatten);
+  }
+}
+
+/* Ein Motiv, das sich beim Ueberfahren langsam heranschiebt. Der Rahmen schneidet,
+   das Bild selbst waechst; ohne overflow: hidden waechst es aus dem Rahmen heraus. */
+.h8-bild { overflow: hidden; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .h8-bild img { transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+  .h8-bild:hover img { transform: scale(1.04); }
+}
+
+/* Einblendung beim Scrollen. Das Merkmal setzt die Vorlage, die Klasse setzt
+   js/feinschliff.js, sobald der Abschnitt in Sicht kommt. Ohne JavaScript bleibt das
+   Merkmal unberuehrt, und die Regel unten sorgt dafuer, dass dann NICHTS versteckt
+   ist: sichtbar ist der Grundzustand, verborgen nur, wer sich gleich zeigen wird.
+   Andersherum waere die Seite ohne JavaScript leer, und das ist der Grund, warum
+   Einblendungen so oft ganze Inhalte verschlucken. */
+@media (prefers-reduced-motion: no-preference) {
+  html.hat-einblendung [data-am-einblenden] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.8s var(--h8-schwung), transform 0.8s var(--h8-schwung);
+  }
+  html.hat-einblendung [data-am-einblenden].ist-sichtbar {
+    opacity: 1;
+    transform: none;
+  }
+  /* Gestaffelt: Kinder eines eingeblendeten Behaelters folgen kurz nacheinander. Der
+     Versatz bleibt klein, sonst wartet man beim Scrollen auf seine eigene Seite. */
+  html.hat-einblendung [data-am-einblenden]:nth-child(2) { transition-delay: 0.08s; }
+  html.hat-einblendung [data-am-einblenden]:nth-child(3) { transition-delay: 0.16s; }
+  html.hat-einblendung [data-am-einblenden]:nth-child(4) { transition-delay: 0.24s; }
+  html.hat-einblendung [data-am-einblenden]:nth-child(n + 5) { transition-delay: 0.32s; }
+}
+
+/* Beim Drucken zeigt sich alles, unabhaengig davon, was der Browser gescrollt hat. */
+@media print {
+  html.hat-einblendung [data-am-einblenden] { opacity: 1 !important; transform: none !important; }
 }
