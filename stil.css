@@ -697,6 +697,10 @@ a.h8-kennzahl:hover { background: #fff; }
   font-size: 13px;
   line-height: 1.6;
   color: var(--h8-leise);
+  /* Verhindert die Waise: ohne das landete "Impressum." als einziges Wort in der letzten
+     Zeile und sah aus wie ein Fehler, obwohl es nur ein Umbruch war. Wo der Browser
+     text-wrap nicht kennt, bricht er wie bisher; niemandem fehlt etwas. */
+  text-wrap: pretty;
 }
 .h8-fuss__liste {
   display: flex;

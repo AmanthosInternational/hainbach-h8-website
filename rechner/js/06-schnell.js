@@ -114,14 +114,14 @@
     return Math.min(spanne.max, Math.max(spanne.min, wert));
   }
   // Geruest des Abschnitts. Alle Texte stammen aus K.SCHNELL.texte, nie aus einer Nutzereingabe.
-  function huelleMarkup() {
+  function huelleMarkup(gewaehlt) {
     var t = K.SCHNELL.texte;
     var r = K.SCHNELL.zvE;
     return '<h3 class="amr-schnell__titel">' + t.titel + '</h3><div class="amr-schnell__raster">' +
       '<div class="amr-schnell__wahl">' +
       '<label class="amr-schnell__feld"><span class="amr-schnell__label">Wohnung</span>' +
       '<select class="amr-schnell__select" data-amr-schnell-feld="wohnung">' +
-      optionenMarkup(feldWohnung().vorgabe) + '</select></label>' +
+      optionenMarkup(gewaehlt === undefined ? feldWohnung().vorgabe : gewaehlt) + '</select></label>' +
       '<label class="amr-schnell__feld"><span class="amr-schnell__kopf">' +
       '<span class="amr-schnell__label">' + t.einkommen + '</span>' +
       '<span class="amr-schnell__reglerwert" data-amr-schnell-zve></span></span>' +
@@ -152,7 +152,11 @@
     if (!ziel || !ziel.ownerDocument || typeof ziel.querySelector !== 'function') return null;
     var kasten = ziel.querySelector('[data-amr-schnell]');
     if (!kasten) return null;
-    var wohnung = feldWohnung().vorgabe; // Startwert aus den Konstanten, das DOM ist noch leer.
+    // Ein Tiefenlink `?wohnung=N` schlaegt die Vorgabe. Ohne das stand hier stur die
+    // Vorgabewohnung, waehrend der Detailrechner darunter dem Link folgte (11.09.2026).
+    var fenster = ziel.ownerDocument.defaultView;
+    var vorwahl = AMR.modell.wohnungAusSuche(fenster && fenster.location ? fenster.location.search : null);
+    var wohnung = vorwahl === null ? feldWohnung().vorgabe : vorwahl;
     var zvE = K.SCHNELL.zvE.vorgabe;
     var ergebnis = null;
     var ereignis = ereignisEinmal(function () { return AMR.ereignisse; });
@@ -205,7 +209,7 @@
       }
       if (knoten.getAttribute('data-amr-feld') === 'wohnung' && knoten.value) uebernimm(knoten.value);
     }
-    kasten.innerHTML = huelleMarkup();
+    kasten.innerHTML = huelleMarkup(wohnung);
     kasten.hidden = false;
     ziel.addEventListener('input', reagiere);
     ziel.addEventListener('change', reagiere);

@@ -36,13 +36,9 @@
   // Genommen wird nur, was feldVon('wohnung').optionen ohnehin anbietet, und zurueck kommt der
   // Wert aus den Konstanten, nie der Rohwert: die URL erreicht so weder Markup noch Modell.
   // Ohne Parameter, bei Unbekanntem und bei kaputter Kodierung ist die Antwort null.
-  function wohnungAusSuche(suche) {
-    var treffer = /(?:^|[?&])wohnung=([^&#]*)/.exec(typeof suche === 'string' ? suche : '');
-    var roh = null;
-    try { roh = treffer && decodeURIComponent(treffer[1].replace(/\+/g, ' ')).trim(); } catch (fehler) { roh = null; }
-    var passt = feldVon('wohnung').optionen.filter(function (option) { return String(option) === roh; });
-    return roh && passt.length ? passt[0] : null;
-  }
+  // Der Tiefenlink wird in AMR.modell ausgewertet, damit Schnell- und Detailrechner
+  // dieselbe Auslegung benutzen und nicht auseinanderlaufen koennen.
+  function wohnungAusSuche(suche) { return AMR.modell.wohnungAusSuche(suche); }
   // Satz zum Pruefergebnis der Sonderabschreibung, Wortlaut aus dem Plan.
   function sonderAfaText(ergebnis) {
     var wert = zahl(ergebnis.kostenJeM2, 0) + ' EUR/m²';

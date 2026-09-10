@@ -14,6 +14,28 @@
     return Math.round(wert / schritt) * schritt;
   }
 
+  /**
+   * Die Wohnung aus einem Tiefenlink `?wohnung=N`, sonst null.
+   *
+   * Steht hier und nicht in der Oberflaeche, weil ZWEI Rechner sie brauchen: der
+   * Schnellrechner ganz oben und der Detailrechner darunter. schnell.js laedt vor ui.js,
+   * kann also nichts von dort holen; eine zweite Fassung liefe frueher oder spaeter
+   * auseinander, und dann zeigten die beiden Rechner verschiedene Wohnungen an. Genau das
+   * war am 11.09.2026 der Fehler: der Detailrechner folgte dem Link, der Schnellrechner
+   * stand stur auf der Vorgabe, und sichtbar war zuerst der Schnellrechner.
+   *
+   * Rein und ohne DOM: sie bekommt die Zeichenkette, nicht das Fenster.
+   */
+  function wohnungAusSuche(suche) {
+    var treffer = /(?:^|[?&])wohnung=([^&#]*)/.exec(typeof suche === 'string' ? suche : '');
+    var roh = null;
+    try { roh = treffer && decodeURIComponent(treffer[1].replace(/\+/g, ' ')).trim(); } catch (fehler) { roh = null; }
+    var felder = K.EINGABEN.filter(function (feld) { return feld.schluessel === 'wohnung'; });
+    var optionen = felder.length ? felder[0].optionen : [];
+    var passt = optionen.filter(function (option) { return String(option) === roh; });
+    return roh && passt.length ? passt[0] : null;
+  }
+
   function wohnungVon(nr) {
     for (var i = 0; i < K.WOHNUNGEN.length; i++) {
       if (String(K.WOHNUNGEN[i].nr) === String(nr)) {
@@ -307,6 +329,7 @@
   }
 
   AMR.modell = { berechne: berechne, vorgaben: vorgaben, wohnungVon: wohnungVon,
+    wohnungAusSuche: wohnungAusSuche,
     stellplatzVon: stellplatzVon, bodenanteilProzentVon: bodenanteilProzentVon,
     tarif: tarif, grenzsteuersatz: grenzsteuersatz, schnell: schnell };
 })(typeof window !== 'undefined' ? (window.AMR = window.AMR || {}) : (global.AMR = global.AMR || {}));
