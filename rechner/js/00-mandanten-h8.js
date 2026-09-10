@@ -117,7 +117,7 @@
     : '';
 
   // Wird von bauen.py durch acht Hexzeichen der SHA-256 ueber die Bausteine ersetzt.
-  var VERSION = '79f49979';
+  var VERSION = 'adc20950';
 
   // ---------------------------------------------------------------------------
   // K7 Steuer- und Rechenregeln Baden-Wuerttemberg. Jede Angabe am 09.09.2026 geprueft:
@@ -290,6 +290,9 @@
       '(Baden-Württemberg) sowie Notar und Grundbuch stecken in den Kaufnebenkosten, eine ' +
       'Maklerprovision fällt nicht an. Was das Modell bewusst nicht abbildet, steht vollständig ' +
       'in der Auswertung.',
+    szenarienTitel: 'Womit rechnen?',
+    szenarienHinweis: 'Die Sätze ändern nur Zins und Steigerungen, nie Kaufpreis, Fläche ' +
+      'oder Miete. Jeden Wert ziehen Sie danach selbst nach. Annahmen, keine Prognose.',
     gateText: 'Wohin dürfen wir uns bei Rückfragen wenden? Die Auswertung erstellen wir sofort ' +
       'im Anschluss, dazu erhalten Sie die Broschüre per E-Mail.',
     erfolgText: 'Die Broschüre erhalten Sie per E-Mail. Startet der Download nicht von selbst, ' +
@@ -374,7 +377,18 @@
     RECHTSGRUNDLAGEN: RECHTSGRUNDLAGEN,
     MIETE_JE_M2_VORGABE: MIETE_JE_M2_VORGABE,
     ZINS_VORGABE: ZINS_VORGABE,
-    EINGABEN: EINGABEN,
+    // Annahmesaetze: NUR Annahmen, nie Kaufpreis, Flaeche, Miete oder Grenzsteuersatz.
+  // Redaktionell gesetzt. Auflagen und Begruendung: rechner/tests/konstanten-h8.test.js.
+  SZENARIEN: [
+    { schluessel: 'vorsichtig', name: 'Vorsichtig',
+      werte: { zinsProzent: 5, wertsteigerungProzent: 0.5, mietsteigerungProzent: 0.5 } },
+    { schluessel: 'mittel', name: 'Mittel',
+      werte: { zinsProzent: 4, wertsteigerungProzent: 2, mietsteigerungProzent: 1.5 } },
+    { schluessel: 'optimistisch', name: 'Optimistisch',
+      werte: { zinsProzent: 3.5, wertsteigerungProzent: 3, mietsteigerungProzent: 2.5 } }
+  ],
+
+  EINGABEN: EINGABEN,
     EREIGNISSE: EREIGNISSE,
     EREIGNIS_ID_PRAEFIX: EREIGNIS_ID_PRAEFIX,
     LEAD: LEAD,

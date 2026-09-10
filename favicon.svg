@@ -1,5 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Hainbach H8">
-  <rect width="64" height="64" fill="#202221"/>
-  <text x="32" y="43" fill="#efebe2" font-family="Georgia, 'Times New Roman', serif"
-        font-size="30" text-anchor="middle" letter-spacing="0.5">H8</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Hainbach H8">
+  <rect width="32" height="32" fill="#202221"/>
+  <g fill="none" stroke="#efebe2" stroke-width="2" stroke-linecap="square">
+    <path d="M6 15.4 L16 7.2 L26 15.4"/>
+    <path d="M9.6 15.9 V25.4"/>
+    <path d="M22.4 15.9 V25.4"/>
+    <path d="M9.6 20.4 H22.4"/>
+  </g>
 </svg>

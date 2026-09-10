@@ -36,7 +36,14 @@
 <a class="h8-sprung" href="#inhalt">Zum Inhalt springen</a>
 <header class="h8-kopf">
   <div class="h8-kopf__innen">
-    <a class="h8-kopf__marke" href="/">Hainbach H8</a>
+    <a class="h8-kopf__marke" href="/"><svg class="h8-marke__zeichen" viewBox="0 0 32 32" fill="none" stroke="currentColor"
+     stroke-width="1.8" stroke-linecap="square" aria-hidden="true" focusable="false">
+  <path d="M3.5 13.8 L16 3.6 L28.5 13.8"/>
+  <path d="M8 14.4 V28"/>
+  <path d="M24 14.4 V28"/>
+  <path d="M8 20.8 H24"/>
+</svg>
+<span class="h8-marke__wort">Hainbach H8</span></a>
     <nav class="h8-kopf__nav" aria-label="Hauptnavigation">
       <ul class="h8-kopf__liste">
         <li><a class="h8-kopf__ziel" href="/#wohnungen">Wohnungen</a></li>
@@ -333,8 +340,49 @@
     transition: none !important; animation: none !important; scroll-behavior: auto !important;
   }
 }
+
+/* Szenarien --------------------------------------------------------------------------
+   Drei Annahmesaetze als Einstieg. Der Block entsteht nur, wenn der Mandant SZENARIEN
+   kennt; W5 hat keine und behaelt deshalb genau seine bisherige Oberflaeche. */
+#amr .amr-szenarien { margin: 0 0 18px; }
+#amr .amr-szenarien__reihe {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+#amr .amr-szenario {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid var(--amr-linie);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .2s, border-color .2s;
+}
+#amr .amr-szenario:hover { background: rgba(32, 34, 33, .05); }
+/* Der aktive Satz traegt die volle Linie, nicht nur eine Tonung: eine Tonung allein
+   unterscheidet sich bei hellem Bildschirm zu wenig vom Ueberfahren. */
+#amr .amr-szenario--aktiv {
+  border-color: var(--amr-text);
+  border-width: 2px;
+  padding: 9px 11px;
+  background: rgba(32, 34, 33, .05);
+}
+#amr .amr-szenario__name { font-weight: 600; font-size: 14px; }
+#amr .amr-szenario__hinweis { font-size: 12px; line-height: 1.45; color: var(--amr-leise); }
+#amr .amr-szenarien__fuss {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--amr-leise);
+}
 </style>
-<div id="amr" data-amr-version="79f49979" data-amr-mandant="h8">
+<div id="amr" data-amr-version="adc20950" data-amr-mandant="h8">
 
   <section class="amr-ansicht" data-amr-ansicht="rechner">
     <header class="amr-kopf">
@@ -349,6 +397,7 @@
       <div class="amr-eingabespalte">
         <h3 class="amr-titel">Wohnung wählen</h3>
         <div class="amr-wohnungen" data-amr-wohnungen></div>
+        <div class="amr-szenarien" data-amr-szenarien hidden></div>
         <h3 class="amr-titel">Ihre Zahlen</h3>
         <div class="amr-eingaben" data-amr-eingaben></div>
       </div>
@@ -437,6 +486,7 @@
 <script src="/rechner/js/05-pdf.js" data-amr-modul="pdf.js" defer></script>
 <script src="/rechner/js/06-schnell.js" data-amr-modul="schnell.js" defer></script>
 <script src="/rechner/js/07-ui.js" data-amr-modul="ui.js" defer></script>
+<script src="/rechner/js/08-szenarien.js" data-amr-modul="szenarien.js" defer></script>
 
   </div>
 
@@ -453,12 +503,19 @@
 </main>
 <footer class="h8-fuss">
   <div class="h8-fuss__innen">
-    <p class="h8-fuss__marke">Hainbach H8</p>
+    <p class="h8-fuss__marke"><svg class="h8-marke__zeichen" viewBox="0 0 32 32" fill="none" stroke="currentColor"
+     stroke-width="1.8" stroke-linecap="square" aria-hidden="true" focusable="false">
+  <path d="M3.5 13.8 L16 3.6 L28.5 13.8"/>
+  <path d="M8 14.4 V28"/>
+  <path d="M24 14.4 V28"/>
+  <path d="M8 20.8 H24"/>
+</svg>
+<span class="h8-marke__wort">Hainbach H8</span></p>
     <p class="h8-fuss__anschrift">Hainbachstrasse 8, 73730 Esslingen am Neckar</p>
     <p class="h8-fuss__gewaehr">Alle Angaben ohne Gewähr. Flächen, Preise, Termine und steuerliche
       Hinweise beruhen auf dem Planungsstand und ersetzen keine Steuerberatung; verbindlich sind
       allein die bei Vertragsabschluss beurkundeten Unterlagen. Einzelheiten im
-      <a class="h8-fuss__ziel" href="/impressum/">Impressum</a>.</p>
+      <a href="/impressum/">Impressum</a>.</p>
     <nav class="h8-fuss__nav" aria-label="Rechtliches">
       <ul class="h8-fuss__liste">
         <li><a class="h8-fuss__ziel" href="/impressum/">Impressum</a></li>

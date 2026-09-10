@@ -22,9 +22,64 @@
   if (!w || !w.document) return;
   var dok = w.document;
 
+  /**
+   * Markiert in der Kopfzeile das Thema, bei dem der Besucher gerade steht.
+   *
+   * Das ist keine Bewegung, sondern Orientierung, und laeuft deshalb auch dann, wenn jemand
+   * Bewegung abbestellt hat. Auf einer Seite mit elf Abschnitten unter einem festen Kopf ist
+   * die Frage "wo bin ich" sonst nur durch Scrollen zu beantworten.
+   *
+   * Der Rand von -45 % oben und unten laesst ein schmales Band in der Mitte des Fensters
+   * uebrig. Massgeblich ist, welcher Abschnitt dieses Band schneidet; ohne den Rand waeren
+   * beim Scrollen staendig zwei bis drei Abschnitte gleichzeitig "sichtbar".
+   */
+  function spur() {
+    if (typeof w.IntersectionObserver !== 'function') return;
+    var ziele = dok.querySelectorAll('.h8-kopf__ziel[href*="#"]');
+    var jeId = {};
+    var abschnitte = [];
+    for (var i = 0; i < ziele.length; i++) {
+      var verweis = ziele[i].getAttribute('href') || '';
+      var raute = verweis.indexOf('#');
+      if (raute < 0) continue;
+      var kennung = verweis.slice(raute + 1);
+      // Auf der Rechnerseite zeigen dieselben Ziele auf eine ANDERE Seite. Dort gibt es die
+      // Abschnitte nicht, und dann wird auch nichts markiert.
+      var abschnitt = kennung ? dok.getElementById(kennung) : null;
+      if (!abschnitt) continue;
+      jeId[kennung] = ziele[i];
+      abschnitte.push(abschnitt);
+    }
+    if (!abschnitte.length) return;
+
+    var imBand = {};
+    function zeichne() {
+      var jetzt = null;
+      for (var j = 0; j < abschnitte.length; j++) {
+        if (imBand[abschnitte[j].id]) { jetzt = abschnitte[j].id; break; }
+      }
+      for (var kennung in jeId) {
+        if (!Object.prototype.hasOwnProperty.call(jeId, kennung)) continue;
+        var hier = kennung === jetzt;
+        jeId[kennung].className = 'h8-kopf__ziel' + (hier ? ' h8-kopf__ziel--hier' : '');
+        if (hier) jeId[kennung].setAttribute('aria-current', 'true');
+        else jeId[kennung].removeAttribute('aria-current');
+      }
+    }
+    var beobachter = new w.IntersectionObserver(function (eintraege) {
+      for (var k = 0; k < eintraege.length; k++) {
+        imBand[eintraege[k].target.id] = eintraege[k].isIntersecting;
+      }
+      zeichne();
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    for (var m = 0; m < abschnitte.length; m++) beobachter.observe(abschnitte[m]);
+  }
+
   function anwerfen() {
     var wurzel = dok.documentElement;
     if (!wurzel) return;
+
+    spur();
 
     var ruhig = typeof w.matchMedia === 'function' && w.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (ruhig || typeof w.IntersectionObserver !== 'function') return;

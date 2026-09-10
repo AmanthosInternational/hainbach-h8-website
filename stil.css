@@ -45,6 +45,20 @@
                            setzt allein das Skript. Faellt es aus, ist nichts verborgen.
      .ist-sichtbar         der eingeblendete Zustand dazu
 
+   NACHGETRAGEN am 11.09.2026, zweite Runde:
+
+     .h8-marke__zeichen    die Bildmarke, eingebettet aus teile/marke.html; sie erbt ueber
+                           currentColor die Textfarbe und steht auf Sand wie auf Tinte
+     .h8-marke__wort       die Wortmarke daneben, bricht nie um
+     .h8-person__bild      das quadratische Bildnis in der Kontaktkarte
+     .h8-person__angaben   die Textspalte daneben (min-width: 0, sonst sprengt eine lange
+                           Adresse die Karte, statt in ihr umzubrechen)
+     .h8-kopf__ziel--hier  das Thema, bei dem der Besucher gerade steht; gesetzt von
+                           js/feinschliff.js. Ohne JavaScript bleibt die Zeile schlicht.
+
+   Die Gliederung der Themen laeuft ueber die schon vorgesehene Huelle: .h8-band um jeden
+   zweiten .h8-abschnitt. Kein neuer Name, nur der vorhandene endlich benutzt.
+
    Die drei Kennwerte --h8-luft, --h8-uebergang und --h8-schwung tragen Rhythmus und
    Bewegung. Wer einen vierten Abstandswert braucht, aendert die Luft, statt eine Zahl
    in eine Regel zu schreiben. */
@@ -181,6 +195,9 @@ p:last-child { margin-bottom: 0; }
   gap: 8px 16px;
 }
 .h8-kopf__marke {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--h8-titelschrift);
   font-size: 19px;
   letter-spacing: 0.02em;
@@ -189,6 +206,11 @@ p:last-child { margin-bottom: 0; }
   margin-right: auto;
   padding: 8px 0;
 }
+/* Die Bildmarke erbt ueber currentColor die Textfarbe und steht deshalb ohne zweite
+   Fassung auf Sand wie auf Tinte. Sie schrumpft nie mit: flex-shrink 0, sonst quetscht
+   sie die schmale Kopfzeile zusammen, bevor die Ziele umbrechen. */
+.h8-marke__zeichen { flex: 0 0 auto; width: 26px; height: 26px; }
+.h8-marke__wort { white-space: nowrap; }
 .h8-kopf__nav {
   /* Auf dem Handy eine eigene Zeile ueber die volle Breite, damit die sechs Ziele
      umbrechen koennen statt quer zu laufen. */
@@ -235,6 +257,10 @@ p:last-child { margin-bottom: 0; }
 .h8-kopf__ziel:focus-visible { color: var(--h8-text); }
 .h8-kopf__ziel:hover::after,
 .h8-kopf__ziel:focus-visible::after { width: 100%; }
+/* Das Thema, bei dem der Besucher gerade steht. Setzt js/feinschliff.js; ohne JavaScript
+   bleibt die Zeile schlicht, und niemandem fehlt etwas. */
+.h8-kopf__ziel--hier { color: var(--h8-text); }
+.h8-kopf__ziel--hier::after { width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .h8-kopf__ziel::after { transition: none; }
   .h8-kopf__ziel:hover { text-decoration: underline; }
@@ -571,7 +597,38 @@ a.h8-kennzahl:hover { background: #fff; }
   list-style: none;
 }
 @media (min-width: 700px) { .h8-personen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.h8-person { padding: 18px 16px; border: 1px solid var(--h8-linie); background: var(--h8-karte); }
+.h8-person {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 16px;
+  border: 1px solid var(--h8-linie);
+  background: var(--h8-karte);
+}
+/* Das Bildnis quadratisch und mit Haarlinie, nicht rund. Runde Bildnisse gehoeren zu
+   Profilen, eckige zu Personen in einem Dokument; die ganze Seite kennt keinen Radius.
+   Die Aufnahmen stehen auf Weiss, die Karte auf gebrochenem Weiss: ohne die Linie
+   schwaemme der Kopf in der Karte. */
+.h8-person__bild {
+  flex: 0 0 auto;
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  object-position: 50% 18%;
+  border: 1px solid var(--h8-linie);
+  background: #fff;
+  filter: grayscale(0.18);
+  transition: filter var(--h8-uebergang);
+}
+@media (hover: hover) {
+  .h8-person:hover .h8-person__bild { filter: grayscale(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .h8-person__bild { transition: none; }
+}
+/* min-width: 0 bricht die Vorgabe `auto` eines Flex-Kindes auf. Ohne sie kann eine lange
+   Adresse die Karte breiter machen, statt in ihr umzubrechen. */
+.h8-person__angaben { min-width: 0; }
 /* Name, Rolle und die beiden Zeilen sind im Markup span und a, also von Haus aus inline.
    Vertikale Abstaende greifen an einem inline-Element nicht, und ein Umbruch entsteht auch
    nicht: die vier Angaben liefen in einer einzigen Zeile zusammen. Auf dem Telefon brach die
@@ -622,7 +679,15 @@ a.h8-kennzahl:hover { background: #fff; }
   margin-inline: auto;
   padding: 32px var(--h8-rand);
 }
-.h8-fuss__marke { margin: 0 0 4px; font-family: var(--h8-titelschrift); font-size: 18px; }
+.h8-fuss__marke {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 4px;
+  font-family: var(--h8-titelschrift);
+  font-size: 18px;
+}
+.h8-fuss__marke .h8-marke__zeichen { width: 24px; height: 24px; }
 .h8-fuss__anschrift { margin: 0 0 8px; font-size: 15px; color: var(--h8-leise); }
 /* Der Haftungshinweis steht auf jeder Seite, auch auf denen ohne Zahlen: eine Aussage, die
    nur dort steht, wo gerechnet wird, deckt die Preise im Wohnungsabschnitt nicht mit ab. */
@@ -641,6 +706,10 @@ a.h8-kennzahl:hover { background: #fff; }
   padding: 0;
   list-style: none;
 }
+/* NUR fuer die Ziele der Fusszeilen-Navigation. `inline-flex` mit 44 px Mindesthoehe ist ein
+   Fingerziel; mitten im Fliesstext sprengt es die Zeile und schiebt den Verweis allein auf
+   eine neue. Am 11.09.2026 genau so im Haftungshinweis passiert. Ein Verweis IM Satz traegt
+   diese Klasse deshalb nicht, sondern den gewoehnlichen a-Stil. */
 .h8-fuss__ziel {
   display: inline-flex;
   align-items: center;
