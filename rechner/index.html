@@ -236,9 +236,15 @@
 }
 
 /* Wohnungskarten (Radio-Gruppe amr-wohnung, gerendert von Arbeitspaket 2) ------- */
-#amr .amr-wohnungen { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 8px; margin: 0 0 24px; }
-#amr .amr-karte { position: relative; display: block; min-height: 44px; padding: 12px 14px;
+/* Enger als zuerst gebaut. Am 11.09.2026 gemessen: dreizehn Kacheln standen in drei Spalten
+   zu 178x116 px und ergaben einen Block von 593 px, also drei Viertel der Fensterhoehe, nur
+   um eine von zwoelf Wohnungen zu waehlen. Wer danach zu den Reglern will, scrollt an einer
+   Wand aus Kacheln vorbei und verliert die Ergebnisspalte aus dem Blick.
+   160 auf 126 px Mindestbreite bringt eine vierte Spalte, der Rest kommt aus Polsterung und
+   Schriftgrad. Die 44 px Mindesthoehe bleiben: das ist das Tippziel, nicht Zierrat. */
+#amr .amr-wohnungen { display: grid; grid-template-columns: repeat(auto-fill, minmax(126px, 1fr));
+  gap: 6px; margin: 0 0 18px; }
+#amr .amr-karte { position: relative; display: block; min-height: 44px; padding: 8px 10px;
   border: 1px solid var(--amr-linie); background: var(--amr-karte); cursor: pointer; }
 /* inset -1px statt 0: absolut positionierte Kinder sitzen im Padding-Bereich, der
    1-px-Rahmen wuerde das Tippziel sonst um 2 px verkleinern. */
@@ -246,9 +252,10 @@
 #amr .amr-karte--aktiv, #amr .amr-karte:has(input:checked) { border-color: var(--amr-akzent);
   box-shadow: inset 0 0 0 1px var(--amr-akzent); background: #fff; }
 #amr .amr-karte:focus-within { outline: 2px solid var(--amr-text); outline-offset: 2px; }
-#amr .amr-karte__nr { display: block; font-size: 15px; font-weight: 600; }
-#amr .amr-karte__text { display: block; margin-top: 1px; font-size: 13px; color: var(--amr-leise); }
-#amr .amr-karte__preis { display: block; margin-top: 4px; font-size: 14px; font-weight: 600;
+#amr .amr-karte__nr { display: block; font-size: 13px; font-weight: 600; }
+#amr .amr-karte__text { display: block; margin-top: 1px; font-size: 11.5px; line-height: 1.35;
+  color: var(--amr-leise); }
+#amr .amr-karte__preis { display: block; margin-top: 3px; font-size: 13px; font-weight: 600;
   font-variant-numeric: tabular-nums; }
 
 /* Regler und Wahlfelder (gerendert von Arbeitspaket 2) -------------------------- */
@@ -435,7 +442,7 @@
   color: var(--amr-leise);
 }
 </style>
-<div id="amr" data-amr-version="8d19ed9e" data-amr-mandant="h8">
+<div id="amr" data-amr-version="c0156d51" data-amr-mandant="h8">
 
   <section class="amr-ansicht" data-amr-ansicht="rechner">
     <header class="amr-kopf">

@@ -78,9 +78,20 @@
    NACHGETRAGEN am 11.09.2026, fuenfte Runde:
 
      .h8-ampel__eintrag    ein Eintrag der Verkaufsstand-Legende, traegt data-status
-     .h8-ampel__punkt      das farbige Quadrat darin. NUR dieses zeichnet ein Quadrat;
-                           vorher trugen Liste, Eintrag UND Punkt dieselbe Klasse und jedes
-                           sein eigenes ::before
+     .h8-punkt             das farbige Quadrat. NUR dieses zeichnet ein Quadrat, und es steht
+                           ueberall, wo ein Vorfahr data-status traegt: Legendeneintrag und
+                           Wohnungskarte. Hiess bis zur sechsten Runde .h8-ampel__punkt und
+                           liess die Karte deshalb ohne Zeichen zurueck
+
+   NACHGETRAGEN am 11.09.2026, sechste Runde:
+
+     .h8-karte__kopf       Zeile ueber dem Kartentitel: Nummer links, Stand rechts
+     .h8-karte__stand      der Verkaufsstand in der Karte, Punkt plus Wort
+     .h8-abschnitt__titel--vorbild
+                           Ueberschrift, die VOR dem Kapitelbild steht, mit mehr Luft darunter
+     .h8-karte__zeile      ein Paar aus Bezeichnung und Wert in der Wohnungskarte
+     .h8-karte__zeile--preis   nur diese eine Zeile steht gross
+     .h8-karte__zeile--breit   nimmt beide Spalten (Mietannahme)
 
    DIE KENNUNG DER ABSCHNITTE sitzt auf der Ueberschrift, nicht auf der Sektion: sieben der
    elf Abschnitte beginnen mit einem grossen Bild, und ein Sprung landete sonst darin. Die
@@ -135,7 +146,7 @@
      Die Luft waechst mit der Breite: auf dem Telefon 64 px, auf dem Schreibtisch bis
      116 px. Enge Abschnitte sind das, was eine Seite billig aussehen laesst, noch vor
      der Schriftwahl. */
-  --h8-luft: clamp(64px, 8vw, 116px);
+  --h8-luft: clamp(56px, 6vw, 84px);
   --h8-uebergang: 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
   --h8-schwung: cubic-bezier(0.23, 1, 0.32, 1);
   --h8-schatten: 0 18px 40px rgba(32, 34, 33, 0.10);
@@ -350,6 +361,13 @@ p:last-child { margin-bottom: 0; }
    deshalb auf der Ueberschrift, und scroll-margin haelt das Bild darueber angeschnitten
    sichtbar, damit der Sprung als Ortswechsel lesbar bleibt. */
 .h8-abschnitt__titel { margin-bottom: 12px; scroll-margin-top: 18px; }
+/* Steht die Ueberschrift VOR dem Kapitelbild, braucht sie Luft darunter, sonst klebt ein
+   560 px hohes Motiv an der Zeile. Die vermessenen Referenzseiten halten dort 100 bis
+   480 px Abstand, und auf 37 geprueften Bildern ging KEIN Kapitelbild seiner eigenen
+   Ueberschrift voraus. Genau das war die Beschwerde vom 11.09.2026: der Sprung landet
+   richtig, zu sehen ist aber nur Motiv. scroll-margin allein heilt das nicht, denn wer
+   normal scrollt, trifft das Bild trotzdem zuerst. */
+.h8-abschnitt__titel--vorbild { margin-bottom: 26px; }
 .h8-fliesstext { max-width: 62ch; }
 .h8-fussnote {
   margin: 14px 0 0;
@@ -374,9 +392,18 @@ p:last-child { margin-bottom: 0; }
   .h8-raster--bild-links > :first-child { order: 2; }
 }
 
+/* DER DECKEL FUER INHALTSBILDER, an genau einer Stelle. Am 11.09.2026 auf der Livefassung
+   bei 1512x800 gemessen: sechs dieser Bilder standen 1120x819 px, also 102 % der
+   Fensterhoehe, und das hochkante Bad sogar 1120x1400 px = 175 %. Wer scrollt, sieht dann
+   Bild, Bild, Bild; wer einen Abschnitt anspringt, landet in einem Motiv und haelt den
+   Verweis fuer kaputt. Der Deckel schneidet mittig statt zu stauchen, darum object-fit.
+   Die Kartenbilder (330 px breit, 242 px hoch) bleiben unberuehrt, sie liegen darunter. */
 .h8-bild {
   display: block;
   width: 100%;
+  max-height: min(62vh, 560px);
+  object-fit: cover;
+  object-position: center;
   border: 1px solid var(--h8-linie);
   background: var(--h8-karte);
 }
@@ -658,19 +685,23 @@ p:last-child { margin-bottom: 0; }
   font-size: 14px;
   color: var(--h8-leise);
 }
-.h8-ampel__punkt {
+/* DER STATUSPUNKT GILT UEBERALL, wo ein Vorfahr data-status traegt: in der Legende ist das
+   der Eintrag, in der Wohnungskarte der Artikel selbst. Eine Klasse, eine Farbregel, kein
+   zweiter Name, den jemand vergessen kann.
+   Am 11.09.2026 haderte genau das: die Karte hing ihr Quadrat an .h8-ampel, und als diese
+   Klasse zur Legendenliste wurde, verlor die Karte ihr Zeichen und erbte 16 px Fremdabstand.
+   Die Farbe steht nie allein, jeder Punkt traegt sein Wort daneben, sonst waere der
+   Verkaufsstand fuer Farbfehlsichtige nicht lesbar. */
+.h8-punkt {
   width: 11px;
   height: 11px;
   flex: 0 0 auto;
   border: 1px solid rgba(32, 34, 33, 0.35);
   background: var(--h8-leise);
 }
-/* Die Farbe steht nie allein: jeder Eintrag traegt sein Wort daneben, sonst waere der
-   Verkaufsstand fuer Farbfehlsichtige nicht lesbar. Der Status kommt aus den Daten, deshalb
-   haengt die Farbe am Merkmal und nicht an einer zweiten Klasse, die jemand vergessen kann. */
-.h8-ampel__eintrag[data-status='frei'] .h8-ampel__punkt { background: var(--h8-gruen); }
-.h8-ampel__eintrag[data-status='reserviert'] .h8-ampel__punkt { background: var(--h8-gelb); }
-.h8-ampel__eintrag[data-status='verkauft'] .h8-ampel__punkt { background: var(--h8-leise); }
+[data-status='frei'] .h8-punkt { background: var(--h8-gruen); }
+[data-status='reserviert'] .h8-punkt { background: var(--h8-gelb); }
+[data-status='verkauft'] .h8-punkt { background: var(--h8-leise); }
 
 .h8-karten {
   display: grid;
@@ -691,6 +722,16 @@ p:last-child { margin-bottom: 0; }
   border: 1px solid var(--h8-linie);
   background: var(--h8-karte);
 }
+/* Nummer links, Verkaufsstand rechts, beides in einer Zeile ueber dem Titel. Der Stand
+   gehoert nach oben: dort sucht ihn das Auge, und eine Karte, deren Zustand man erst nach
+   fuenf Datenzeilen erfaehrt, laesst einen zweimal hinsehen. */
+.h8-karte__kopf {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0;
+}
 .h8-karte__nr {
   font-size: 13px;
   font-weight: 600;
@@ -698,15 +739,43 @@ p:last-child { margin-bottom: 0; }
   text-transform: uppercase;
   color: var(--h8-leise);
 }
+.h8-karte__stand {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--h8-leise);
+}
+/* Verkauft tritt zurueck, ohne zu verschwinden. Eine ausverkaufte Einheit ist ein
+   Verkaufsargument und bleibt darum lesbar, sie verliert nur den Vortritt. */
+.h8-karte[data-status='verkauft'] { opacity: 0.72; }
 .h8-karte__titel { margin: 0; font-size: 19px; }
-.h8-karte__zeilen { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 15px; }
-.h8-karte__zeilen dt { color: var(--h8-leise); }
+/* Fuenf Datenzeilen in zwei Spalten, gross gesetzt ist nur der Kaufpreis.
+   Vorher hing .h8-karte__preis an ALLEN fuenf Zeilen, also stand auch "Gartengeschoss" in
+   22 px Titelschrift, die Karte wurde rund 700 px hoch und die wichtigste Zahl hob sich von
+   nichts mehr ab. Dieselbe Falle wie bei der Ampel: ein Name, der eine Sache benennt, an
+   fuenf Stellen geschrieben. Am 11.09.2026 im Bildschirmfoto aufgefallen.
+   Die Zeilen sind die Gitterzellen, nicht dt und dd: ein <div> je Paar haelt Bezeichnung
+   und Wert zusammen, sonst reisst ein langer Wert die Spalten auseinander. */
+.h8-karte__zeilen {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 14px;
+  font-size: 15px;
+}
+.h8-karte__zeilen dt { font-size: 13px; line-height: 1.4; color: var(--h8-leise); }
 .h8-karte__zeilen dd { margin: 0; font-variant-numeric: tabular-nums; }
-.h8-karte__preis {
+.h8-karte__zeile--preis dd {
   font-family: var(--h8-titelschrift);
   font-size: 22px;
-  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
 }
+/* Die Mietannahme traegt den laengsten Wert und bekommt deshalb beide Spalten. */
+.h8-karte__zeile--breit { grid-column: 1 / -1; }
 
 /* Zeitleiste (Abschnitt 8) ------------------------------------------------- */
 
@@ -951,13 +1020,11 @@ p:last-child { margin-bottom: 0; }
   }
 }
 
-/* Ein Motiv, das sich beim Ueberfahren langsam heranschiebt. Der Rahmen schneidet,
-   das Bild selbst waechst; ohne overflow: hidden waechst es aus dem Rahmen heraus. */
-.h8-bild { overflow: hidden; }
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .h8-bild img { transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-  .h8-bild:hover img { transform: scale(1.04); }
-}
+/* Hier stand eine Heranschiebe-Bewegung fuer Bilder, die nie gelaufen ist: .h8-bild IST
+   das Bild, ein .h8-bild img gibt es im Markup nirgends, und overflow greift auf einem
+   ersetzten Element ohnehin nicht. Am 11.09.2026 entfernt statt repariert, weil die
+   Bewegung eine Huelle um jedes der neun Bilder gebraucht haette und das Motiv seit dem
+   Deckel oben bereits beschnitten wird. */
 
 /* Einblendung beim Scrollen. Das Merkmal setzt die Vorlage, die Klasse setzt
    js/feinschliff.js, sobald der Abschnitt in Sicht kommt. Ohne JavaScript bleibt das

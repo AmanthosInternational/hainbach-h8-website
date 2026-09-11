@@ -152,14 +152,14 @@
   </div>
 
   <section class="h8-abschnitt verkaufsstand">
+    <h2 class="h8-abschnitt__titel h8-abschnitt__titel--vorbild" id="verkaufsstand" data-am-einblenden>Verkaufsstand</h2>
     <img class="h8-bild" src="/bilder/innen-03-wohnen-kueche-offen-2400.jpg" alt="Wohnen mit offener Küche" width="2400" height="1754" loading="lazy" decoding="async">
     <div class="h8-inhalt">
-      <h2 class="h8-abschnitt__titel" id="verkaufsstand" data-am-einblenden>Verkaufsstand</h2>
       <p class="h8-fliesstext">Der Vertrieb läuft seit September 2026. Reserviert wird mit einer Reservierungsvereinbarung, der notarielle Kaufvertrag folgt, sobald die Teilungserklärung vorliegt. Welche Wohnung noch frei ist, steht in der Übersicht weiter unten und wird laufend nachgeführt.</p>
       <ul class="h8-ampel">
-        <li class="h8-ampel__eintrag" data-status="frei"><span class="h8-ampel__punkt" aria-hidden="true"></span>grün = frei</li>
-        <li class="h8-ampel__eintrag" data-status="reserviert"><span class="h8-ampel__punkt" aria-hidden="true"></span>gelb = reserviert</li>
-        <li class="h8-ampel__eintrag" data-status="verkauft"><span class="h8-ampel__punkt" aria-hidden="true"></span>grau = verkauft</li>
+        <li class="h8-ampel__eintrag" data-status="frei"><span class="h8-punkt" aria-hidden="true"></span>grün = frei</li>
+        <li class="h8-ampel__eintrag" data-status="reserviert"><span class="h8-punkt" aria-hidden="true"></span>gelb = reserviert</li>
+        <li class="h8-ampel__eintrag" data-status="verkauft"><span class="h8-punkt" aria-hidden="true"></span>grau = verkauft</li>
       </ul>
       <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="#wohnungen">ZU DEN WOHNUNGEN</a></p>
     </div>
@@ -167,9 +167,9 @@
 
   <div class="h8-band">
     <section class="h8-abschnitt steuern">
+      <h2 class="h8-abschnitt__titel h8-abschnitt__titel--vorbild" id="steuern" data-am-einblenden>Doppelt abschreiben: bis zu 10 Prozent im Jahr</h2>
       <img class="h8-bild" src="/bilder/innen-02a-wohnen-sofa-braun-2400.jpg" alt="Wohnen mit Schlafbereich" width="2400" height="1754" loading="lazy" decoding="async">
       <div class="h8-inhalt">
-        <h2 class="h8-abschnitt__titel" id="steuern" data-am-einblenden>Doppelt abschreiben: bis zu 10 Prozent im Jahr</h2>
         <p class="h8-fliesstext">Für neu gebaute Mietwohnungen lassen sich zwei Abschreibungen kombinieren: die degressive Abschreibung nach § 7 Abs. 5a EStG mit 5 Prozent und die Sonderabschreibung nach § 7b EStG mit 5 Prozent in den ersten vier Jahren. Zusammen sind das bis zu 10 Prozent des Gebäudeanteils im Jahr. Ob es im Einzelfall dazu kommt, hängt an acht Bedingungen. Der Rechner prüft sie für jede Wohnung einzeln und zeigt das Ergebnis mit dem Rechenweg.</p>
         <h3 class="h8-obertitel">Die acht Bedingungen der Sonderabschreibung (§ 7b EStG)</h3>
         <ol class="h8-liste">
@@ -194,170 +194,158 @@
     <div class="h8-karten">
       <article class="h8-karte" id="wohnung-1" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-01-wohnen-kueche-2400.jpg" alt="Wohnen mit Küche" width="2400" height="1753" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 1</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 1</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">Gartenwohnung mit Terrasse</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>Gartengeschoss</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>2</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>54,70 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>375.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>1.149 EUR/Monat (21,00 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>Gartengeschoss</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>2</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>54,70 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>375.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>1.149 EUR/Monat (21,00 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=1">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
       <article class="h8-karte" id="wohnung-2" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-03-wohnen-kueche-offen-2400.jpg" alt="Wohnen mit offener Küche" width="2400" height="1754" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 2</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 2</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">Familienwohnung mit Terrasse</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>Erdgeschoss</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>3</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>64,05 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>439.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>1.377 EUR/Monat (21,50 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>Erdgeschoss</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>3</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>64,05 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>439.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>1.377 EUR/Monat (21,50 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=2">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
       <article class="h8-karte" id="wohnung-3" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-02a-wohnen-sofa-braun-2400.jpg" alt="Wohnen mit Schlafbereich" width="2400" height="1754" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 3</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 3</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">Apartment mit Balkon</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>1. OG</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>1</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>36,52 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>230.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>767 EUR/Monat (21,00 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>1. OG</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>1</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>36,52 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>230.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>767 EUR/Monat (21,00 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=3">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
       <article class="h8-karte" id="wohnung-4" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-01-wohnen-kueche-2400.jpg" alt="Wohnen mit Küche" width="2400" height="1753" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 4</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 4</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">2-Zimmer-Wohnung mit zwei Balkonen</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>1. OG</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>2</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>43,81 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>300.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>1.008 EUR/Monat (23,00 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>1. OG</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>2</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>43,81 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>300.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>1.008 EUR/Monat (23,00 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=4">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
       <article class="h8-karte" id="wohnung-5" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-02b-wohnen-sofa-rot-2400.jpg" alt="Wohnen mit rotem Sofa" width="2400" height="1754" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 5</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 5</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">Kompaktes Apartment mit Balkon</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>1. OG</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>1</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>27,49 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>188.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>660 EUR/Monat (24,00 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>1. OG</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>1</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>27,49 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>188.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>660 EUR/Monat (24,00 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=5">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
       <article class="h8-karte" id="wohnung-6" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-02a-wohnen-sofa-braun-2400.jpg" alt="Wohnen mit Schlafbereich" width="2400" height="1754" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 6</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 6</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">Apartment mit zwei Balkonen</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>2. OG</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>1</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>38,57 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>243.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>771 EUR/Monat (20,00 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>2. OG</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>1</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>38,57 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>243.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>771 EUR/Monat (20,00 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=6">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
       <article class="h8-karte" id="wohnung-7" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-03-wohnen-kueche-offen-2400.jpg" alt="Wohnen mit offener Küche" width="2400" height="1754" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 7</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 7</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">2-Zimmer-Wohnung mit zwei Balkonen</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>2. OG</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>2</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>44,31 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>304.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>1.019 EUR/Monat (23,00 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>2. OG</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>2</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>44,31 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>304.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>1.019 EUR/Monat (23,00 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=7">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
       <article class="h8-karte" id="wohnung-8" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-02b-wohnen-sofa-rot-2400.jpg" alt="Wohnen mit rotem Sofa" width="2400" height="1754" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 8</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 8</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">Kompaktes Apartment mit Balkon</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>2. OG</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>1</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>27,49 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>188.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>632 EUR/Monat (23,00 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>2. OG</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>1</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>27,49 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>188.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>632 EUR/Monat (23,00 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=8">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
       <article class="h8-karte" id="wohnung-9" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-05-bad-2400.jpg" alt="Bad mit Walk-in-Dusche" width="1920" height="2400" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 9</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 9</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">Apartment mit Balkon und Aussicht</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>3. OG</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>1</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>38,41 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>242.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>768 EUR/Monat (20,00 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>3. OG</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>1</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>38,41 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>242.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>768 EUR/Monat (20,00 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=9">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
       <article class="h8-karte" id="wohnung-10" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-01-wohnen-kueche-2400.jpg" alt="Wohnen mit Küche" width="2400" height="1753" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 10</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 10</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">2-Zimmer-Wohnung mit zwei Balkonen</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>3. OG</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>2</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>44,12 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>302.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>1.015 EUR/Monat (23,00 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>3. OG</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>2</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>44,12 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>302.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>1.015 EUR/Monat (23,00 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=10">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
       <article class="h8-karte" id="wohnung-11" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-02b-wohnen-sofa-rot-2400.jpg" alt="Wohnen mit rotem Sofa" width="2400" height="1754" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 11</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 11</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">Kompaktes Apartment mit Balkon</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>3. OG</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>1</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>27,49 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>188.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>632 EUR/Monat (23,00 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>3. OG</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>1</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>27,49 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>188.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>632 EUR/Monat (23,00 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=11">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
       <article class="h8-karte" id="wohnung-12" data-status="frei">
         <img class="h8-bild" src="/bilder/innen-04-wohnen-gross-2400.jpg" alt="Grosser Wohnraum" width="2400" height="1754" loading="lazy" decoding="async">
-        <p class="h8-karte__nr">Wohnung 12</p>
+        <p class="h8-karte__kopf"><span class="h8-karte__nr">Wohnung 12</span><span class="h8-karte__stand"><span class="h8-punkt" aria-hidden="true"></span>Frei</span></p>
         <h3 class="h8-karte__titel">Penthouse mit zwei Balkonen und Arbeitszimmer</h3>
         <dl class="h8-karte__zeilen">
-          <div class="h8-karte__preis"><dt>Geschoss</dt><dd>Dachgeschoss</dd></div>
-          <div class="h8-karte__preis"><dt>Zimmer</dt><dd>3</dd></div>
-          <div class="h8-karte__preis"><dt>Wohnfläche</dt><dd>82,92 m²</dd></div>
-          <div class="h8-karte__preis"><dt>Kaufpreis</dt><dd>564.000 EUR</dd></div>
-          <div class="h8-karte__preis"><dt>Kaltmiete-Annahme</dt><dd>1.575 EUR/Monat (19,00 EUR/m²)</dd></div>
+          <div class="h8-karte__zeile"><dt>Geschoss</dt><dd>Dachgeschoss</dd></div>
+          <div class="h8-karte__zeile"><dt>Zimmer</dt><dd>3</dd></div>
+          <div class="h8-karte__zeile"><dt>Wohnfläche</dt><dd>82,92 m²</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--preis"><dt>Kaufpreis</dt><dd>564.000 EUR</dd></div>
+          <div class="h8-karte__zeile h8-karte__zeile--breit"><dt>Kaltmiete-Annahme</dt><dd>1.575 EUR/Monat (19,00 EUR/m²)</dd></div>
         </dl>
-        <p class="h8-karte__preis"><span class="h8-ampel" aria-hidden="true"></span>frei</p>
         <p class="h8-knopfreihe"><a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=12">DIESE WOHNUNG RECHNEN</a><a class="h8-knopf" href="#broschuere" data-am-gate>GRUNDRISS ANSEHEN</a></p>
       </article>
     </div>
@@ -367,9 +355,9 @@
 
   <div class="h8-band">
     <section class="h8-abschnitt lage">
+      <h2 class="h8-abschnitt__titel h8-abschnitt__titel--vorbild" id="lage" data-am-einblenden>Oberesslingen: gewachsen, versorgt, angebunden</h2>
       <img class="h8-bild" src="/bilder/aussen-02-strassenansicht-2400.jpg" alt="Strassenansicht mit Giebel und Dachgeschoss" width="2400" height="1753" loading="lazy" decoding="async">
       <div class="h8-inhalt">
-        <h2 class="h8-abschnitt__titel" id="lage" data-am-einblenden>Oberesslingen: gewachsen, versorgt, angebunden</h2>
         <p class="h8-fliesstext">Esslingen am Neckar ist ein etablierter Wohn- und Wirtschaftsstandort in der Region Stuttgart, mit Altstadt, Hochschule und eigener Wirtschaft. Die Hainbachstrasse liegt in Oberesslingen, einem Stadtteil mit vollständiger Nahversorgung. Zur S-Bahn sind es 600 m, zur nächsten Bushaltestelle 150 m, zum Flughafen Stuttgart 13 km.</p>
         <ul class="h8-liste">
           <li>S-Bahn Oberesslingen 600 m</li>
@@ -387,7 +375,7 @@
   </div>
 
   <section class="h8-abschnitt energie">
-    <img class="h8-bild" src="/bilder/innen-05-bad-2400.jpg" alt="Bad mit Walk-in-Dusche" width="1920" height="2400" loading="lazy" decoding="async">
+    <div class="h8-raster h8-raster--bild-links">
     <div class="h8-inhalt">
       <h2 class="h8-abschnitt__titel" id="energie" data-am-einblenden>Gebaut für die nächsten Jahrzehnte</h2>
       <p class="h8-fliesstext">Das Haus wird massiv gebaut. Geheizt wird mit einer Wärmepumpe, auf dem Dach liegt eine Photovoltaikanlage. Angestrebt ist der Standard KfW 40 QNG, den Planfaktor 3 (Herr Praxl) planerisch begleitet und der Käufern das KfW-Programm 298 eröffnet. Ein Aufzug erschliesst alle Geschosse vom Gartengeschoss bis zum Dachgeschoss.</p>
@@ -400,6 +388,8 @@
         <li>Zwölf Doppelparkerplätze auf der Rückseite des Grundstücks</li>
       </ul>
       <p class="h8-fussnote">Ein Energieausweis liegt für den Neubau noch nicht vor. Sobald er ausgestellt ist, stehen die Pflichtangaben nach GEG § 87 an dieser Stelle. Bis dahin wird kein Energiekennwert genannt.</p>
+    </div>
+    <img class="h8-bild" src="/bilder/innen-05-bad-2400.jpg" alt="Bad mit Walk-in-Dusche" width="1920" height="2400" loading="lazy" decoding="async">
     </div>
   </section>
 
@@ -424,9 +414,9 @@
   </div>
 
   <section class="h8-abschnitt vertrauen">
+    <h2 class="h8-abschnitt__titel h8-abschnitt__titel--vorbild" id="vertrauen" data-am-einblenden>Wer hinter dem Projekt steht</h2>
     <img class="h8-bild" src="/bilder/innen-04-wohnen-gross-2400.jpg" alt="Grosser Wohnraum" width="2400" height="1754" loading="lazy" decoding="async">
     <div class="h8-inhalt">
-      <h2 class="h8-abschnitt__titel" id="vertrauen" data-am-einblenden>Wer hinter dem Projekt steht</h2>
       <p class="h8-fliesstext">Wir verkaufen kein vermitteltes Objekt. Das Grundstück in der Hainbachstrasse gehört seit November 2020 zur Amanthos-Gruppe, Planung und Baugenehmigung haben wir selbst betrieben. Deshalb ist der Kauf für Sie provisionsfrei.</p>
       <ul class="h8-personen" data-am-einblenden>
         <li>Bauherrin: Amanthos, Eigentümerin des Grundstücks seit November 2020</li>
@@ -441,9 +431,9 @@
 
   <div class="h8-band">
     <section class="h8-abschnitt kontakt">
+      <h2 class="h8-abschnitt__titel h8-abschnitt__titel--vorbild" id="kontakt" data-am-einblenden>Ihre Ansprechpartner</h2>
       <img class="h8-bild" src="/bilder/innen-03-wohnen-kueche-offen-2400.jpg" alt="Wohnen mit offener Küche" width="2400" height="1754" loading="lazy" decoding="async">
       <div class="h8-inhalt">
-        <h2 class="h8-abschnitt__titel" id="kontakt" data-am-einblenden>Ihre Ansprechpartner</h2>
         <p class="h8-fliesstext">Sie erreichen uns direkt, ohne Maklerbüro dazwischen. Für eine Besichtigung der Lage, für Fragen zur Finanzierung oder zur Reservierung: rufen Sie an oder buchen Sie ein Telefonat.</p>
         <ul class="h8-personen" data-am-einblenden>
           <li class="h8-person"><img class="h8-person__bild" src="/bilder/portrait-julian-neyer-640.jpg" alt="Julian Neyer" width="640" height="640" loading="lazy" decoding="async"><span class="h8-person__angaben"><span class="h8-person__name">Julian Neyer</span><span class="h8-person__rolle">Immobilienberater und Vertrieb</span><a class="h8-person__zeile" href="tel:+4971120909575"><svg class="h8-person__zeichen" aria-hidden="true" focusable="false"><use href="#am-zeichen-telefon"></use></svg><span>+49 (0) 711 209 095 75</span></a><a class="h8-person__zeile" href="mailto:julian.neyer@amanthos.com"><svg class="h8-person__zeichen" aria-hidden="true" focusable="false"><use href="#am-zeichen-mail"></use></svg><span>julian.neyer@amanthos.com</span></a></span></li>
@@ -455,9 +445,9 @@
   </div>
 
   <section class="h8-abschnitt broschuere">
+    <h2 class="h8-abschnitt__titel h8-abschnitt__titel--vorbild" id="broschuere" data-am-einblenden>Broschüre anfordern</h2>
     <img class="h8-bild" src="/bilder/innen-02b-wohnen-sofa-rot-2400.jpg" alt="Wohnen mit rotem Sofa" width="2400" height="1754" loading="lazy" decoding="async">
     <div class="h8-inhalt">
-      <h2 class="h8-abschnitt__titel" id="broschuere" data-am-einblenden>Broschüre anfordern</h2>
       <p class="h8-fliesstext">Grundrisse, Ausstattung und Kaufpreise aller zwölf Wohnungen. Sie erhalten die PDF sofort im Anschluss.</p>
       <p class="h8-fliesstext">Ihre Angaben gehen direkt an Julian Neyer und werden nur zur Beantwortung Ihrer Anfrage genutzt. Es folgt kein Newsletter.</p>
       <p class="h8-knopfreihe"><button class="h8-knopf h8-knopf--primaer" type="button" data-am-gate>BROSCHÜRE ANFORDERN</button></p>

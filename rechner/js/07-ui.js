@@ -157,7 +157,7 @@
   function karteMarkup(option) {
     var wohnung = AMR.modell.wohnungVon(option);
     var text = wohnung
-      ? ['Nr. ' + wohnung.nr, wohnung.lage + ', ' + wohnung.zimmer + ' Zimmer, ' +
+      ? ['Nr. ' + wohnung.nr, wohnung.lage + ' · ' + wohnung.zimmer + ' Zi · ' +
         zahl(wohnung.wohnflaeche, 2) + ' m²', zahl(wohnung.kaufpreis, 0) + ' EUR']
       : ['frei', 'eigene Zahlen eingeben', 'Kaufpreis frei'];
     return '<label class="amr-karte"><input type="radio" name="amr-wohnung"' +
