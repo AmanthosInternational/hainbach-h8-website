@@ -75,6 +75,18 @@
      .h8-kennzahl__zeichen das Zeichen der Kachel, in Salbei
      .h8-person__zeichen   Hoerer und Umschlag in der Kontaktkarte
 
+   NACHGETRAGEN am 11.09.2026, fuenfte Runde:
+
+     .h8-ampel__eintrag    ein Eintrag der Verkaufsstand-Legende, traegt data-status
+     .h8-ampel__punkt      das farbige Quadrat darin. NUR dieses zeichnet ein Quadrat;
+                           vorher trugen Liste, Eintrag UND Punkt dieselbe Klasse und jedes
+                           sein eigenes ::before
+
+   DIE KENNUNG DER ABSCHNITTE sitzt auf der Ueberschrift, nicht auf der Sektion: sieben der
+   elf Abschnitte beginnen mit einem grossen Bild, und ein Sprung landete sonst darin. Die
+   Themenmarkierung in js/feinschliff.js sucht sich von dort den umgebenden .h8-abschnitt,
+   weil eine Ueberschrift zu kurz ist, um das Messband sinnvoll zu schneiden.
+
    ZU DEN UNTERSTREICHUNGEN: die Seite setzt `color: inherit`, ein Verweis traegt also keine
    Farbe als Signal. Wer ihm den Unterstrich nimmt, MUSS etwas anderes an seine Stelle setzen.
    Ohne Dauerstrich stehen deshalb nur Stellen, an denen ein Zeichen oder die Form die Aufgabe
@@ -98,7 +110,10 @@
   --h8-akzent: #7c8b7d;
   --h8-rot: #b3261e;
   --h8-gruen: #1e7a44;
-  --h8-gelb: #8a6100;
+  /* Heller als ein Textgelb sein duerfte: diese Farbe fuellt ausschliesslich das Quadrat der
+     Ampel, und dort traegt der Rand die Abgrenzung. #8a6100 las sich neben dem Wort "gelb"
+     als Oliv. Wird die Farbe je fuer Text benutzt, gehoert der dunkle Wert zurueck. */
+  --h8-gelb: #d29b12;
 
   /* Ersatzkette, solange keine Schriftdatei vorliegt. Merriweather und Lato stehen
      absichtlich vorn: liegen die Dateien einmal da, greifen sie ohne weitere Aenderung
@@ -109,7 +124,11 @@
 
   --h8-breite: 1120px;
   --h8-rand: 16px;
-  --h8-kopfhoehe: 60px;
+  /* Die tatsaechliche Hoehe der festen Kopfzeile, am 11.09.2026 gemessen. Sie treibt zwei
+     Dinge: den Abstand beim Anspringen (sonst verschwindet die Ueberschrift dahinter) und die
+     Hoehe des Helden. Auf dem Telefon bricht die Navigation auf drei Zeilen um, deshalb je
+     Breite ein eigener Wert. Wer die Navigation aendert, misst hier nach. */
+  --h8-kopfhoehe: 169px;
 
   /* Luft, Bewegung und Tiefe. Drei Kennwerte statt verstreuter Zahlen, damit der
      Rhythmus der Seite an einer Stelle steht und nicht in vierzig Regeln driftet.
@@ -133,6 +152,9 @@ html {
   scroll-padding-top: calc(var(--h8-kopfhoehe) + 12px);
   -webkit-text-size-adjust: 100%;
 }
+
+@media (min-width: 700px) { :root { --h8-kopfhoehe: 123px; } }
+@media (min-width: 900px) { :root { --h8-kopfhoehe: 63px; } }
 
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
@@ -322,7 +344,12 @@ p:last-child { margin-bottom: 0; }
   text-transform: uppercase;
   color: var(--h8-leise);
 }
-.h8-abschnitt__titel { margin-bottom: 12px; }
+/* DAS SPRUNGZIEL IST DIE UEBERSCHRIFT, nicht der Abschnitt. Sieben der elf Abschnitte
+   beginnen mit einem grossen Bild; wer auf "Lage" klickte, landete technisch richtig, sah
+   aber nur Bild und hielt den Verweis fuer kaputt. Am 11.09.2026 gemeldet. Die Kennung sitzt
+   deshalb auf der Ueberschrift, und scroll-margin haelt das Bild darueber angeschnitten
+   sichtbar, damit der Sprung als Ortswechsel lesbar bleibt. */
+.h8-abschnitt__titel { margin-bottom: 12px; scroll-margin-top: 18px; }
 .h8-fliesstext { max-width: 62ch; }
 .h8-fussnote {
   margin: 14px 0 0;
@@ -415,8 +442,14 @@ p:last-child { margin-bottom: 0; }
   position: relative;
   display: flex;
   align-items: flex-end;
-  /* Unter dem festen Kopf bleibt Luft: 100vh waere unter ihm angeschnitten. */
-  min-height: clamp(420px, calc(88vh - var(--h8-kopfhoehe)), 640px);
+  /* Fuellt das Fenster bis auf die Kopfzeile. Vorher deckelte 640px den Helden, und auf
+     1920x1080 blieben 377 px Sand darunter; das sah nach angeschnitten aus statt nach Absicht.
+     svh statt vh, damit die Adresszeile mobiler Browser den Helden nicht springen laesst; die
+     vh-Zeile davor bleibt als Rueckfall fuer Browser ohne svh. KEIN Deckel nach oben: ein
+     Deckel liess bei 1920x1080 wieder 37 px Sand stehen, und genau darum ging es. Nur ein
+     Boden, damit der Held in einem sehr flachen Fenster nicht zum Streifen wird. */
+  min-height: max(420px, calc(100vh - var(--h8-kopfhoehe)));
+  min-height: max(420px, calc(100svh - var(--h8-kopfhoehe)));
   background: var(--h8-band);
   overflow: hidden;
   isolation: isolate;
@@ -603,26 +636,41 @@ p:last-child { margin-bottom: 0; }
 
 /* Ampel und Wohnungskarten (Abschnitte 3 und 5) ---------------------------- */
 
+/* ZWEI FEHLER AUF EINMAL, beide am 11.09.2026 gemeldet und hier behoben.
+   Erstens trug die Klasse h8-ampel die Liste, JEDEN Eintrag und den Punkt darin. Jedes davon
+   zeichnete sein eigenes ::before-Quadrat: drei Quadrate vor dem ersten Wort, danach zwei je
+   Eintrag. Zweitens hing die Farbe an .h8-ampel--frei und Geschwistern, das Markup schreibt
+   aber data-status="frei". Die Regeln haben nie gegriffen, alles blieb grau, und eine
+   Farblegende, in der jede Farbe gleich aussieht, ist schlimmer als gar keine.
+   Jetzt: die Liste ordnet, der Eintrag traegt den Status, der Punkt zeigt die Farbe. */
 .h8-ampel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.h8-ampel__eintrag {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-size: 14px;
   color: var(--h8-leise);
 }
-.h8-ampel::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  border: 1px solid currentColor;
-  background: currentColor;
+.h8-ampel__punkt {
+  width: 11px;
+  height: 11px;
   flex: 0 0 auto;
+  border: 1px solid rgba(32, 34, 33, 0.35);
+  background: var(--h8-leise);
 }
-/* Die Farbe steht nie allein: jede Ampel traegt ihr Wort daneben, sonst waere der
-   Verkaufsstand fuer Farbfehlsichtige nicht lesbar. */
-.h8-ampel--frei { color: var(--h8-gruen); }
-.h8-ampel--reserviert { color: var(--h8-gelb); }
-.h8-ampel--verkauft { color: var(--h8-leise); }
+/* Die Farbe steht nie allein: jeder Eintrag traegt sein Wort daneben, sonst waere der
+   Verkaufsstand fuer Farbfehlsichtige nicht lesbar. Der Status kommt aus den Daten, deshalb
+   haengt die Farbe am Merkmal und nicht an einer zweiten Klasse, die jemand vergessen kann. */
+.h8-ampel__eintrag[data-status='frei'] .h8-ampel__punkt { background: var(--h8-gruen); }
+.h8-ampel__eintrag[data-status='reserviert'] .h8-ampel__punkt { background: var(--h8-gelb); }
+.h8-ampel__eintrag[data-status='verkauft'] .h8-ampel__punkt { background: var(--h8-leise); }
 
 .h8-karten {
   display: grid;

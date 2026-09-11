@@ -45,8 +45,13 @@
       var kennung = verweis.slice(raute + 1);
       // Auf der Rechnerseite zeigen dieselben Ziele auf eine ANDERE Seite. Dort gibt es die
       // Abschnitte nicht, und dann wird auch nichts markiert.
-      var abschnitt = kennung ? dok.getElementById(kennung) : null;
-      if (!abschnitt) continue;
+      var ziel = kennung ? dok.getElementById(kennung) : null;
+      if (!ziel) continue;
+      // Die Kennung sitzt auf der Ueberschrift, damit ein Sprung dort landet und nicht im
+      // Bild darueber. Fuer die Markierung ist eine Ueberschrift aber zu kurz: sie durchquert
+      // das Messband in Sekundenbruchteilen. Beobachtet wird deshalb der ganze Abschnitt.
+      var abschnitt = (ziel.closest && ziel.closest('.h8-abschnitt')) || ziel;
+      abschnitt.id = abschnitt.id || ('am-abschnitt-' + kennung);
       jeId[kennung] = ziele[i];
       abschnitte.push(abschnitt);
     }
