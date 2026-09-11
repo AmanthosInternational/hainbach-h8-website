@@ -96,6 +96,13 @@
      .h8-karte__zeile--preis   nur diese eine Zeile steht gross
      .h8-karte__zeile--breit   nimmt beide Spalten (Mietannahme)
 
+   NACHGETRAGEN am 11.09.2026, siebte Runde:
+
+     .h8-faq               die Liste der haeufigen Fragen
+     .h8-faq__eintrag      ein <details>, traegt den Zustand als [open]
+     .h8-faq__frage        das <summary>, zugleich Klappziel, mindestens 44 px
+     .h8-faq__antwort      der Text darunter
+
    DIE KENNUNG DER ABSCHNITTE sitzt auf der Ueberschrift, nicht auf der Sektion: sieben der
    elf Abschnitte beginnen mit einem grossen Bild, und ein Sprung landete sonst darin. Die
    Themenmarkierung in js/feinschliff.js sucht sich von dort den umgebenden .h8-abschnitt,
@@ -779,6 +786,40 @@ p:last-child { margin-bottom: 0; }
 }
 /* Die Mietannahme traegt den laengsten Wert und bekommt deshalb beide Spalten. */
 .h8-karte__zeile--breit { grid-column: 1 / -1; }
+
+/* Haeufige Fragen ----------------------------------------------------------
+   Aufklappbar, weil zehn ausgeschriebene Antworten den Einseiter um mehrere Bildschirme
+   verlaengern wuerden und die meisten Leser nur eine davon suchen. <details> kann das ohne
+   JavaScript; faellt ein Skript aus, bleiben die Fragen bedienbar.
+   Die Frage ist das Klappziel und mindestens 44 px hoch, sonst trifft sie auf dem Telefon
+   niemand. */
+.h8-faq { display: grid; gap: 0; border-top: 1px solid var(--h8-linie); }
+.h8-faq__eintrag { border-bottom: 1px solid var(--h8-linie); }
+.h8-faq__frage {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 14px 0;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.h8-faq__frage::-webkit-details-marker { display: none; }
+/* Das Zeichen sitzt VOR der Frage und dreht sich beim Aufklappen. Es haengt am Zustand des
+   Elements (`[open]`), nicht an einer zweiten Klasse, die jemand zu setzen vergisst. */
+.h8-faq__frage::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--h8-leise);
+  border-bottom: 2px solid var(--h8-leise);
+  transform: rotate(-45deg);
+  transition: transform 0.2s var(--h8-schwung);
+}
+.h8-faq__eintrag[open] .h8-faq__frage::before { transform: rotate(45deg); }
+.h8-faq__antwort { max-width: 62ch; margin: 0 0 16px; padding-left: 21px; }
 
 /* Zeitleiste (Abschnitt 8) ------------------------------------------------- */
 
