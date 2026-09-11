@@ -69,6 +69,19 @@
                            keine mehr ab
      .h8-fuss__block       Marke, Anschrift und Hinweis als ein Block neben den Rechtszielen
 
+   NACHGETRAGEN am 11.09.2026, vierte Runde:
+
+     .am-zeichen-set       die unsichtbare Huelle des Zeichensatzes aus teile/zeichen.html
+     .h8-kennzahl__zeichen das Zeichen der Kachel, in Salbei
+     .h8-person__zeichen   Hoerer und Umschlag in der Kontaktkarte
+
+   ZU DEN UNTERSTREICHUNGEN: die Seite setzt `color: inherit`, ein Verweis traegt also keine
+   Farbe als Signal. Wer ihm den Unterstrich nimmt, MUSS etwas anderes an seine Stelle setzen.
+   Ohne Dauerstrich stehen deshalb nur Stellen, an denen ein Zeichen oder die Form die Aufgabe
+   uebernimmt: Kontaktkarte, Fusszeilen-Navigation, Kennzahlkacheln. Verweise im Fliesstext
+   behalten ihn, dort ist er die einzige Unterscheidung; Ueberfahren und Tastaturfokus bringen
+   ihn ueberall zurueck.
+
    Die drei Kennwerte --h8-luft, --h8-uebergang und --h8-schwung tragen Rhythmus und
    Bewegung. Wer einen vierten Abstandswert braucht, aendert die Luft, statt eine Zahl
    in eine Regel zu schreiben. */
@@ -513,6 +526,38 @@ p:last-child { margin-bottom: 0; }
   text-decoration: none;
   transition: background-color var(--h8-uebergang);
 }
+/* Der Zeichensatz selbst zeigt nichts, er haelt nur die <symbol>-Vorlagen bereit. Nicht
+   display:none: dann faenden manche Browser die Zeichen nicht mehr. */
+.am-zeichen-set { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* Salbei statt Tinte: die Zeichen sollen fuehren, nicht mit dem Wert um Aufmerksamkeit
+   streiten. Auf der hervorgehobenen Kachel kehrt sich das um. */
+.h8-kennzahl__zeichen {
+  display: block;
+  width: 26px;
+  height: 26px;
+  margin: 0 0 12px;
+  color: var(--h8-akzent);
+}
+.h8-kennzahl--stark .h8-kennzahl__zeichen { color: rgba(255, 255, 255, 0.82); }
+/* Die hervorgehobene Kachel laeuft ueber die ganze Breite. Untereinander wuerde sie dort zu
+   einem hohen Block; quer gelegt bleibt sie ein Band, und das Zeichen steht vor der Aussage
+   statt ueber ihr. */
+@media (min-width: 620px) {
+  .h8-kennzahl--stark .h8-kennzahl__ziel {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 20px;
+    align-items: center;
+  }
+  .h8-kennzahl--stark .h8-kennzahl__zeichen {
+    /* span 3 und nicht 1 / -1: ohne explizite Zeilen zeigt -1 auf die erste Zeilenlinie,
+       das Zeichen belegte dann nur die erste Zeile und der Wert rutschte darunter. */
+    grid-row: 1 / span 3;
+    width: 34px;
+    height: 34px;
+    margin: 0;
+  }
+}
 .h8-kennzahl__name {
   display: block;
   margin: 0 0 7px;
@@ -686,7 +731,27 @@ p:last-child { margin-bottom: 0; }
 .h8-person__zeile { display: block; }
 .h8-person__name { margin: 0 0 2px; font-size: 19px; }
 .h8-person__rolle { margin: 0 0 10px; font-size: 14px; color: var(--h8-leise); }
-.h8-person__zeile { margin: 0 0 4px; font-size: 15px; }
+/* VERWEISE OHNE DAUERHAFTEN UNTERSTRICH, aber nie ohne Signal. Die Seite setzt
+   `color: inherit`, ein Verweis traegt also KEINE Farbe; nimmt man ihm den Unterstrich
+   ersatzlos, ist er von gewoehnlichem Text nicht mehr zu unterscheiden. Hier uebernimmt das
+   Zeichen diese Aufgabe, dazu Unterstrich bei Ueberfahren und Tastaturfokus. Vier
+   unterstrichene Zeilen in zwei kleinen Karten waren zu viel; am 11.09.2026 gemeldet. */
+.h8-person__zeile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 4px;
+  font-size: 15px;
+  text-decoration: none;
+}
+.h8-person__zeile:hover,
+.h8-person__zeile:focus-visible { text-decoration: underline; }
+.h8-person__zeichen {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  color: var(--h8-akzent);
+}
 /* Eine Rufnummer wird nie umgebrochen; eine Adresse darf im Notfall in der Karte umbrechen,
    statt aus ihr herauszulaufen. */
 .h8-person__zeile[href^='tel:'] { white-space: nowrap; }
@@ -779,6 +844,11 @@ p:last-child { margin-bottom: 0; }
    Fingerziel; mitten im Fliesstext sprengt es die Zeile und schiebt den Verweis allein auf
    eine neue. Am 11.09.2026 genau so im Haftungshinweis passiert. Ein Verweis IM Satz traegt
    diese Klasse deshalb nicht, sondern den gewoehnlichen a-Stil. */
+/* Eine Navigationsliste ist als solche erkennbar; der Dauerstrich machte aus drei Zielen
+   drei Striche. Unterstrich bleibt bei Ueberfahren und Tastaturfokus, wie in der Kopfzeile. */
+.h8-fuss__ziel { text-decoration: none; }
+.h8-fuss__ziel:hover,
+.h8-fuss__ziel:focus-visible { text-decoration: underline; }
 .h8-fuss__ziel {
   display: inline-flex;
   align-items: center;
@@ -793,7 +863,10 @@ p:last-child { margin-bottom: 0; }
   font-family: inherit;
   font-size: 15px;
   color: var(--h8-text);
-  text-decoration: underline;
+  /* Kein Dauerstrich: er soll aussehen wie seine Nachbarn in der Liste, und die tragen
+     seit dem 11.09.2026 keinen mehr. Den Unterstrich bei Ueberfahren erbt er von
+     .h8-fuss__ziel. */
+  text-decoration: none;
   text-underline-offset: 3px;
   cursor: pointer;
 }
