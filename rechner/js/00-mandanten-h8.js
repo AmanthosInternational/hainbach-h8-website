@@ -24,7 +24,6 @@
   // ---------------------------------------------------------------------------
   // K6 Fakten H8. Quellen: Wohnungsliste v12 (Wohnflaeche inkl. 50 % Balkon, Kaufpreis,
   // Kaltmiete je m²), Faktenblatt 09.09.2026, Broschuere Juli Seite 31 (provisionsfrei).
-  // ---------------------------------------------------------------------------
 
   // Zwoelf Einheiten, Summe 529,88 m² und 3.563.000 EUR. Titel und Status sind Vertriebs-
   // angaben: bis die Preis- und Reservierungsliste vorliegt (V5) stehen alle auf 'frei'.
@@ -117,13 +116,12 @@
     : '';
 
   // Wird von bauen.py durch acht Hexzeichen der SHA-256 ueber die Bausteine ersetzt.
-  var VERSION = 'c0156d51';
+  var VERSION = '44e3843d';
 
   // ---------------------------------------------------------------------------
   // K7 Steuer- und Rechenregeln Baden-Wuerttemberg. Jede Angabe am 09.09.2026 geprueft:
   // Bundesrecht an gesetze-im-internet.de, das Landesgesetz an landesrecht-bw.de, das
   // BMF-Schreiben am Volltext in docs/quellen des Projektarchivs.
-  // ---------------------------------------------------------------------------
   var STEUER = {
     // § 11 Abs. 1 GrEStG nennt 3,5 vom Hundert; die Laender duerfen den Satz seit dem
     // 01.09.2006 selbst bestimmen (Art. 105 Abs. 2a Satz 2 GG). Baden-Wuerttemberg hat das
@@ -191,7 +189,6 @@
 
   // ---------------------------------------------------------------------------
   // K8 Eingaben und Vorgaben
-  // ---------------------------------------------------------------------------
 
   // Durchschnitt der zwoelf Kaltmieten der Wohnungsliste v12 (19,0 bis 24,0 EUR/m²).
   // Gilt nur fuer die freie Eingabe: jede Wohnung bringt ihre eigene Miete mit.
@@ -227,7 +224,6 @@
   // ---------------------------------------------------------------------------
   // K10 Ereignisse. fbq und gtag existieren erst nach Einwilligung (Snippet 926),
   // ereignisse.js prueft das je Aufruf. Telefon-Klicks behandelt Snippet 928 bereits.
-  // ---------------------------------------------------------------------------
   var EREIGNISSE = {
     ansicht: { metaArt: 'track', metaName: 'ViewContent', metaDaten: { content_name: 'Rechner H8' }, gtag: 'rechner_view' },
     ergebnis: { metaArt: 'trackCustom', metaName: 'RechnerErgebnis', metaDaten: { content_name: 'Rechner H8' }, gtag: 'rechner_ergebnis', mitEreignisId: true },
@@ -238,7 +234,10 @@
     termin: { metaArt: 'trackCustom', metaName: 'TerminKalenderGeoeffnet', metaDaten: { content_name: 'Termin H8' }, gtag: 'termin_click' },
     terminGebucht: { metaArt: 'track', metaName: 'Schedule', metaDaten: { content_name: 'Termin H8' }, gtag: 'termin_gebucht', konversion: 'termin' },
     // Einmal je Seitenaufruf, gefeuert von schnell.js (Arbeitspaket 2).
-    schnell: { metaArt: 'trackCustom', metaName: 'SchnellrechnerErgebnis', metaDaten: { content_name: 'Rechner H8' }, gtag: 'schnell_ergebnis', mitEreignisId: true }
+    schnell: { metaArt: 'trackCustom', metaName: 'SchnellrechnerErgebnis', metaDaten: { content_name: 'Rechner H8' }, gtag: 'schnell_ergebnis', mitEreignisId: true },
+    // Der Rechner an der Wohnungskarte. Eigener Name, nicht 'schnell': sonst laesst sich
+    // im Bericht nicht trennen, woher der Vorsprung kommt, und genau das ist die Frage.
+    karte: { metaArt: 'trackCustom', metaName: 'KartenrechnerErgebnis', metaDaten: { content_name: 'Rechner H8' }, gtag: 'karte_ergebnis', mitEreignisId: true }
   };
 
   // Praefix der Rueckfall-ID, wenn Snippet 928 (amEreignisId) nicht geladen ist.
@@ -250,7 +249,6 @@
   // Relays (K6). Damit entfallen die vier Elementor-Schluessel action, postId, formId und
   // queriedId; kopfzeile, refererTitle, kontaktFelder, amFelder und consentUnbekannt bleiben
   // unveraendert, weil Mail, PDF und Messkette sie woertlich lesen.
-  // ---------------------------------------------------------------------------
   var LEAD = {
     kopfzeile: 'Kapitalanlage-Rechner H8 (/rechner/)',
     transport: 'json',
@@ -264,7 +262,6 @@
   // ---------------------------------------------------------------------------
   // K10 PDF. jsPDF 4.2.1 von cdnjs, SRI wie W5. Standardschrift Helvetica (WinAnsi)
   // deckt Umlaute und das Euro-Zeichen.
-  // ---------------------------------------------------------------------------
   var PDF = {
     kopfTitel: 'Hainbach H8, Ihre Kapitalanlage-Auswertung',
     objektZeile: 'Hainbach H8, Hainbachstrasse 8, Esslingen am Neckar',
@@ -278,7 +275,6 @@
 
   // ---------------------------------------------------------------------------
   // K10 Texte der Oberflaeche. ui.js setzt sie in die data-amr-text-Slots.
-  // ---------------------------------------------------------------------------
   var TEXTE = {
     kopfMarke: 'Hainbach H8, Esslingen am Neckar',
     kopfTitel: 'In 60 Sekunden: Was bleibt bei einer Neubauwohnung in Esslingen nach Steuern?',
@@ -340,7 +336,6 @@
   // ---------------------------------------------------------------------------
   // K10 Schnellrechner. Zeigt nur die Wirkung der Abschreibung auf die Einkommensteuer;
   // schnell.js (Arbeitspaket 2) rendert ihn, modell.schnell rechnet ihn.
-  // ---------------------------------------------------------------------------
   var SCHNELL = {
     zvE: { min: 20000, max: 150000, schritt: 1000, vorgabe: 60000 },
     texte: {

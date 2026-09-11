@@ -1,0 +1,281 @@
+/*
+ * Rechner an der Wohnungskarte, Blatt und Regler (Plan h8-kartenrechner, Arbeitspaket 2).
+ *
+ * Gestaltet seite/vorlagen/teile/wohnungsrechner.html. Eigene Datei mit eigenem Praefix,
+ * wie formular.css und einwilligung.css es mit am- halten; stil.css wird nicht angefasst.
+ * Farbe, Schrift und Mass kommen als Kennwerte aus dem :root von stil.css, jeweils mit dem
+ * dortigen Wert als Rueckfall. Hier wird keine Farbe erfunden.
+ *
+ * MOBIL ZUERST. Unter 640 px ist das Overlay ein Blatt am unteren Rand, hoechstens 88 % der
+ * Anzeigehoehe hoch, mit eigenem Scrollbereich. Ab 640 px steht es mittig und hoechstens
+ * 32 rem breit. Es traegt keine Texteingabe, nur Regler und Knoepfe: eine
+ * Bildschirmtastatur kann das Blatt deshalb nicht zerschieben.
+ *
+ * DER KLASSENVERTRAG. Jede Klasse des Markups steht hier, und hier steht keine, die das
+ * Markup nicht schreibt. seite/tests/wohnungsrechner-stil.test.js liest beide Dateien als
+ * Text und wird rot, sobald die Listen auseinanderlaufen. Keine Klasse steht zugleich auf
+ * Behaelter, Eintrag und Inhalt; genau das hat auf dieser Seite am 11.09.2026 dreimal
+ * Schaden angerichtet (Kachel und Verweis, Ampelpunkt und Karte, Karte und Zeile).
+ *
+ *   .amk                das <dialog> selbst, zugleich die Huelle des Blattes
+ *   .amk__zu            der Schliessen-Knopf, festes Ziel von 48 px in der oberen Ecke
+ *   .amk__blatt         der Inhalt, und nur er scrollt
+ *   .amk__wohnung       die Zeile ueber dem Titel; leer verschwindet sie ganz
+ *   .amk__titel         die Ueberschrift des Blattes
+ *   .amk__gross         der abgesetzte Block der grossen Zahl
+ *   .amk__grossmarke    seine Bezeichnung
+ *   .amk__grosswert     die grosse Zahl
+ *   .amk__neben         der Behaelter der beiden Nebenzahlen
+ *   .amk__nebeneintrag  eine Nebenzahl als Ganzes
+ *   .amk__nebenmarke    ihre Bezeichnung
+ *   .amk__nebenwert     ihr Wert
+ *   .amk__regler        der Behaelter der drei Regler
+ *   .amk__reglereintrag ein Regler als Ganzes, das <label>
+ *   .amk__reglerkopf    die Zeile aus Bezeichnung und Wert darueber
+ *   .amk__reglermarke   die Bezeichnung des Reglers
+ *   .amk__reglerwert    der eingestellte Wert, vom Modul geschrieben
+ *   .amk__schieber      der Regler selbst
+ *   .amk__hinweis       der ruhige Satz unter den Reglern
+ *   .amk__knopf         der Weg in den vollen Rechner
+ *
+ * ZUSTAENDE HAENGEN AN MERKMALEN, nie an einer zweiten Klasse. Eine Regel auf einen Namen,
+ * den niemand schreibt, faerbt nichts und faellt niemandem auf; auf dieser Seite stand so
+ * eine Legende wochenlang grau. Es gibt genau zwei Merkmale:
+ *
+ *   [open]              setzt der Browser bei showModal(). Ohne dieses Merkmal ist der
+ *                       Dialog verborgen und erzeugt keinen Leerraum. Die Regel dafuer
+ *                       steht hier ausdruecklich, weil eine Klasse auf dem Dialog sonst
+ *                       die Vorgabe des Browsers ueberstimmt und ihn immer zeigt.
+ *   [data-amk-laedt]    schreibt das Modul auf den ANKLICKTEN AUSLOESER in der
+ *                       Wohnungskarte, solange es die drei Rechenmodule nachlaedt. Der
+ *                       Ausloeser gehoert einer anderen Vorlage; dieser Zustand ist damit
+ *                       der einzige, den das Markup dieses Teils nicht selbst schreibt,
+ *                       und er steht deshalb hier namentlich.
+ */
+
+.amk {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  /* Blatt von unten: oben Luft, unten keine. */
+  margin: auto auto 0;
+  width: 100%;
+  max-width: none;
+  max-height: 88vh;
+  max-height: 88dvh;
+  padding: 0;
+  border: 0;
+  border-radius: 14px 14px 0 0;
+  background: var(--h8-karte, #fbfaf7);
+  color: var(--h8-text, #202221);
+  box-shadow: var(--h8-schatten-tief, 0 26px 60px rgba(32, 34, 33, 0.16));
+  font-family: var(--h8-textschrift, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+  overflow: hidden;
+}
+
+/* Ohne diese Zeile zeigt der Dialog sich immer: die Vorgabe des Browsers haengt am
+   Elementnamen und verliert gegen jede Klasse. */
+.amk:not([open]) { display: none; }
+
+/* Der Rumpf bleibt unberuehrt, die Top-Layer-Schicht bringt ihren eigenen Grund mit.
+   Kennwerte gelten in ::backdrop nicht in jedem Browser, darum steht die Tinte hier als
+   Zahl. Es ist der Ton von --h8-text mit Deckung, wie ihn --h8-schatten schon benutzt. */
+.amk::backdrop { background: rgba(32, 34, 33, 0.62); }
+
+.amk__zu {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 1;
+  min-width: 48px;
+  min-height: 48px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--h8-leise, #5e5d56);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.amk__zu:hover,
+.amk__zu:focus-visible { color: var(--h8-text, #202221); }
+
+/* showModal() setzt den Fokus auf den ersten Knopf. Der Ring liegt deshalb innen, sonst
+   schneidet er ueber die abgerundete Ecke des Blattes hinaus. */
+.amk__zu:focus-visible {
+  outline: 2px solid var(--h8-text, #202221);
+  outline-offset: -3px;
+}
+
+.amk__blatt {
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 18px var(--h8-rand, 16px) calc(var(--h8-rand, 16px) + 8px);
+}
+
+.amk__wohnung {
+  margin: 0 0 2px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--h8-leise, #5e5d56);
+}
+
+/* Solange das Modul die Nummer nicht geschrieben hat, steht hier keine leere Zeile. */
+.amk__wohnung:empty { display: none; }
+
+.amk__titel {
+  margin: 0 0 14px;
+  /* Platz fuer den Schliessen-Knopf, damit der Titel nicht darunter laeuft. */
+  padding-right: 44px;
+  font-family: var(--h8-titelschrift, Merriweather, Georgia, "Times New Roman", serif);
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+.amk__gross {
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--h8-grund, #efebe2);
+}
+
+.amk__grossmarke {
+  display: block;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--h8-leise, #5e5d56);
+}
+
+.amk__grosswert {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--h8-titelschrift, Merriweather, Georgia, "Times New Roman", serif);
+  font-size: clamp(28px, 8vw, 38px);
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+
+.amk__neben {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.amk__nebeneintrag {
+  flex: 1 1 44%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--h8-linie, #c9c4b8);
+  border-radius: 8px;
+}
+
+.amk__nebenmarke {
+  display: block;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--h8-leise, #5e5d56);
+}
+
+.amk__nebenwert {
+  display: block;
+  margin-top: 2px;
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.amk__regler {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 18px;
+}
+
+.amk__reglereintrag { display: block; }
+
+.amk__reglerkopf {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.amk__reglermarke {
+  font-size: 13px;
+  color: var(--h8-leise, #5e5d56);
+}
+
+.amk__reglerwert {
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.amk__schieber {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  /* Salbei traegt hier keine Schrift, nur die Spur. Als Textton laege er unter 4,5:1. */
+  accent-color: var(--h8-akzent, #7c8b7d);
+  cursor: pointer;
+}
+
+.amk__schieber:focus-visible {
+  outline: 2px solid var(--h8-text, #202221);
+  outline-offset: 2px;
+}
+
+.amk__hinweis {
+  margin: 0 0 16px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--h8-leise, #5e5d56);
+}
+
+.amk__knopf {
+  display: block;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 15px 18px;
+  border-radius: 6px;
+  background: var(--h8-text, #202221);
+  color: var(--h8-karte, #fbfaf7);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.amk__knopf:hover,
+.amk__knopf:focus-visible { background: var(--h8-leise, #5e5d56); }
+
+/* Der wartende Ausloeser in der Wohnungskarte, siehe Kopf. */
+[data-amk-laedt] {
+  cursor: progress;
+  opacity: 0.72;
+}
+
+@media (min-width: 640px) {
+  .amk {
+    margin: auto;
+    width: calc(100% - 32px);
+    max-width: 32rem;
+    border-radius: 12px;
+  }
+
+  .amk__blatt { padding: 22px 24px 24px; }
+
+  .amk__titel { font-size: 22px; }
+}

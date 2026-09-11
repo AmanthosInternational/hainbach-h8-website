@@ -31,7 +31,10 @@
                 .h8-karten + .h8-karte (5), .h8-zeitleiste (8), .h8-personen + .h8-person (10)
      Tabelle    .h8-tabelle in .h8-tabelle__rahmen (laeuft quer, nie die Seite)
 
-   Formular und Einwilligungsbanner haben ihren eigenen Stil (Arbeitspakete 7 und 5).
+   Formular und Einwilligungsbanner haben ihren eigenen Stil (Arbeitspakete 7 und 5), und
+   seit dem 11.09.2026 auch der Rechner an der Wohnungskarte: `wohnungsrechner.css` mit dem
+   Praefix `amk-`, eigener Klassenvertrag in ihrem Kopf. Diese Datei hier weiss nichts davon
+   und soll es nicht: drei Oberflaechen mit eigenem Stil sind drei Vertraege, nicht einer.
 
    NACHGETRAGEN am 10.09.2026, Feinschliff nach dem Vorbild von amanthos.com. Der Vertrag
    sagt "wer eine weitere braucht, sagt es"; hier ist es gesagt:
