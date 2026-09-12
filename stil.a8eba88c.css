@@ -26,7 +26,7 @@
                 .h8-abschnitt__kopf, .h8-obertitel, .h8-abschnitt__titel, .h8-fliesstext
                 .h8-raster, .h8-raster--bild-rechts, .h8-raster--bild-links
      Bausteine  .h8-knopf, .h8-knopf--primaer, .h8-knopfreihe
-                .h8-liste, .h8-liste--merkmale, .h8-fussnote, .h8-bild, .h8-grosszahl
+                .h8-liste, .h8-liste--merkmale, .h8-fussnote, .h8-bild, .h8-vorspann
      Abschnitte .h8-hero (1), .h8-kennzahlen + .h8-kennzahl (2 und 9), .h8-ampel (3 und 5),
                 .h8-karten + .h8-karte (5), .h8-zeitleiste (8), .h8-personen (9)
      Tabelle    .h8-tabelle in .h8-tabelle__rahmen (laeuft quer, nie die Seite)
@@ -319,11 +319,19 @@ p:last-child { margin-bottom: 0; }
   line-height: 1.5;
   color: var(--h8-leise);
 }
-.h8-grosszahl {
+/* DER VORSPANN EINES ABSCHNITTS, nicht sein Plakat. Bis zum 13.09.2026 hiess diese Regel
+   `h8-grosszahl` und setzte 32 bis 48 px Schauschrift: die Zeile war damit groesser als die
+   Ueberschrift ueber ihr. Zusammen mit dem Kennzahlenband und dem Verkaufsstand, die
+   unmittelbar davor stehen, war das eine Zahl zu viel an einer Stelle. Jetzt ein ruhiger
+   Satz, der der Ueberschrift den Vortritt laesst; `tabular-nums` bleibt, damit die Ziffern
+   nicht tanzen. */
+.h8-vorspann {
   display: block;
-  font-family: var(--h8-titelschrift);
-  font-size: clamp(32px, 7vw, 48px);
-  line-height: 1.1;
+  max-width: 62ch;
+  margin: 2px 0 16px;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.5;
+  color: var(--h8-leise);
   font-variant-numeric: tabular-nums;
 }
 
@@ -1023,6 +1031,57 @@ p:last-child { margin-bottom: 0; }
 }
 .h8-schema__name { font-weight:600; }
 .h8-schema__flaeche { text-transform:none; letter-spacing:0; }
+/* Wer hinter dem Projekt steht. Stand bisher nur im Fliesstext und im Impressum; das
+   Zeichen der Gruppe kam auf der Seite gar nicht vor. Klein, ruhig, unter der Anschrift. */
+.h8-fuss__haus { margin: 14px 0 0; font-size: 13px; }
+.h8-fuss__hausziel {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; color: var(--h8-leise); text-decoration: none;
+}
+.h8-fuss__hausziel:hover, .h8-fuss__hausziel:focus-visible {
+  color: var(--h8-text); text-decoration: underline; text-underline-offset: 4px;
+}
+.h8-fuss__hauszeichen { width: 20px; height: 20px; flex: 0 0 auto; }
+
+/* DIE RECHNERSEITE HATTE KEINE EINZIGE REGEL. Bis zum 13.09.2026 stand `.rechnerseite`
+   in keiner Stildatei: Rahmen, Ueberschrift, Block und Fussnoten lagen alle bei links 0
+   ueber die volle Fensterbreite, und die zwei Absaetze unter dem Rechner liefen sichtbar
+   bis an den Bildschirmrand. Aufgefallen ist es nur deshalb nicht frueher, weil der
+   Rechnerblock selbst seinen Textkoerper mitbringt und die Seite dadurch halbwegs richtig
+   aussah. Hier bekommt sie denselben Textkoerper wie jeder Abschnitt der Startseite. */
+.rechnerseite {
+  max-width: calc(var(--h8-breite) + 2 * var(--h8-rand));
+  margin-inline: auto;
+  padding: 0 var(--h8-rand);
+}
+.rechnerseite__kopf { padding-block: clamp(28px, 4.4vw, 52px) clamp(18px, 2.6vw, 28px); }
+.rechnerseite__block { margin-bottom: clamp(26px, 4vw, 44px); }
+.rechnerseite__fussnoten {
+  /* Eine Zeile ueber rund 75 Zeichen liest sich schlecht; die Fussnoten liefen vorher ueber
+     die ganze Fensterbreite. */
+  max-width: 72ch;
+  margin: 0 0 var(--h8-luft);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--h8-leise);
+}
+.rechnerseite__fussnoten p { margin: 0; }
+.rechnerseite__fussnoten p + p { margin-top: 12px; }
+
+/* DIE SPUR IST DER MASSSTAB. Ohne sie schwebt jedes Band fuer sich, und ein Band bei
+   50 Prozent sieht allein betrachtet aus wie eines bei 100: das Auge hat nichts, woran es
+   misst. Die Spur zeigt die volle Breite als leise Flaeche, das Band liegt darauf, und der
+   Rest bleibt sichtbar leer.
+
+   Am 13.09.2026 nachgemessen, und es erklaert den Befund „die Balken sehen gleich aus":
+   drei der sechs Geschosse liegen bei 97,7, 99,7 und 100 Prozent. Sie sind wirklich fast
+   gleich gross. Die Spur macht das zur Aussage statt zum Zufall, und die drei kleinen
+   Geschosse (75, 58 und 50 Prozent) werden als das lesbar, was sie sind. */
+.h8-schema__spur {
+  background: color-mix(in srgb, var(--h8-linie) 20%, transparent);
+  border-radius: 3px;
+}
+
 /* EIN GESCHOSS IST EIN BAND, KEINE REIHE VON KAESTEN. Bis zum 13.09.2026 trug jeder Block
    einen eigenen Rahmen auf vier Seiten, dazwischen 4 px Luft: das liest sich als lose
    Rechtecke, nicht als ein Geschoss, das in Wohnungen geteilt ist. Jetzt traegt das Band den
