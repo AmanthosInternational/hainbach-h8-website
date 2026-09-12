@@ -1098,3 +1098,82 @@ p:last-child { margin-bottom: 0; }
 @media print {
   html.hat-einblendung [data-am-einblenden] { opacity: 1 !important; transform: none !important; }
 }
+
+/* --- Geschossschema ----------------------------------------------------------------------
+   Sechs Baender uebereinander, wie das Haus steht. Die Bandbreite steht fuer die
+   Geschossflaeche im Verhaeltnis zur groessten Etage, die Blockbreite fuer die Wohnflaeche.
+   Kein Bild, kein Skript: Breiten kommen als Inline-Stil aus dem Bau, die CSP erlaubt das
+   ausdruecklich (style-src 'unsafe-inline').
+   Bewusst KEINE Positionstreue: die Reihenfolge im Band ist die Wohnungsnummer, nicht die
+   Lage im Grundriss. Das Schema beantwortet "welche Wohnung liegt auf welcher Etage und wie
+   gross ist sie", nicht "wo genau im Haus". */
+.h8-schema { display:grid; gap:10px; margin: 0 0 var(--h8-luft); }
+.h8-schema__geschoss { display:grid; gap:5px; }
+.h8-schema__etage {
+  display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+  margin:0; font-size:14px; letter-spacing:0.06em; text-transform:uppercase;
+  color: var(--h8-leise);
+}
+.h8-schema__name { font-weight:600; }
+.h8-schema__flaeche { text-transform:none; letter-spacing:0; }
+.h8-schema__band { display:flex; gap:4px; min-width:0; }
+.h8-schema__block {
+  display:flex; flex-direction:column; justify-content:center; gap:2px;
+  flex-basis:0; min-width:0; padding:14px 12px;
+  border:1px solid var(--h8-linie); background: var(--h8-karte);
+  color:inherit; text-decoration:none;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+.h8-schema__block:hover, .h8-schema__block:focus-visible { border-color: var(--h8-text); }
+.h8-schema__nr { font-family: var(--h8-titelschrift); font-size:19px; line-height:1.1; }
+.h8-schema__mass { font-size:13px; color: var(--h8-leise); white-space:nowrap; }
+/* Nur fuer Vorleseprogramme: der Titel und der Stand gehoeren in den Linktext, sonst heisst
+   jeder Link nur "3". Sichtbar waere es Rauschen, das die schmalen Bloecke sprengt. */
+.h8-schema__lesehilfe {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip-path: inset(50%); white-space:nowrap; border:0;
+}
+.h8-schema__block[data-status='reserviert'] { background: color-mix(in srgb, var(--h8-gelb) 14%, var(--h8-karte)); }
+.h8-schema__block[data-status='verkauft'] { opacity:0.6; }
+.h8-fussnote--schema { margin-top:-14px; }
+@media (max-width: 640px) {
+  /* Auf dem Telefon reisst die Proportion die schmalen Bloecke unter die Lesbarkeit.
+     Dort zaehlt die Zuordnung, nicht der Groessenvergleich. */
+  .h8-schema__band { width:100% !important; }
+  .h8-schema__block { padding:10px 8px; }
+  .h8-schema__mass { font-size:12px; }
+}
+
+/* --- Grundriss an der Wohnungskarte -------------------------------------------------------
+   Ein <details> statt eines Dialogs: nativ, mit der Tastatur bedienbar, und ein Bild in
+   einem geschlossenen <details> wird vom Browser gar nicht erst angefordert. "Nachladen bei
+   Bedarf" ist damit kein Bauteil, sondern Verhalten. */
+.h8-grundriss { margin-top: 10px; }
+.h8-grundriss__schalter {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  padding:13px 18px; border:1px solid var(--h8-linie); background: var(--h8-karte);
+  font-size:13px; letter-spacing:0.12em; cursor:pointer; list-style:none;
+  transition: border-color 120ms ease;
+}
+.h8-grundriss__schalter::-webkit-details-marker { display:none; }
+.h8-grundriss__schalter::after {
+  content:''; width:7px; height:7px; flex:0 0 auto;
+  border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px); transition: transform 140ms ease;
+}
+.h8-grundriss[open] .h8-grundriss__schalter::after { transform: rotate(225deg) translate(-2px, -2px); }
+.h8-grundriss__schalter:hover, .h8-grundriss__schalter:focus-visible { border-color: var(--h8-text); }
+.h8-grundriss__blatt {
+  display:block; width:100%; height:auto; margin-top:10px;
+  border:1px solid var(--h8-linie); background:#fff;
+}
+.h8-grundriss__hinweis { margin:8px 0 0; font-size:12px; line-height:1.5; color: var(--h8-leise); }
+
+/* Kennzeichnung der Visualisierungen. Die Kartenbilder sind erzeugte Darstellungen des
+   beworbenen Objekts und damit nach Artikel 50 KI-VO sichtbar zu kennzeichnen. Der Satz steht
+   deshalb unter jedem Bild und nicht nur in der Fussnote: eine Kennzeichnung, die man suchen
+   muss, ist keine. */
+.h8-karte__bildhinweis {
+  margin: 6px 0 0; font-size: 11px; letter-spacing: 0.04em;
+  color: var(--h8-leise);
+}

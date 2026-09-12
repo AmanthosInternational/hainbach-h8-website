@@ -35,6 +35,16 @@
  *   .amk__reglermarke   die Bezeichnung des Reglers
  *   .amk__reglerwert    der eingestellte Wert, vom Modul geschrieben
  *   .amk__schieber      der Regler selbst
+ *   .amk__steuer        der Block "Ihr steuerlicher Vorteil" unter den Reglern
+ *   .amk__steuertitel   seine Ueberschrift
+ *   .amk__steuerliste   die Liste der beiden Zahlen
+ *   .amk__steuerzeile   eine Zeile daraus, Marke links und Wert rechts
+ *   .amk__steuermarke   die Bezeichnung der Zahl
+ *   .amk__steuerwert    die Zahl selbst
+ *   .amk__sonder        die Zeile zur Sonderabschreibung nach § 7b EStG
+ *   .amk__annahmen      das <details> mit der vollstaendigen Annahmenliste
+ *   .amk__annahmenkopf  seine Aufklappzeile
+ *   .amk__annahmenliste die Liste darin
  *   .amk__hinweis       der ruhige Satz unter den Reglern
  *   .amk__knopf         der Weg in den vollen Rechner
  *
@@ -278,4 +288,49 @@
   .amk__blatt { padding: 22px 24px 24px; }
 
   .amk__titel { font-size: 22px; }
+}
+
+/* --- Steuervorteil und Annahmen (Plan h8-verkauf, Arbeitspaket 2) --------------------------
+   Zwei Punkte von Bosko in einem Block: der steuerliche Vorteil als Zahl, und die Annahmen
+   direkt darunter. Die Annahmen stehen NEBEN der Zahl und nicht in einer Fussnote, weil eine
+   Zahl ohne ihre Annahme eine Zusage ist, die niemand geben wollte.
+
+   Die Zeile zur Sonderabschreibung haengt allein an [data-amk-sonder]. Vorgabe ist verborgen:
+   solange niemand geprueft hat, ob § 7b greift, behauptet die Seite es auch nicht. */
+.amk__steuer {
+  margin-top: 18px; padding-top: 16px;
+  border-top: 1px solid var(--h8-linie, #c9c4b8);
+}
+.amk__steuertitel {
+  margin: 0 0 10px; font-family: var(--h8-titelschrift, Merriweather, Georgia, serif);
+  font-size: 17px; line-height: 1.25; font-weight: 400;
+}
+.amk__steuerliste { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; }
+.amk__steuerzeile {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+  font-size: 14px;
+}
+.amk__steuermarke { color: var(--h8-leise, #5e5d56); }
+.amk__steuerwert { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.amk__sonder { margin: 10px 0 0; font-size: 13px; line-height: 1.5; }
+.amk__sonder:not([data-amk-sonder='ja']) { display: none; }
+
+.amk__annahmen { margin-top: 12px; }
+.amk__annahmenkopf {
+  font-size: 13px; cursor: pointer; list-style: none;
+  color: var(--h8-leise, #5e5d56);
+  display: inline-flex; align-items: center; gap: 7px; padding: 6px 0;
+}
+.amk__annahmenkopf::-webkit-details-marker { display: none; }
+.amk__annahmenkopf::after {
+  content: ''; width: 6px; height: 6px; flex: 0 0 auto;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px); transition: transform 140ms ease;
+}
+.amk__annahmen[open] .amk__annahmenkopf::after { transform: rotate(225deg) translate(-2px, -2px); }
+.amk__annahmenkopf:hover, .amk__annahmenkopf:focus-visible { color: var(--h8-text, #202221); }
+.amk__annahmenliste {
+  margin: 6px 0 0; padding-left: 17px;
+  font-size: 13px; line-height: 1.65; color: var(--h8-leise, #5e5d56);
 }

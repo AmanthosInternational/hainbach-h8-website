@@ -27,7 +27,9 @@
   var AUSGABEN = {
     nettovermoegenEnde: [0, ' EUR'],
     irrProzent: [2, ' %'],
-    cashflowNachSteuerMonatJahr1: [0, ' EUR/Monat']
+    cashflowNachSteuerMonatJahr1: [0, ' EUR/Monat'],
+    abschreibungJahr1: [0, ' EUR'],
+    afaSteuerwirkungSumme: [0, ' EUR']
   };
   var FORMATE = {};
   var laden = null;
@@ -75,10 +77,24 @@
     if (ziel) ziel.textContent = text;
   }
 
+  // berechne() rechnet die Abschreibung, gibt sie aber nicht als eigene Zahl heraus. Abgeleitet
+  // wird sie deshalb hier und nicht im Modell: eine neue Ausgabe dort veraenderte die goldene
+  // Datei des Rechners, und die bleibt byteidentisch. Die Zeile zu 7b haengt am selben Ergebnis.
+  function steuerzahlen(dialog, ergebnis, eingaben) {
+    var afa = function (j) { return j.afaRegulaer + j.sonderAfa + j.afaStellplatz; };
+    var jahre = ergebnis.jahre || [];
+    ergebnis.abschreibungJahr1 = jahre.length ? afa(jahre[0]) : 0;
+    ergebnis.afaSteuerwirkungSumme = jahre.reduce(function (s, j) { return s + afa(j); }, 0)
+      * (eingaben.steuersatzProzent || 0) / 100;
+    var zeile = dialog.querySelector('[data-amk-sonder]');
+    if (zeile) zeile.setAttribute('data-amk-sonder', ergebnis.sonderAfaAktiv ? 'ja' : 'nein');
+  }
+
   function rechnen(dialog, eingaben) {
     var modell = amr();
     if (!modell) return;
     var ergebnis = modell.berechne(eingaben);
+    steuerzahlen(dialog, ergebnis, eingaben);
     Object.keys(AUSGABEN).forEach(function (name) {
       var ziel = dialog.querySelector('[data-amk-ausgabe="' + name + '"]');
       if (ziel) ziel.textContent = zahl(ergebnis[name], AUSGABEN[name][0]) + AUSGABEN[name][1];
