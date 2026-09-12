@@ -406,6 +406,16 @@ p:last-child { margin-bottom: 0; }
    normal scrollt, trifft das Bild trotzdem zuerst. */
 .h8-abschnitt__titel--vorbild { margin-bottom: 26px; }
 .h8-fliesstext { max-width: 62ch; }
+/* Dieselbe Marke, aber mitten im Text statt als Vorzeile ueber einem Bild. Sie trennt dort
+   zwei Bloecke und braucht deshalb Luft nach oben; sie bricht auf dem Telefon auf zwei Zeilen
+   um und braucht deshalb Zeilenabstand; und 0,24 em Sperrung, die eine kurze Vorzeile traegt,
+   macht eine lange umgebrochene Zeile schwer lesbar. Am 12.09.2026 auf 390 px gemessen. */
+.h8-obertitel--abschnitt {
+  margin-top: 30px;
+  line-height: 1.5;
+  letter-spacing: 0.16em;
+}
+
 .h8-fussnote {
   margin: 14px 0 0;
   font-size: 14px;
@@ -435,6 +445,12 @@ p:last-child { margin-bottom: 0; }
    Bild, Bild, Bild; wer einen Abschnitt anspringt, landet in einem Motiv und haelt den
    Verweis fuer kaputt. Der Deckel schneidet mittig statt zu stauchen, darum object-fit.
    Die Kartenbilder (330 px breit, 242 px hoch) bleiben unberuehrt, sie liegen darunter. */
+/* Nur das Abschnittsfoto, nicht das Bild in der Wohnungskarte: beide tragen `.h8-bild`, und
+   in der Karte folgt schon der Bildhinweis mit eigenem Abstand. Ohne diese Zeile beginnt der
+   Text unmittelbar an der Unterkante des Fotos. Am 12.09.2026 in sechs Abschnitten gemessen,
+   jedes Mal null Pixel; die Ueberschrift darueber haelt 26 px zum Bild, darunter hielt nichts. */
+.h8-abschnitt > .h8-bild { margin-bottom: 24px; }
+
 .h8-bild {
   display: block;
   width: 100%;
@@ -454,6 +470,36 @@ p:last-child { margin-bottom: 0; }
   padding: 0;
   display: grid;
   gap: 8px;
+}
+/* Acht Bedingungen, die man abhaken koennen soll. Als gewoehnliche Liste stehen acht Saetze
+   von je zwei bis drei Zeilen buendig untereinander, und auf dem Telefon ist das eine Wand:
+   450 px am Stueck, direkt unter einem 299 px hohen Absatz. Getrennte Zeilen mit Haarlinie
+   und der Nummer in eigener Spalte machen daraus acht zaehlbare Einheiten. Die Nummer kommt
+   aus einem Zaehler, nicht aus der Listenmarke: nur so steht sie in ihrer eigenen Spalte und
+   der Text laeuft darunter nicht ein. */
+.h8-liste--bedingungen {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 6px;
+  counter-reset: bedingung;
+  border-top: 1px solid var(--h8-linie);
+}
+.h8-liste--bedingungen li {
+  counter-increment: bedingung;
+  display: grid;
+  grid-template-columns: 1.9em 1fr;
+  gap: 0 10px;
+  margin: 0;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--h8-linie);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.h8-liste--bedingungen li::before {
+  content: counter(bedingung);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--h8-leise);
 }
 .h8-liste--merkmale li {
   padding-left: 16px;
