@@ -1,0 +1,90 @@
+/*
+ * Die Bildbuehne im Held (Plan h8-verkauf-2, Abschnitt 7).
+ *
+ * Gestaltet seite/vorlagen/teile/held.html und die Ebenen, die seite/statisch/js/held.js
+ * nach dem ersten Anstrich anlegt. Eigene Datei mit eigenem Praefix, wie wohnungsrechner.css
+ * es mit amk- haelt; stil.css wird nicht angefasst. Die Geometrie der Ebenen steht dort
+ * bereits unter `.h8-hero__bild` (absolut, inset 0, object-fit cover, z-index 0), und genau
+ * deshalb behaelt jede Ebene diese Klasse. Hier kommt nur der Wechsel dazu.
+ *
+ * KEINE HOEHE. Dieses Blatt fasst weder `min-height` noch `max-height` des Helden an und
+ * fuehrt keinen Deckel nach oben ein. Die Hoehe kommt weiter aus stil.css und dem Inhalt,
+ * vor dem Umbau wie danach.
+ *
+ * WARUM DIE VORLAGE KEINEN KOMMENTAR TRAEGT und diese Erklaerung hier steht.
+ * `bauen.ohne_kommentare` nimmt jeden Kommentar samt der Leerzeichen DAHINTER aus dem
+ * fertigen Dokument. Ein Kommentar vor dem Markup kostet den Helden seine Einrueckung,
+ * einer dahinter dem naechsten Abschnitt seine Leerzeilen. Beides am 12.09.2026 am
+ * gebauten Dokument gemessen, beides ein Unterschied zu heute, und zeichengleich mit
+ * heute ist die Zusage, die diese Arbeit traegt. Dieses Blatt und das Skript geraten nie
+ * ins Dokument, also stehen die Erklaerungen dort, wo sie nichts verschieben.
+ *
+ * KEIN ZUSTAND AN EINER ZWEITEN KLASSE. Sichtbar oder nicht, angehalten oder laufend: alles
+ * haengt an einem `data-amb-`-Merkmal. Eine Klasse, die zugleich Bauteil und Zustand ist,
+ * hat auf dieser Seite schon dreimal Schaden angerichtet.
+ *
+ * DER ATTRIBUTVERTRAG. Genau diese drei Merkmale gibt es, hier stehen sie vollstaendig, und
+ * seite/tests/held.test.js wird rot, sobald Vorlage, Skript und diese Liste auseinanderlaufen.
+ *
+ *   data-amb-bild    auf der ersten Ebene, im Markup. Traegt die Liste der Motive, eine
+ *                    Zeile je Motiv: grosses Bild, kleines Bild, Beschreibung.
+ *   data-amb-ebene   auf jeder Ebene, vom Skript gesetzt: "an" zeigt, "aus" blendet aus.
+ *                    Ohne Skript traegt es niemand, und dann gilt keine Regel dieses
+ *                    Blattes fuer das Bild: der Held steht wie bisher.
+ *   data-amb-pause   auf dem Knopf, den das Skript anlegt. Sein Zustand steht in
+ *                    aria-pressed, weil ein Vorlesewerkzeug ihn sonst nicht erfaehrt.
+ */
+
+/* Gewechselt wird ueber Deckkraft, nicht ueber Sichtbarkeit: `display` oder `visibility`
+   springen, und ein Motiv, das springt, sieht nach Fehler aus statt nach Absicht. 900 ms
+   sind lang genug, dass der Wechsel als Ueberblendung gelesen wird, und kurz genug, dass
+   er bei sechs Sekunden Standzeit nie in den naechsten laeuft. */
+.h8-hero__bild[data-amb-ebene] {
+  transition: opacity 900ms ease-in-out;
+}
+.h8-hero__bild[data-amb-ebene="aus"] { opacity: 0; }
+.h8-hero__bild[data-amb-ebene="an"] { opacity: 1; }
+
+/* Der Knopf sitzt oben rechts im Motiv, nicht unten: unten stehen Vorzeile, Titel,
+   Unterzeile und die beiden Knoepfe, und auf 390 px bricht die Knopfreihe um. Oben ist die
+   einzige Flaeche des Helden, die keiner anderen gehoert.
+   48 px statt 44: der Knopf steht auf einem Bild, und 44 ist die Untergrenze, nicht das
+   Ziel. Er liegt ueber Verlauf und Text (z-index 2), damit ihn nichts abfaengt. */
+[data-amb-pause] {
+  position: absolute;
+  z-index: 3;
+  top: 12px;
+  right: var(--h8-rand, 16px);
+  min-width: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 999px;
+  /* Dieselbe Farbwelt wie der Verlauf darunter und wie der zweite Knopf im Held. Hier wird
+     keine Farbe erfunden. */
+  color: #fff;
+  background: rgba(22, 24, 23, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(2px);
+}
+[data-amb-pause]:hover,
+[data-amb-pause]:focus-visible {
+  background: rgba(22, 24, 23, 0.75);
+  border-color: rgba(255, 255, 255, 0.85);
+}
+/* Der Umriss aus stil.css ist dunkel und verschwindet auf einem dunklen Motiv. */
+[data-amb-pause]:focus-visible { outline-color: #fff; }
+
+/* Wer Bewegung abbestellt hat, bekommt keine. Das Skript startet dann gar keinen
+   Zeitgeber; diese beiden Regeln sind die zweite Sicherung, falls die Einstellung erst
+   nach dem Laden umgelegt wird. Ein Knopf, der etwas anhaelt, das nicht laeuft, ist
+   schlimmer als kein Knopf. */
+@media (prefers-reduced-motion: reduce) {
+  .h8-hero__bild[data-amb-ebene] { transition: none; }
+  [data-amb-pause] { display: none; }
+}

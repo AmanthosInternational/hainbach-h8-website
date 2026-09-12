@@ -29,7 +29,8 @@
     irrProzent: [2, ' %'],
     cashflowNachSteuerMonatJahr1: [0, ' EUR/Monat'],
     abschreibungJahr1: [0, ' EUR'],
-    afaSteuerwirkungSumme: [0, ' EUR']
+    afaSteuerwirkungSumme: [0, ' EUR'],
+    zinsvorteilJahr: [0, ' EUR']
   };
   var FORMATE = {};
   var laden = null;
@@ -77,6 +78,19 @@
     if (ziel) ziel.textContent = text;
   }
 
+  // Der Zinsvorteil des KfW-Darlehens, nach derselben Regel wie `kfw_de` in seite/bauen.py:
+  // min(maxJeEinheit, anteilVomKaufpreis * kaufpreis), auf 100 EUR gerundet, mal dem Abstand
+  // zwischen Bankzins und KfW-Zins. Bankzins ist ZINS_VORGABE, nicht der Regler: die Seite
+  // zeigt dieselbe Zahl neben der Wohnung. Ohne den Block entsteht keine Zahl, nie eine Null.
+  function zinsvorteil(kaufpreis) {
+    var k = global.AMR && global.AMR.konstanten ? global.AMR.konstanten : null;
+    var f = k && k.FOERDERUNG ? k.FOERDERUNG : null;
+    if (!f) return null;
+    var betrag = Math.floor(Math.min(f.maxJeEinheit, f.anteilVomKaufpreis * kaufpreis) / 100
+      + 0.5) * 100;
+    return Math.floor(betrag * (k.ZINS_VORGABE - f.zinsEffektiv) / 100 + 0.5);
+  }
+
   // berechne() rechnet die Abschreibung, gibt sie aber nicht als eigene Zahl heraus. Abgeleitet
   // wird sie deshalb hier und nicht im Modell: eine neue Ausgabe dort veraenderte die goldene
   // Datei des Rechners, und die bleibt byteidentisch. Die Zeile zu 7b haengt am selben Ergebnis.
@@ -86,6 +100,7 @@
     ergebnis.abschreibungJahr1 = jahre.length ? afa(jahre[0]) : 0;
     ergebnis.afaSteuerwirkungSumme = jahre.reduce(function (s, j) { return s + afa(j); }, 0)
       * (eingaben.steuersatzProzent || 0) / 100;
+    ergebnis.zinsvorteilJahr = zinsvorteil(eingaben.kaufpreis);
     var zeile = dialog.querySelector('[data-amk-sonder]');
     if (zeile) zeile.setAttribute('data-amk-sonder', ergebnis.sonderAfaAktiv ? 'ja' : 'nein');
   }
@@ -97,7 +112,9 @@
     steuerzahlen(dialog, ergebnis, eingaben);
     Object.keys(AUSGABEN).forEach(function (name) {
       var ziel = dialog.querySelector('[data-amk-ausgabe="' + name + '"]');
-      if (ziel) ziel.textContent = zahl(ergebnis[name], AUSGABEN[name][0]) + AUSGABEN[name][1];
+      // Ohne Zahl bleibt die Zeile ganz leer; eine nackte Einheit sieht aus wie ein Wert.
+      var text = zahl(ergebnis[name], AUSGABEN[name][0]);
+      if (ziel) ziel.textContent = text ? text + AUSGABEN[name][1] : '';
     });
   }
 

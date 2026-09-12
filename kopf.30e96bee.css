@@ -1,0 +1,287 @@
+/*
+ * Kopfleiste mit Kontakt und Ort (Plan h8-verkauf-2, Abschnitt 1).
+ *
+ * Gestaltet seite/vorlagen/teile/kopf.html. Eigene Datei mit eigenem Praefix, wie
+ * wohnungsrechner.css, formular.css und einwilligung.css es halten; stil.css wird nicht
+ * angefasst. Farbe, Schrift und Mass kommen als Kennwerte aus dem :root von stil.css,
+ * jeweils mit dem dortigen Wert als Rueckfall. Hier wird keine Farbe erfunden.
+ *
+ * UEBERNOMMEN, NICHT VERSCHOBEN. Die Regeln unter "Kopfleiste" stehen bis auf Weiteres in
+ * beiden Dateien. Solange grundgeruest.html dieses Blatt nicht laedt, traegt stil.css die
+ * Leiste allein; sobald es geladen wird, gewinnen die Regeln hier bei gleicher
+ * Spezifitaet, weil sie spaeter kommen. Ein Merkmal wiegt genau so viel wie eine Klasse.
+ * Deshalb setzt jede Regel hier JEDE Eigenschaft noch einmal, die drueben auf demselben
+ * Element steht, auch wenn der Wert gleich bleibt: eine ausgelassene Eigenschaft bliebe
+ * sonst aus stil.css stehen und faellt erst auf, wenn die Verdrahtung drueben aufraeumt.
+ *
+ * ZWEI REGELN VON DRUEBEN BLEIBEN DRUEBEN. `.h8-marke__zeichen` und `.h8-marke__wort`
+ * stehen zwar im Abschnitt "Kopfleiste" von stil.css, gehoeren aber auch der Fussleiste
+ * (teile/fuss.html nutzt dieselbe Bildmarke und dieselbe Wortmarke). Wer sie beim
+ * Aufraeumen entfernt, nimmt dem Fuss seine Marke. Hier steht nur, was das Zeichen IN DER
+ * LEISTE zusaetzlich braucht.
+ *
+ * DIE HOEHE IST EIN BUDGET, KEIN ERGEBNIS. Die Leiste klebt; was sie an Hoehe nimmt, nimmt
+ * sie dauerhaft. Zwei Zeilen unter 900 px: Marke mit Ort und der Knopf RECHNER oben, der
+ * Anruf-Knopf und die Ziele darunter. Der Ort kostet nichts, weil der Knopf RECHNER mit
+ * seinen 48 px die erste Zeile ohnehin hoeher macht als die zweizeilige Marke.
+ * Der Kennwert --h8-kopfhoehe lebt in stil.css und wird dort nachgezogen, nicht hier.
+ *
+ * DER ATTRIBUTVERTRAG. Jedes Merkmal des Markups steht hier, und hier steht keines, das das
+ * Markup nicht schreibt. seite/tests/kopf.test.js liest beide Dateien als Text und wird rot,
+ * sobald die Listen auseinanderlaufen. Kein Merkmal steht zugleich auf Behaelter und Inhalt.
+ *
+ *   [data-amn-leiste]     die klebende Leiste selbst
+ *   [data-amn-innen]      ihr Inhalt, auf Seitenbreite begrenzt, bricht unter 900 px um
+ *   [data-amn-marke]      der Verweis auf die Startseite: Bildmarke, Wortmarke, Ort
+ *   [data-amn-markentext] die Spalte aus Wortmarke und Ort
+ *   [data-amn-ort]        der Ort unter der Wortmarke, 12 px, auf jeder Breite
+ *   [data-amn-zeile]      die Zielzeile aus Anruf-Knopf und Zielen
+ *   [data-amn-anruf]      der Anruf-Knopf, 44 px, erstes Element der Zielzeile
+ *   [data-amn-zeichen]    das Telefonzeichen darin, aus dem Zeichensatz des Hauses
+ *   [data-amn-nav]        das Feld der Ziele; es laeuft quer, statt umzubrechen
+ *   [data-amn-liste]      die Liste der Ziele
+ *   [data-amn-ziel]       ein Ziel; sein Zustand haengt an aria-current, nicht an einer Klasse
+ *   [data-amn-knopf]      der Knopf RECHNER, immer in der ersten Zeile
+ */
+
+[data-amn-leiste] {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--h8-band, #ddd8ce);
+  border-bottom: 1px solid var(--h8-linie, #c9c4b8);
+}
+
+[data-amn-innen] {
+  max-width: calc(var(--h8-breite, 1120px) + 2 * var(--h8-rand, 16px));
+  margin-inline: auto;
+  padding: 2px var(--h8-rand, 16px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 16px;
+}
+
+/* Zeile eins links. Die Marke schiebt mit margin-right: auto alles Weitere nach rechts. */
+[data-amn-marke] {
+  order: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--h8-titelschrift, Merriweather, Georgia, serif);
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  margin-right: auto;
+  min-height: 44px;
+  padding: 6px 0;
+}
+/* Die Bildmarke erbt ueber currentColor die Textfarbe und schrumpft nie mit, sonst quetscht
+   sie die schmale Kopfzeile zusammen, bevor die Ziele umbrechen. */
+[data-amn-marke] svg {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+}
+[data-amn-markentext] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+  min-width: 0;
+}
+/* Der Ort steht unter der Wortmarke, auf jeder Breite. Klein und leise, und ausdruecklich
+   WEDER GESPERRT NOCH IN GROSSBUCHSTABEN: "Esslingen am Neckar" misst so 118 px und macht
+   die Marke 154 px breit. Mit 0,04 em Sperrung waren es 127 und 163 px, und damit fiel der
+   Knopf RECHNER bei 320 px in eine dritte Zeile; die Leiste stand auf 145 statt 99 px. In
+   Grossbuchstaben waere es noch weiter. Am 12.09.2026 im Browser gemessen. */
+[data-amn-ort] {
+  font-family: var(--h8-textschrift, Lato, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  /* Ausdruecklich zurueckgenommen, nicht weggelassen: die Marke darueber sperrt um 0,02 em,
+     und geerbt kostet das den Ort sechs weitere Pixel Breite. */
+  letter-spacing: normal;
+  white-space: nowrap;
+  color: var(--h8-leise, #5e5d56);
+}
+
+/* Zeile zwei. Unter 900 px eine eigene Zeile ueber die volle Breite: der Anruf-Knopf steht
+   fest an ihrem Anfang, die Ziele laufen daneben quer. Bei 320 px sind innen 288 px Platz,
+   und Marke (141), Abstand und Knopf RECHNER (110) belegen davon 267; ein Ziel von 44 px
+   passt daneben nicht mehr. Genau deshalb steht der Anruf-Knopf hier und nicht oben. */
+[data-amn-zeile] {
+  order: 3;
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0 12px;
+  /* Der Kern der Sache: ohne min-width: 0 waechst das Flex-Kind ueber seine Spalte hinaus,
+     und dann scrollt nicht die Zeile, sondern die ganze Seite seitlich. */
+  min-width: 0;
+}
+
+[data-amn-anruf] {
+  order: 1;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  color: var(--h8-leise, #5e5d56);
+  text-decoration: none;
+  transition: color var(--h8-uebergang, 0.4s cubic-bezier(0.25, 0.1, 0.25, 1));
+}
+[data-amn-anruf]:hover,
+[data-amn-anruf]:focus-visible {
+  color: var(--h8-text, #202221);
+}
+[data-amn-zeichen] {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+}
+
+/* Die Ziele brechen NICHT um, sie laufen quer und die Zeile scrollt: zwei Zeilen Ziele
+   kosteten 44 px an einer Leiste, die dauerhaft klebt. Der weiche Rand rechts sagt, dass es
+   weitergeht; ein hart abgeschnittenes Wort sieht nach Versehen aus. Das Feld zieht sich
+   dafuer bis an den rechten Bildschirmrand, links nicht: dort steht der Anruf-Knopf. */
+[data-amn-nav] {
+  order: 2;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-inline: 0 calc(-1 * var(--h8-rand, 16px));
+  padding-inline: 0 var(--h8-rand, 16px);
+  /* Die Maske liest nur den Alphakanal, die Farbe ist gleichgueltig. #fff statt #000, weil
+     stil.css diese Farbe kennt und #000 seit dem Aufraeumen der alten Kopfleiste nirgends
+     mehr steht; der Farbwaechter in kopf.test.js haelt jede Farbe an stil.css fest. */
+  -webkit-mask-image: linear-gradient(to right, #fff calc(100% - 28px), transparent);
+  mask-image: linear-gradient(to right, #fff calc(100% - 28px), transparent);
+}
+[data-amn-nav]::-webkit-scrollbar {
+  display: none;
+}
+[data-amn-liste] {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+[data-amn-ziel] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  min-height: 44px;
+  /* Auch in der Breite ein volles Tippziel: "Lage" misst als Wort 39 px (bei 320, 390 und
+     1280 px gemessen, Verdrahtung 12.09.2026); die vier anderen Ziele sind breiter als 44.
+     Zentriert, damit der Strich darunter weiter unter dem Wort waechst. */
+  min-width: 44px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--h8-leise, #5e5d56);
+  transition: color var(--h8-uebergang, 0.4s cubic-bezier(0.25, 0.1, 0.25, 1));
+}
+/* Der Strich waechst aus der Mitte, statt beim Ueberfahren zu erscheinen. Er liegt auf einem
+   ::after, damit die Zeile nicht springt. */
+[data-amn-ziel]::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9px;
+  height: 1px;
+  margin-inline: auto;
+  width: 0;
+  background: currentColor;
+  transition: width var(--h8-uebergang, 0.4s cubic-bezier(0.25, 0.1, 0.25, 1));
+}
+[data-amn-ziel]:hover,
+[data-amn-ziel]:focus-visible {
+  color: var(--h8-text, #202221);
+}
+[data-amn-ziel]:hover::after,
+[data-amn-ziel]:focus-visible::after {
+  width: 100%;
+}
+/* Das Thema, bei dem der Besucher gerade steht. Gesetzt von js/feinschliff.js, und zwar an
+   aria-current: dasselbe Skript ueberschreibt die Klassenliste des Ziels vollstaendig, ein
+   zweiter Klassenname ueberlebt dort also nicht. Ohne JavaScript bleibt die Zeile schlicht,
+   und niemandem fehlt etwas. */
+[data-amn-ziel][aria-current='true'] {
+  color: var(--h8-text, #202221);
+}
+[data-amn-ziel][aria-current='true']::after {
+  width: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-amn-ziel]::after {
+    transition: none;
+  }
+  [data-amn-ziel]:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Der Knopf traegt unter 900 px schmalere Polsterung als anderswo auf der Seite: 22 px
+   innen ergaben 121 px Breite, und Marke (154) plus Abstand (16) plus Knopf (121) sind 291
+   und damit drei Pixel mehr, als bei 320 px innen zur Verfuegung stehen. Mit 14 px misst er
+   105 px, die Zeile 275, und es bleiben 13 px Luft. Ab 900 px gilt wieder das Mass der
+   Seite. Am 12.09.2026 im Browser gemessen. */
+[data-amn-knopf] {
+  order: 2;
+  flex: 0 0 auto;
+  padding-inline: 14px;
+}
+
+/* Ab hier ist Platz: alles steht in einer Zeile, der Querlauf wird vollstaendig
+   zurueckgenommen. Sonst bliebe auf dem Schreibtisch ein weicher Rand an einer Zeile
+   stehen, die laengst passt, und der negative Rand verschoebe ihre Kante. */
+@media (min-width: 900px) {
+  [data-amn-innen] {
+    flex-wrap: nowrap;
+    padding-block: 6px;
+    gap: 8px 16px;
+  }
+  [data-amn-marke] {
+    order: 0;
+    margin-right: 28px;
+    font-size: 19px;
+    padding: 8px 0;
+  }
+  [data-amn-zeile] {
+    order: 0;
+    flex: 0 1 auto;
+    flex-basis: auto;
+    gap: 0 16px;
+    min-width: 0;
+  }
+  [data-amn-nav] {
+    order: 1;
+    flex: 0 1 auto;
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow-x: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  [data-amn-liste] {
+    gap: 22px;
+  }
+  [data-amn-anruf] {
+    order: 2;
+  }
+  [data-amn-knopf] {
+    order: 0;
+    padding-inline: 22px;
+  }
+}

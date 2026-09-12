@@ -101,6 +101,23 @@
   // Seit 12.09.2026 gesetzt (V11): Ereignistyp im Konto julian-neyer, Duplikat von W5.
   var TERMIN_URL = 'https://cal.com/julian-neyer/hainbach-h8';
 
+  // Das zinsguenstige KfW-Darlehen, der zweite Vorteil neben der Abschreibung (Broschuere
+  // Seite 11). Der Betrag je Wohnung wird daraus abgeleitet, nie je Eintrag getippt:
+  // min(maxJeEinheit, anteilVomKaufpreis * kaufpreis), auf 100 EUR gerundet.
+  // `anteilVomKaufpreis` ist am 12.09.2026 vom Inhaber auf 1,0 entschieden, gilt also fuer
+  // jede Wohnung. Die Wohnungsliste v12 deckelt die vier kleinsten Einheiten bei 0,6
+  // (112.800 bei 188.000); bestaetigt die Bank das, aendert sich hier eine Zahl und der
+  // Test fuer Wohnung 5 wird rot. Der Rechner bildet die KfW-Tranche im Cashflow weiterhin
+  // nicht ab, er zeigt nur den Zinsvorteil.
+  var FOERDERUNG = {
+    programm: 'KfW 298',
+    maxJeEinheit: 150000,
+    anteilVomKaufpreis: 1.0,
+    zinsEffektiv: 2.68,
+    tilgungsfreieJahre: 5,
+    stand: '2026-08-18'
+  };
+
   var CAL = {
     link: 'julian-neyer/hainbach-h8',
     raum: 'hainbach-h8',
@@ -116,7 +133,7 @@
     : '';
 
   // Wird von bauen.py durch acht Hexzeichen der SHA-256 ueber die Bausteine ersetzt.
-  var VERSION = 'ef394bb0';
+  var VERSION = '868b158d';
 
   // ---------------------------------------------------------------------------
   // K7 Steuer- und Rechenregeln Baden-Wuerttemberg. Jede Angabe am 09.09.2026 geprueft:
@@ -372,6 +389,7 @@
     RECHTSGRUNDLAGEN: RECHTSGRUNDLAGEN,
     MIETE_JE_M2_VORGABE: MIETE_JE_M2_VORGABE,
     ZINS_VORGABE: ZINS_VORGABE,
+    FOERDERUNG: FOERDERUNG,
     // Annahmesaetze: NUR Annahmen, nie Kaufpreis, Flaeche, Miete oder Grenzsteuersatz.
   // Redaktionell gesetzt. Auflagen und Begruendung: rechner/tests/konstanten-h8.test.js.
   SZENARIEN: [

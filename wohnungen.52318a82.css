@@ -1,0 +1,185 @@
+/*
+ * Das Wohnungsblatt: die waagrechte Leiste an der Wohnungskarte und der Weg zum Menschen
+ * je Wohnung (Plan h8-verkauf-2, Wohnungsblatt).
+ *
+ * Gestaltet die amw-Klassen in seite/vorlagen/teile/wohnungskarte.html. Eigene Datei mit
+ * eigenem Praefix, wie formular.css und einwilligung.css es mit am- halten und
+ * wohnungsrechner.css mit amk-. stil.css wird nicht angefasst; die dortigen h8-Regeln der
+ * Karte bleiben stehen, bis die Verdrahtung sie zieht. Farbe, Schrift und Mass kommen als
+ * Kennwerte aus dem :root von stil.css, jeweils mit dem dortigen Wert als Rueckfall. Hier
+ * wird keine Farbe erfunden.
+ *
+ * KEIN SKRIPT. Die Leiste rastet ueber scroll-snap ein, die Sprungreihe sind Verweise auf
+ * die Marken der Felder. Die Richtlinie der Seite laesst nur eigene Skripte zu, und ein
+ * Bildwechsler, der ohne JavaScript nichts zeigt, waere auf einer Verkaufsseite die falsche
+ * Abhaengigkeit. Ein Verweis bekommt ausserdem Fokus, ein gezeichneter Punkt nicht.
+ *
+ * MOBIL ZUERST. Ein Feld ist immer genau so breit wie die Karte. Es gibt keine zweite
+ * Anordnung ab einer Breite: die Karte selbst wird ab 640 px schmaler, nicht ihr Bild.
+ *
+ * DER KLASSENVERTRAG. Jede Klasse des Markups steht hier, und hier steht keine, die das
+ * Markup nicht schreibt. seite/tests/wohnungskarte.test.js liest beide Dateien als Text und
+ * wird rot, sobald die Listen auseinanderlaufen. Keine Klasse steht zugleich auf Behaelter
+ * und Inhalt; genau das hat auf dieser Seite am 11.09.2026 dreimal Schaden angerichtet.
+ *
+ *   .amw-blatt       die Huelle des Blattes, ohne eigene Bewegung
+ *   .amw-leiste      die Leiste selbst, das <ul>, und nur sie scrollt
+ *   .amw-feld        ein Feld darin, volle Breite der Karte, Rastpunkt und Sprungziel
+ *   .amw-bild        ein Foto im Feld, formatfuellend beschnitten
+ *   .amw-riss        das Grundrissblatt im Feld, vollstaendig sichtbar statt beschnitten
+ *   .amw-hinweis     die Zeile unter dem Feldinhalt: Kennzeichnung, Grenzen, Stand
+ *   .amw-tafel       die Raumaufteilung als Tabelle
+ *   .amw-tafelkopf   ihre Ueberschrift mit der Summe
+ *   .amw-sprungreihe die Reihe der Feldziele, nur bei mehr als einem Feld vorhanden
+ *   .amw-sprung      ein Ziel daraus, zugleich die Anzeige der Stellung
+ *   .amw-ziele       die Reihe der Ziele unter den Kennzahlen
+ *   .amw-anfrage     die Anfrage zu genau dieser Wohnung, Betreff kommt aus dem Bau
+ *   .amw-anruf       der Anruf beim ersten Ansprechpartner
+ *   .amw-termin      der Termin, nur vorhanden, solange eine Adresse vorliegt
+ *
+ * WARUM KEINE GEZEICHNETEN PUNKTE. Ein ::before je Feld kann die Zahl der Felder zeigen,
+ * aber weder Fokus noch Klick annehmen, und welches Feld gerade steht, weiss es ohne Skript
+ * ohnehin nicht. Die Sprungreihe leistet beides mit einem Element je Feld. Sie haengt an
+ * `blattMehrfach` und ist bei einem einzigen Feld nicht da, statt nur unsichtbar zu sein.
+ */
+
+/* Die Leiste ---------------------------------------------------------------- */
+
+.amw-blatt { position: relative; }
+
+.amw-leiste {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* Der Seitenlauf endet an der Karte. Ohne diese Zeile nimmt der Browser das Wischen am
+     Ende der Leiste und schiebt die ganze Seite weiter. */
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+
+.amw-feld {
+  /* Genau eine Kartenbreite, nie schmaler, nie breiter. min-width: 0 gehoert dazu: ein
+     Flex-Kind waechst sonst ueber seine Spalte hinaus, und dann scrollt nicht die Leiste,
+     sondern die Seite (am 12.09.2026 an der Kopfleiste genau so passiert). */
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.amw-bild {
+  display: block;
+  width: 100%;
+  /* Die Visualisierungen liegen in 960 x 640 vor. Das feste Verhaeltnis haelt alle Felder
+     gleich hoch, auch wenn ein spaeteres Motiv anders geschnitten ist, und es reserviert
+     die Hoehe vor dem Laden. Deshalb tragen die Bilder KEINE Maszahlen im Markup: die
+     kaemen dort aus der Wohnung und waeren beim zweiten Motiv still falsch. */
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
+}
+
+.amw-riss {
+  display: block;
+  width: 100%;
+  /* Dasselbe Feldmass, aber NICHT beschnitten: ein angeschnittener Grundriss ist ein
+     falscher Grundriss. Das Blatt ist quadratisch und steht deshalb mit Luft links und
+     rechts im Feld. */
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+  background: var(--h8-karte, #fbfaf7);
+}
+
+.amw-hinweis {
+  /* Gleichlautend mit .h8-karte__bildhinweis in stil.css: die Kennzeichnung nach Artikel 50
+     KI-VO darf beim Zug dieser Regeln nach hier nicht ihr Aussehen wechseln. 12 px ist die
+     Untergrenze des Hauses, und genau dieser Satz muss lesbar sein. */
+  margin: 6px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--h8-leise, #5e5d56);
+}
+
+/* Die Raumaufteilung -------------------------------------------------------- */
+
+.amw-tafel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.amw-tafelkopf {
+  margin-bottom: 6px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.amw-tafel th {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--h8-linie, #c9c4b8);
+  text-align: left;
+  font-weight: 400;
+}
+
+.amw-tafel td {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--h8-linie, #c9c4b8);
+  text-align: right;
+}
+
+/* Die Sprungreihe ----------------------------------------------------------- */
+
+.amw-sprungreihe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 0;
+}
+
+.amw-sprung {
+  /* Daumenmass, kein Zierpunkt: diese Ziele werden angetippt. Bei acht Feldern bricht die
+     Reihe um, statt die Karte aufzuschieben. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--h8-linie, #c9c4b8);
+  border-radius: 50%;
+  background: var(--h8-karte, #fbfaf7);
+  color: var(--h8-text, #202221);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+
+.amw-sprung:hover,
+.amw-sprung:focus-visible { border-color: var(--h8-text, #202221); }
+
+/* Der Weg zum Menschen ------------------------------------------------------ */
+
+.amw-ziele {
+  /* Gleichlautend mit .h8-knopfreihe. Der Umbruch ist hier keine Feinheit: fuenf Ziele
+     passen bei 320 px nicht in eine Zeile, und ohne Umbruch schiebt die Reihe die Karte
+     auf. */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 24px 0 0;
+}
+
+.amw-anfrage,
+.amw-anruf,
+.amw-termin {
+  /* Daumenmass. .h8-knopf bringt heute 48 px mit; die Zusage steht trotzdem hier, damit sie
+     den Zug der h8-Regeln aus stil.css ueberlebt. */
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

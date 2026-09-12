@@ -1,0 +1,153 @@
+/*
+ * Lage: Karte, Ortsliste, Stichpunkte (Plan h8-verkauf-2, Arbeitspaket Lage).
+ *
+ * Gestaltet seite/vorlagen/teile/lage.html. Eigene Datei mit eigenem Praefix, wie
+ * formular.css und einwilligung.css es mit am- halten und wohnungsrechner.css mit amk-;
+ * stil.css wird nicht angefasst. Das Praefix aml- gehoert diesem Abschnitt allein.
+ *
+ * HIER WIRD KEINE FARBE ERFUNDEN. Jeder Farbwert ist ein Kennwert aus dem :root von
+ * stil.css, jeweils mit dem dortigen Wert als Rueckfall. seite/tests/lage.test.js liest
+ * beide Dateien als Text und wird rot, sobald ein Wert auftaucht, den stil.css nicht kennt.
+ *
+ * MOBIL ZUERST. Die Ortsliste steht bis 619 px in einer Spalte und ab 620 px in zwei. Zwei
+ * Spalten unter 620 px liessen die langen Namen ("Bushaltestelle Oberesslingen
+ * Herderstrasse") in drei Zeilen umbrechen, und die Zeile waere hoeher als zwei einspaltige.
+ * Mehrspaltig, nicht Raster: so bleiben die vier Gruppen senkrecht beieinander, statt sich
+ * zeilenweise ueber beide Spalten zu verteilen.
+ *
+ * DER KLASSENVERTRAG. Jede Klasse des Markups steht hier, und hier steht keine, die das
+ * Markup nicht schreibt. Keine Klasse steht zugleich auf Behaelter, Eintrag und Inhalt.
+ *
+ *   .aml-stichpunkte     die vier Stichpunkte ueber der Karte, auf .h8-liste aufgesetzt
+ *   .aml-karte           die Abbildung als Ganzes, Bild und Quellenangabe
+ *   .aml-karte__bild     das Kartenbild selbst
+ *   .aml-karte__quelle   die Quellenangabe darunter, als Text und nicht im Bild
+ *   .aml-orte            die Ortsliste, zugleich der Zaehler der Kennbuchstaben
+ *   .aml-ort             ein Ort als Ganzes
+ *   .aml-ort__name       sein Name
+ *   .aml-ort__gruppe     seine Gruppe, klein und leise unter dem Namen
+ *   .aml-ort__weite      seine Entfernung, rechts, mit gleich breiten Ziffern
+ *
+ * DER KENNBUCHSTABE IST EIN ZAEHLER, kein Wert in den Daten. Die Karte vergibt A fuer den
+ * ersten Ort in lageOrte, B fuer den zweiten; hier zaehlt counter(aml-ort, upper-alpha) ueber
+ * dieselbe Liste in derselben Reihenfolge. Wer die Reihenfolge in den Daten aendert, aendert
+ * beide Seiten zugleich. Ein getippter Buchstabe waere die Stelle, an der Bild und Liste
+ * auseinanderlaufen, ohne dass es jemand sieht.
+ *
+ * DIE FARBE HAENGT AM MERKMAL data-aml-gruppe, nie an einer zweiten Klasse. Fuellung und
+ * Tinte stehen paarweise, weil Salbei und Gelb eine dunkle Schrift brauchen und Gruen und
+ * Rot eine helle. scripts/h8-lagekarte-erzeugen.py nennt fuer dieselbe Gruppe dieselben
+ * zwei Kennwerte; der Test vergleicht beide Listen.
+ */
+
+/* Stichpunkte -------------------------------------------------------------- */
+
+.aml-stichpunkte { margin-bottom: 24px; }
+
+/* Karte -------------------------------------------------------------------- */
+
+.aml-karte { margin: 0 0 28px; }
+
+.aml-karte__bild {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--h8-linie, #c9c4b8);
+  border-radius: 10px;
+}
+
+.aml-karte__quelle {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--h8-leise, #5e5d56);
+}
+
+/* Ortsliste ---------------------------------------------------------------- */
+
+.aml-orte {
+  columns: 1;
+  column-gap: 40px;
+  counter-reset: aml-ort;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 620px) {
+  .aml-orte { columns: 2; }
+}
+
+.aml-ort {
+  /* Rueckfall fuer eine Gruppe, die es noch nicht gibt: ein leiser Kreis, sichtbar und
+     erkennbar keiner der vier Farben. Ohne ihn bliebe der Buchstabe unsichtbar. */
+  --aml-fuellung: var(--h8-leise, #5e5d56);
+  --aml-tinte: var(--h8-karte, #fbfaf7);
+  counter-increment: aml-ort;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    'marke name weite'
+    'marke gruppe weite';
+  align-items: center;
+  column-gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--h8-linie, #c9c4b8);
+  /* Ohne diese Zeile reisst die Mehrspaltigkeit einen Ort zwischen Name und Gruppe
+     auseinander und setzt die zweite Haelfte oben in die naechste Spalte. */
+  break-inside: avoid;
+}
+
+/* Der Kennbuchstabe. Derselbe Kreis wie auf der Karte, in derselben Farbe. */
+.aml-ort::before {
+  content: counter(aml-ort, upper-alpha);
+  grid-area: marke;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--aml-fuellung);
+  color: var(--aml-tinte);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.aml-ort__name { grid-area: name; }
+
+.aml-ort__gruppe {
+  grid-area: gruppe;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--h8-leise, #5e5d56);
+  text-transform: capitalize;
+}
+
+.aml-ort__weite {
+  grid-area: weite;
+  align-self: center;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Die vier Gruppen. Dieselben Kennwerte, die das Kartenskript aus stil.css liest. */
+.aml-ort[data-aml-gruppe='verkehr'] {
+  --aml-fuellung: var(--h8-akzent, #7c8b7d);
+  --aml-tinte: var(--h8-text, #202221);
+}
+
+.aml-ort[data-aml-gruppe='versorgung'] {
+  --aml-fuellung: var(--h8-gruen, #1e7a44);
+  --aml-tinte: var(--h8-karte, #fbfaf7);
+}
+
+.aml-ort[data-aml-gruppe='bildung'] {
+  --aml-fuellung: var(--h8-gelb, #d29b12);
+  --aml-tinte: var(--h8-text, #202221);
+}
+
+.aml-ort[data-aml-gruppe='freizeit'] {
+  --aml-fuellung: var(--h8-rot, #b3261e);
+  --aml-tinte: var(--h8-karte, #fbfaf7);
+}

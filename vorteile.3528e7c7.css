@@ -1,0 +1,155 @@
+/*
+ * Der Vorteile-Block der Startseite (Plan h8-verkauf-2, Arbeitspaket 2).
+ *
+ * Gestaltet seite/vorlagen/teile/vorteile.html. Eigene Datei mit eigenem Praefix `amv`, wie
+ * wohnungsrechner.css es mit `amk` haelt und formular.css mit `am`; stil.css wird hier nicht
+ * angefasst. Farbe, Schrift und Mass kommen als Kennwerte aus dem :root von stil.css, jeweils
+ * mit dem dortigen Wert als Rueckfall. Hier wird keine Farbe erfunden.
+ *
+ * MOBIL ZUERST. Unter 700 px stehen die beiden Spalten untereinander, das Darlehen zuerst,
+ * weil ein Betrag konkreter liest als ein Prozentsatz; so steht es auch im Quelltext. Ab
+ * 700 px stehen sie nebeneinander, und erst dort dreht `order` die Sichtreihenfolge auf die
+ * Anordnung der Broschuere: Abschreibung links, Darlehen rechts. Zwei Textbloecke ohne
+ * Bedienelemente, deshalb kostet der Tausch keine Tastaturreihenfolge.
+ *
+ * DER KLASSENVERTRAG. Jede Klasse des Markups steht hier, und hier steht keine, die das
+ * Markup nicht schreibt. seite/tests/vorteile.test.js liest beide Dateien als Text und wird
+ * rot, sobald die Listen auseinanderlaufen. Keine Klasse steht zugleich auf Behaelter und
+ * Kind; genau das hat auf dieser Seite am 11.09.2026 dreimal Schaden angerichtet.
+ *
+ *   .amv              die <section> des Blocks, traegt das Mass seines Rhythmus
+ *   .amv__spalten     der Behaelter der beiden Spalten
+ *   .amv__spalte      eine Spalte als Ganzes, auf Kartengrund mit Kante
+ *   .amv__titel       ihre Ueberschrift
+ *   .amv__punkte      die Liste der drei Punkte darin
+ *   .amv__hinweis     der Satz unter den Punkten
+ *   .amv__quelle      die Quellenangabe, nur in der Spalte des Darlehens
+ *   .amv__aufklapper  das <details> mit Bedingungen und Pflichttext
+ *   .amv__schalter    sein <summary>, zugleich Klappziel, mindestens 44 px hoch
+ *
+ * ZUSTAENDE HAENGEN AN MERKMALEN, nie an einer zweiten Klasse. Es gibt genau zwei:
+ *
+ *   [data-amv-spalte] benennt die Spalte (`kfw`, `afa`). Nur die Regel fuer die Anordnung
+ *                     ab 700 px liest es; die Gestalt beider Spalten ist dieselbe.
+ *   [open]            setzt der Browser am <details>. Ohne Skript, ohne Klasse.
+ *
+ * Die Ueberschrift der Bedingungen, ihre Prueftabelle, die Fussnote und die Knoepfe tragen
+ * Klassen aus stil.css und werden dort gestaltet. Diese Datei fasst keine davon an.
+ */
+
+.amv {
+  /* Ein Mass fuer den Abstand zwischen den Teilen dieses Blocks, damit er an einer Stelle
+     steht und nicht in vier Regeln driftet. Dieselbe Absicht wie --h8-luft, nur eine
+     Ebene tiefer: --h8-luft trennt Abschnitte, dieser Wert trennt ihren Inhalt. */
+  --amv-luft: 22px;
+}
+
+/* Die beiden Spalten ------------------------------------------------------- */
+
+.amv__spalten {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin-top: var(--amv-luft);
+}
+
+.amv__spalte {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 18px;
+  border: 1px solid var(--h8-linie, #c9c4b8);
+  background: var(--h8-karte, #fbfaf7);
+}
+
+.amv__titel {
+  margin: 0;
+  font-size: 21px;
+}
+
+/* Drei Punkte, jeder mit einer Kante in Salbei statt einer Aufzaehlungsmarke: dieselbe Form
+   wie .h8-liste--merkmale im Energieabschnitt, damit die Seite eine Sprache spricht. */
+.amv__punkte {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.amv__punkte li {
+  padding-left: 16px;
+  border-left: 4px solid var(--h8-akzent, #7c8b7d);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.amv__hinweis {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Die Quelle steht leiser als der Hinweis und traegt Programm und Stand. Sie gehoert zur
+   Zahl darueber: eine Foerderzusage ohne Datum ist eine Behauptung. */
+.amv__quelle {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--h8-leise, #5e5d56);
+}
+
+@media (min-width: 700px) {
+  .amv__spalten {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+  }
+  /* Erst hier, wo beide Spalten zugleich sichtbar sind, gilt die Anordnung der Broschuere.
+     Auf dem Telefon bliebe sie wirkungslos und wuerde nur die Lesereihenfolge verdrehen. */
+  .amv__spalte[data-amv-spalte='afa'] { order: 1; }
+  .amv__spalte[data-amv-spalte='kfw'] { order: 2; }
+}
+
+/* Der Aufklapper ----------------------------------------------------------- */
+
+/* Die acht Bedingungen und der Pflichttext stehen vollstaendig auf der Seite, aber nicht im
+   Weg: zugeklappt sind sie eine Zeile, aufgeklappt eine Prueftabelle. Ein <details> kann das
+   ohne JavaScript, und die Richtlinie der Seite laesst ohnehin kein eingebettetes Skript zu.
+   Faellt jedes Skript aus, bleibt der Schalter bedienbar. */
+.amv__aufklapper {
+  margin-top: var(--amv-luft);
+  border-top: 1px solid var(--h8-linie, #c9c4b8);
+  border-bottom: 1px solid var(--h8-linie, #c9c4b8);
+}
+.amv__aufklapper[open] {
+  padding-bottom: 18px;
+}
+
+/* Mindestens 44 px hoch: darunter trifft den Schalter auf dem Telefon niemand. */
+.amv__schalter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 14px 0;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.amv__schalter::-webkit-details-marker { display: none; }
+/* Das Zeichen sitzt VOR der Zeile und dreht sich beim Aufklappen. Es haengt am Zustand des
+   Elements, nicht an einer zweiten Klasse, die jemand zu setzen vergisst. */
+.amv__schalter::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--h8-leise, #5e5d56);
+  border-bottom: 2px solid var(--h8-leise, #5e5d56);
+  transform: rotate(-45deg);
+  transition: transform 0.2s var(--h8-schwung, cubic-bezier(0.23, 1, 0.32, 1));
+}
+.amv__aufklapper[open] .amv__schalter::before { transform: rotate(45deg); }
+@media (prefers-reduced-motion: reduce) {
+  .amv__schalter::before { transition: none; }
+}

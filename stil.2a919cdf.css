@@ -3,7 +3,7 @@
    MOBIL ZUERST. Jede Regel gilt zunaechst fuer das schmale Geraet; breitere Bildschirme
    bekommen ihre Abweichung in einer min-width-Abfrage. Der Seitenrand ist an keiner Breite
    kleiner als 16 px: er sitzt einmal als padding-inline auf den drei Behaeltern
-   .h8-kopf__innen, .h8-abschnitt und .h8-fuss__innen, und nirgends sonst.
+   [data-amn-innen] (kopf.css), .h8-abschnitt und .h8-fuss__innen, und nirgends sonst.
 
    PALETTE UND MASSE folgen rechner/rechner.css, damit der eingebettete Rechnerblock auf
    /rechner/ nicht wie ein Fremdkoerper wirkt: Grund #efebe2, Karte #fbfaf7, Text #202221,
@@ -28,13 +28,18 @@
      Bausteine  .h8-knopf, .h8-knopf--primaer, .h8-knopfreihe
                 .h8-liste, .h8-liste--merkmale, .h8-fussnote, .h8-bild, .h8-grosszahl
      Abschnitte .h8-hero (1), .h8-kennzahlen + .h8-kennzahl (2 und 9), .h8-ampel (3 und 5),
-                .h8-karten + .h8-karte (5), .h8-zeitleiste (8), .h8-personen + .h8-person (10)
+                .h8-karten + .h8-karte (5), .h8-zeitleiste (8), .h8-personen (9)
      Tabelle    .h8-tabelle in .h8-tabelle__rahmen (laeuft quer, nie die Seite)
 
    Formular und Einwilligungsbanner haben ihren eigenen Stil (Arbeitspakete 7 und 5), und
    seit dem 11.09.2026 auch der Rechner an der Wohnungskarte: `wohnungsrechner.css` mit dem
-   Praefix `amk-`, eigener Klassenvertrag in ihrem Kopf. Diese Datei hier weiss nichts davon
-   und soll es nicht: drei Oberflaechen mit eigenem Stil sind drei Vertraege, nicht einer.
+   Praefix `amk-`, eigener Klassenvertrag in ihrem Kopf. Seit dem 12.09.2026 (Plan
+   h8-verkauf-2) kommen sechs weitere dazu, je Datei ein Praefix und ein Vertrag im Kopf:
+   kopf.css (amn, die Kopfleiste), vorteile.css (amv), lage.css (aml), wohnungen.css (amw,
+   das Blatt an der Wohnungskarte), ansprechpartner.css (amp) und held.css (amb, die
+   Bildbuehne). Diese Datei hier weiss nichts davon und soll es nicht: jede Oberflaeche mit
+   eigenem Stil ist ein eigener Vertrag. Was hier stand und dort ersetzt wurde (die
+   Kopfleiste, die Personenliste), ist entfernt, nicht auskommentiert.
 
    NACHGETRAGEN am 10.09.2026, Feinschliff nach dem Vorbild von amanthos.com. Der Vertrag
    sagt "wer eine weitere braucht, sagt es"; hier ist es gesagt:
@@ -53,11 +58,10 @@
      .h8-marke__zeichen    die Bildmarke, eingebettet aus teile/marke.html; sie erbt ueber
                            currentColor die Textfarbe und steht auf Sand wie auf Tinte
      .h8-marke__wort       die Wortmarke daneben, bricht nie um
-     .h8-person__bild      das quadratische Bildnis in der Kontaktkarte
-     .h8-person__angaben   die Textspalte daneben (min-width: 0, sonst sprengt eine lange
-                           Adresse die Karte, statt in ihr umzubrechen)
-     .h8-kopf__ziel--hier  das Thema, bei dem der Besucher gerade steht; gesetzt von
-                           js/feinschliff.js. Ohne JavaScript bleibt die Zeile schlicht.
+     .h8-kopf__ziel        kein Stil mehr, nur der Haken, an dem js/feinschliff.js die
+                           Ziele der Leiste findet; das Skript setzt daneben aria-current,
+                           und daran haengt kopf.css den Zustand. Ohne JavaScript bleibt
+                           die Zeile schlicht.
 
    Die Gliederung der Themen laeuft ueber die schon vorgesehene Huelle: .h8-band um jeden
    zweiten .h8-abschnitt. Kein neuer Name, nur der vorhandene endlich benutzt.
@@ -76,7 +80,6 @@
 
      .am-zeichen-set       die unsichtbare Huelle des Zeichensatzes aus teile/zeichen.html
      .h8-kennzahl__zeichen das Zeichen der Kachel, in Salbei
-     .h8-person__zeichen   Hoerer und Umschlag in der Kontaktkarte
 
    NACHGETRAGEN am 11.09.2026, fuenfte Runde:
 
@@ -145,10 +148,13 @@
 
   --h8-breite: 1120px;
   --h8-rand: 16px;
-  /* Die tatsaechliche Hoehe der festen Kopfzeile, am 11.09.2026 gemessen. Sie treibt zwei
-     Dinge: den Abstand beim Anspringen (sonst verschwindet die Ueberschrift dahinter) und die
-     Hoehe des Helden. Auf dem Telefon bricht die Navigation auf drei Zeilen um, deshalb je
-     Breite ein eigener Wert. Wer die Navigation aendert, misst hier nach. */
+  /* Die tatsaechliche Hoehe der festen Kopfzeile, gemessen. Sie treibt zwei Dinge: den
+     Abstand beim Anspringen (sonst verschwindet die Ueberschrift dahinter) und die Hoehe
+     des Helden. Unter 900 px zwei Zeilen (Marke mit Ort und RECHNER, darunter Anruf-Knopf
+     und Ziele), ab 900 px eine. Wer die Leiste aendert, misst hier nach; die Regeln der
+     Leiste stehen in kopf.css. 99 px am 12.09.2026 bei 320 und 390 px gemessen; die zweite
+     Markenzeile (Ort) kostet dort nichts, weil der Knopf RECHNER die erste Zeile ohnehin
+     hoeher macht als die zweizeilige Marke. */
   --h8-kopfhoehe: 99px;
 
   /* Luft, Bewegung und Tiefe. Drei Kennwerte statt verstreuter Zahlen, damit der
@@ -174,7 +180,9 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-@media (min-width: 900px) { :root { --h8-kopfhoehe: 63px; } }
+/* Ab 900 px 66 statt 63 px: die Zeile "Esslingen am Neckar" unter der Wortmarke kostet auf
+   dem Schreibtisch drei Pixel (am 12.09.2026 bei 1280 px gemessen). */
+@media (min-width: 900px) { :root { --h8-kopfhoehe: 66px; } }
 
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
@@ -241,131 +249,20 @@ p:last-child { margin-bottom: 0; }
   top: 8px;
 }
 
-/* Kopfleiste --------------------------------------------------------------- */
+/* Marke, in Kopf und Fuss ----------------------------------------------------- */
 
-.h8-kopf {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--h8-band);
-  border-bottom: 1px solid var(--h8-linie);
-}
-.h8-kopf__innen {
-  max-width: calc(var(--h8-breite) + 2 * var(--h8-rand));
-  margin-inline: auto;
-  /* Knapp, weil die Leiste klebt: was sie an Hoehe nimmt, nimmt sie dauerhaft. Auf einem
-     640 px hohen Telefon waren es mit zwei Zeilen Zielen 169 px, also 26 Prozent des
-     Bildschirms; jetzt sind es 99 px. Am 12.09.2026 gemessen. */
-  padding: 2px var(--h8-rand);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0 16px;
-}
-.h8-kopf__marke {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--h8-titelschrift);
-  font-size: 17px;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-  /* Wortmarke und Knopf liegen in der ersten Zeile, die Ziele darunter. */
-  margin-right: auto;
-  min-height: 44px;
-  padding: 6px 0;
-}
-/* Die Bildmarke erbt ueber currentColor die Textfarbe und steht deshalb ohne zweite
+/* Die Kopfleiste selbst wohnt seit dem Plan h8-verkauf-2 in kopf.css und haengt an
+   data-amn-Merkmalen; die frueheren `.h8-kopf__*`-Regeln sind am 12.09.2026 von hier
+   entfernt, nachdem grundgeruest.html das neue Blatt laedt. Zwei Klassen der Leiste bleiben
+   in dieser Datei, weil sie nicht nur der Leiste gehoeren: `.h8-kopf` steht weiter am
+   <header> fuer die Druckregel unten, und `.h8-kopf__ziel` ist der Haken, an dem
+   js/feinschliff.js die Ziele findet; gestaltet wird beides nicht mehr hier.
+   Die Bildmarke erbt ueber currentColor die Textfarbe und steht deshalb ohne zweite
    Fassung auf Sand wie auf Tinte. Sie schrumpft nie mit: flex-shrink 0, sonst quetscht
-   sie die schmale Kopfzeile zusammen, bevor die Ziele umbrechen. */
+   sie die schmale Kopfzeile zusammen, bevor die Ziele umbrechen. Die Fussleiste nutzt
+   dieselbe Bild- und Wortmarke (teile/fuss.html). */
 .h8-marke__zeichen { flex: 0 0 auto; width: 26px; height: 26px; }
 .h8-marke__wort { white-space: nowrap; }
-.h8-kopf__nav {
-  /* Auf dem Handy eine eigene Zeile ueber die volle Breite. Die Ziele brechen NICHT mehr um,
-     sie laufen quer und die Zeile scrollt: zwei Zeilen Ziele kosteten 44 px an einer Leiste,
-     die dauerhaft klebt. `min-width: 0` ist der Kern der Sache, ohne das waechst das
-     Flex-Kind ueber seine Spalte hinaus und die ganze Seite scrollt seitlich.
-     Der weiche Rand rechts sagt, dass es weitergeht; ein hart abgeschnittenes Wort sieht
-     nach Versehen aus. Die Leiste zieht sich dafuer bis an den Bildschirmrand. */
-  order: 3;
-  flex-basis: 100%;
-  min-width: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-  margin-inline: calc(-1 * var(--h8-rand));
-  padding-inline: var(--h8-rand);
-  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
-  mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
-}
-.h8-kopf__nav::-webkit-scrollbar { display: none; }
-.h8-kopf__liste {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0 18px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.h8-kopf__ziel {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-  min-height: 44px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--h8-leise);
-  transition: color var(--h8-uebergang);
-}
-/* Der Strich waechst aus der Mitte, statt beim Ueberfahren zu erscheinen. Ein
-   Unterstrich, der schlagartig da ist, wirkt wie ein Fehler; einer, der waechst, wie
-   eine Antwort. Er liegt auf einem ::after, damit die Zeile nicht springt. */
-.h8-kopf__ziel::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 9px;
-  height: 1px;
-  margin-inline: auto;
-  width: 0;
-  background: currentColor;
-  transition: width var(--h8-uebergang);
-}
-.h8-kopf__ziel:hover,
-.h8-kopf__ziel:focus-visible { color: var(--h8-text); }
-.h8-kopf__ziel:hover::after,
-.h8-kopf__ziel:focus-visible::after { width: 100%; }
-/* Das Thema, bei dem der Besucher gerade steht. Setzt js/feinschliff.js; ohne JavaScript
-   bleibt die Zeile schlicht, und niemandem fehlt etwas. */
-.h8-kopf__ziel--hier { color: var(--h8-text); }
-.h8-kopf__ziel--hier::after { width: 100%; }
-@media (prefers-reduced-motion: reduce) {
-  .h8-kopf__ziel::after { transition: none; }
-  .h8-kopf__ziel:hover { text-decoration: underline; }
-}
-.h8-kopf__knopf { flex: 0 0 auto; }
-
-@media (min-width: 900px) {
-  .h8-kopf__innen { flex-wrap: nowrap; padding-block: 6px; gap: 8px 16px; }
-  .h8-kopf__marke { margin-right: 28px; font-size: 19px; padding: 8px 0; }
-  /* Ab hier ist Platz: die Ziele stehen wieder neben der Wortmarke, ohne Querlauf und
-     ohne weichen Rand. */
-  .h8-kopf__nav {
-    order: 0;
-    flex-basis: auto;
-    margin-right: auto;
-    margin-inline: 0;
-    padding-inline: 0;
-    overflow-x: visible;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-  .h8-kopf__liste { flex-wrap: nowrap; gap: 22px; }
-}
 
 /* Abschnitte --------------------------------------------------------------- */
 
@@ -913,6 +810,13 @@ p:last-child { margin-bottom: 0; }
 
 /* Ansprechpartner (Abschnitt 10) ------------------------------------------- */
 
+/* Die Personenliste mit Bildnis, Rolle und Wegen ist seit dem Plan h8-verkauf-2 der
+   Streifen `.amp` aus ansprechpartner.css und steht zweimal im Einseiter. Die sieben
+   `.h8-person*`-Regeln, die bis zum 12.09.2026 hier standen, hatten danach kein Markup
+   mehr und sind entfernt; die Zusicherungen (44 px je Weg, Umbruch zwischen Zeichen und
+   Nummer, nie mitten in der Ziffernfolge) leben in ansprechpartner.css weiter und werden in
+   mobil-stil.test.js dort geprueft. `.h8-personen` bleibt: der Vertrauensabschnitt setzt
+   seine Kacheln mit derselben Liste. */
 .h8-personen {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -922,79 +826,6 @@ p:last-child { margin-bottom: 0; }
   list-style: none;
 }
 @media (min-width: 700px) { .h8-personen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.h8-person {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 18px 16px;
-  border: 1px solid var(--h8-linie);
-  background: var(--h8-karte);
-}
-/* Das Bildnis quadratisch und mit Haarlinie, nicht rund. Runde Bildnisse gehoeren zu
-   Profilen, eckige zu Personen in einem Dokument; die ganze Seite kennt keinen Radius.
-   Die Aufnahmen stehen auf Weiss, die Karte auf gebrochenem Weiss: ohne die Linie
-   schwaemme der Kopf in der Karte. */
-.h8-person__bild {
-  flex: 0 0 auto;
-  width: 88px;
-  height: 88px;
-  object-fit: cover;
-  object-position: 50% 18%;
-  border: 1px solid var(--h8-linie);
-  background: #fff;
-  filter: grayscale(0.18);
-  transition: filter var(--h8-uebergang);
-}
-@media (hover: hover) {
-  .h8-person:hover .h8-person__bild { filter: grayscale(0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .h8-person__bild { transition: none; }
-}
-/* min-width: 0 bricht die Vorgabe `auto` eines Flex-Kindes auf. Ohne sie kann eine lange
-   Adresse die Karte breiter machen, statt in ihr umzubrechen. */
-.h8-person__angaben { min-width: 0; }
-/* Name, Rolle und die beiden Zeilen sind im Markup span und a, also von Haus aus inline.
-   Vertikale Abstaende greifen an einem inline-Element nicht, und ein Umbruch entsteht auch
-   nicht: die vier Angaben liefen in einer einzigen Zeile zusammen. Auf dem Telefon brach die
-   Telefonnummer mitten in der Ziffernfolge um, ihre letzten beiden Ziffern standen dadurch
-   vor der Adresse, und es las sich als "75julian.neyer@amanthos.com", also als eine Adresse,
-   die es nicht gibt. Am 10.09.2026 auf dem Telefon gemessen. */
-.h8-person__name,
-.h8-person__rolle,
-.h8-person__zeile { display: block; }
-.h8-person__name { margin: 0 0 2px; font-size: 19px; }
-.h8-person__rolle { margin: 0 0 10px; font-size: 14px; color: var(--h8-leise); }
-/* VERWEISE OHNE DAUERHAFTEN UNTERSTRICH, aber nie ohne Signal. Die Seite setzt
-   `color: inherit`, ein Verweis traegt also KEINE Farbe; nimmt man ihm den Unterstrich
-   ersatzlos, ist er von gewoehnlichem Text nicht mehr zu unterscheiden. Hier uebernimmt das
-   Zeichen diese Aufgabe, dazu Unterstrich bei Ueberfahren und Tastaturfokus. Vier
-   unterstrichene Zeilen in zwei kleinen Karten waren zu viel; am 11.09.2026 gemeldet. */
-.h8-person__zeile {
-  display: flex;
-  align-items: center;
-  /* Umbruch erlaubt: eine Telefonnummer misst 162 px und sprengte auf einem 320 px breiten
-     Telefon die Seite um 3 px nach rechts. 44 px Mindesthoehe, weil das ein eigenstaendiges
-     Tippziel ist und kein Verweis im Satz. */
-  flex-wrap: wrap;
-  gap: 8px;
-  min-height: 44px;
-  margin: 0 0 4px;
-  font-size: 15px;
-  text-decoration: none;
-}
-.h8-person__zeile:hover,
-.h8-person__zeile:focus-visible { text-decoration: underline; }
-.h8-person__zeichen {
-  flex: 0 0 auto;
-  width: 16px;
-  height: 16px;
-  color: var(--h8-akzent);
-}
-/* Eine Rufnummer wird nie umgebrochen; eine Adresse darf im Notfall in der Karte umbrechen,
-   statt aus ihr herauszulaufen. */
-.h8-person__zeile[href^='tel:'] { white-space: nowrap; }
-.h8-person__zeile[href^='mailto:'] { overflow-wrap: anywhere; }
 
 /* Tabelle ------------------------------------------------------------------ */
 
@@ -1131,12 +962,10 @@ p:last-child { margin-bottom: 0; }
   /* Kennzahlkacheln heben sich NICHT an: sie sitzen in einem Verbund mit 1px-Fugen, und
      eine einzelne angehobene Kachel reisst die Linien auf. Sie wechseln stattdessen den
      Grundton, was in einem Verbund die ruhigere und deutlichere Antwort ist. */
-  .h8-karte,
-  .h8-person {
+  .h8-karte {
     transition: transform 0.5s var(--h8-schwung), box-shadow 0.5s var(--h8-schwung);
   }
-  .h8-karte:hover,
-  .h8-person:hover {
+  .h8-karte:hover {
     transform: translateY(-4px);
     box-shadow: var(--h8-schatten);
   }

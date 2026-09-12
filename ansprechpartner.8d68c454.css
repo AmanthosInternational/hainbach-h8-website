@@ -1,0 +1,193 @@
+/*
+ * Der Ansprechpartner-Streifen (K7 und K9 des Plans h8-verkauf-2).
+ *
+ * Gestaltet seite/vorlagen/teile/ansprechpartner.html. Eigene Datei mit eigenem Praefix,
+ * wie formular.css und einwilligung.css es mit am- halten; stil.css wird nicht angefasst.
+ * Farbe, Schrift und Mass kommen als Kennwerte aus dem :root von stil.css, jeweils mit dem
+ * dortigen Wert als Rueckfall. Hier wird keine Farbe erfunden.
+ *
+ * MOBIL ZUERST. Unter 620 px steht eine Person unter der anderen, ab 620 px nebeneinander.
+ * 620 und nicht 700 wie die abgeloeste Personenliste: der Streifen steht kuenftig auch
+ * direkt unter der Wohnungsliste, und dort ist die Spalte breiter als im Kontaktblock.
+ *
+ * DIE 162-PX-FALLE, gemessen am 12.09.2026. Zwei Rufnummern messen je 162 px. Lagen sie
+ * nebeneinander fest in einer Zeile, sprengten sie auf einem 320 px breiten Telefon die
+ * Seite um 3 px nach rechts, und dann scrollt nicht der Streifen seitlich, sondern das
+ * ganze Dokument. Beide Umbruchstellen stehen deshalb ausdruecklich hier: `amp__wege`
+ * bricht zwischen den beiden Wegen um, `amp__weg` innerhalb eines Weges zwischen Zeichen
+ * und Text. Jeder Weg misst dabei mindestens 44 px, weil er ein eigenstaendiges Tippziel
+ * ist und kein Verweis im Satz.
+ *
+ * DER KLASSENVERTRAG. Jede Klasse des Markups steht hier, und hier steht keine, die das
+ * Markup nicht schreibt. seite/tests/ansprechpartner.test.js liest beide Dateien als Text
+ * und wird rot, sobald die Listen auseinanderlaufen. Keine Klasse steht zugleich auf
+ * Behaelter, Eintrag und Inhalt.
+ *
+ *   .amp            der Streifen als Ganzes, die Huelle um Zeile und Liste
+ *   .amp__zeile     der ruhige Satz ueber den Personen
+ *   .amp__liste     die Liste der Personen, eine Spalte bzw. zwei ab 620 px
+ *   .amp__person    eine Person als Ganzes, das <li> mit Bildnis und Angaben
+ *   .amp__bild      das quadratische Bildnis, 88 px, mit Haarlinie
+ *   .amp__angaben   die Textspalte daneben (min-width: 0, sonst sprengt eine lange
+ *                   Adresse die Karte, statt in ihr umzubrechen)
+ *   .amp__name      der Name
+ *   .amp__rolle     die Rolle darunter, leiser gesetzt
+ *   .amp__wege      der Behaelter der beiden Wege, und die erste Umbruchstelle
+ *   .amp__weg       ein Weg, Rufnummer oder Adresse, als Verweis mit 44 px
+ *   .amp__zeichen   Hoerer und Umschlag darin, aus dem Zeichensatz geholt
+ *   .amp__wegtext   der Text des Weges; nur er darf umbrechen, nie das Zeichen
+ *
+ * ZUSTAENDE HAENGEN AN MERKMALEN, nie an einer zweiten Klasse. Es gibt genau zwei, beide
+ * am Verweis selbst und beide vom Markup geschrieben:
+ *
+ *   [href^='tel:']     eine Rufnummer wird nie mitten in der Ziffernfolge umgebrochen.
+ *                      Am 10.09.2026 auf dem Telefon gemessen: die letzten beiden Ziffern
+ *                      standen vor der Adresse und lasen sich als eine Adresse, die es
+ *                      nicht gibt.
+ *   [href^='mailto:']  eine Adresse darf im Notfall umbrechen, statt aus der Karte zu
+ *                      laufen. Das ist die Vorgabe des Wegtextes; sie steht hier trotzdem
+ *                      ausdruecklich, weil die Rufnummer darueber sie aufhebt.
+ *
+ * JEDER NAME AUS DER LISTE OBEN STEHT GENAU DORT UND NIRGENDS SONST IN DIESEM KOPF. Wer
+ * ihn zusaetzlich in einem erklaerenden Satz nennt, macht die Liste unverbindlich: der
+ * Test liest den ganzen Kopf, und ein Name in der Prosa deckt dann eine Luecke in der
+ * Liste zu. Am 12.09.2026 im Sabotagelauf genau so aufgefallen.
+ *
+ * KEIN VERWEIS TRAEGT EINEN DAUERHAFTEN UNTERSTRICH, aber keiner bleibt ohne Signal. Die
+ * Seite setzt `color: inherit`, ein Verweis traegt also keine eigene Farbe; ohne Ersatz
+ * waere er von gewoehnlichem Text nicht zu unterscheiden. Das Zeichen uebernimmt diese
+ * Aufgabe, dazu Unterstrich bei Ueberfahren und bei Tastaturfokus.
+ */
+
+.amp {
+  /* Oben 28 px, weil der Streifen an beiden Stellen auf Fliesstext folgt: unter der
+     Wohnungsliste auf deren Fussnote, im Kontaktabschnitt auf den Einleitungssatz. Ohne den
+     Abstand las sich die Streifenzeile bei 320 px als Fortsetzung der Fussnote (Verdrahtung,
+     12.09.2026, am Vorschaubau gesehen). 28 px ist der Rasterabstand der Seite. */
+  margin: 28px 0 20px;
+}
+
+.amp__zeile {
+  margin: 0 0 14px;
+  font-size: 15px;
+  color: var(--h8-leise, #5e5d56);
+}
+
+.amp__liste {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 620px) {
+  .amp__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.amp__person {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 16px;
+  border: 1px solid var(--h8-linie, #c9c4b8);
+  background: var(--h8-karte, #fbfaf7);
+}
+
+/* Das Bildnis quadratisch und mit Haarlinie, nicht rund. Runde Bildnisse gehoeren zu
+   Profilen, eckige zu Personen in einem Dokument; die ganze Seite kennt keinen Radius.
+   Die Aufnahmen stehen auf Weiss, die Karte auf gebrochenem Weiss: ohne die Linie
+   schwaemme der Kopf in der Karte. */
+.amp__bild {
+  flex: 0 0 auto;
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  object-position: 50% 18%;
+  border: 1px solid var(--h8-linie, #c9c4b8);
+  background: #fff;
+  filter: grayscale(0.18);
+  transition: filter var(--h8-uebergang, 0.4s cubic-bezier(0.25, 0.1, 0.25, 1));
+}
+
+/* min-width: 0 bricht die Vorgabe `auto` eines Flex-Kindes auf. */
+.amp__angaben {
+  min-width: 0;
+}
+
+.amp__name {
+  margin: 0 0 2px;
+  font-size: 19px;
+}
+
+.amp__rolle {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: var(--h8-leise, #5e5d56);
+}
+
+/* Erste Umbruchstelle: zwischen Rufnummer und Adresse. Der Abstand steht nur quer
+   (0 18px), weil die beiden Wege ihre Hoehe schon aus ihrem Tippziel beziehen. */
+.amp__wege {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 18px;
+  margin: 0;
+}
+
+/* Zweite Umbruchstelle: innerhalb eines Weges. */
+.amp__weg {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.amp__weg:hover,
+.amp__weg:focus-visible { text-decoration: underline; }
+
+.amp__zeichen {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  color: var(--h8-akzent, #7c8b7d);
+}
+
+.amp__wegtext {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.amp__weg[href^='tel:'] .amp__wegtext {
+  overflow-wrap: normal;
+  white-space: nowrap;
+}
+
+.amp__weg[href^='mailto:'] .amp__wegtext {
+  overflow-wrap: anywhere;
+}
+
+/* Karten heben sich beim Ueberfahren leicht an, wie die uebrigen Karten der Seite. Nur bei
+   echtem Zeigergeraet: auf dem Telefon bliebe der Zustand nach der Beruehrung haengen und
+   sieht dann aus wie ein Fehler. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .amp__person {
+    transition: transform 0.5s var(--h8-schwung, cubic-bezier(0.23, 1, 0.32, 1)),
+      box-shadow 0.5s var(--h8-schwung, cubic-bezier(0.23, 1, 0.32, 1));
+  }
+  .amp__person:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--h8-schatten, 0 18px 40px rgba(32, 34, 33, 0.10));
+  }
+  .amp__person:hover .amp__bild { filter: grayscale(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .amp__bild { transition: none; }
+}
