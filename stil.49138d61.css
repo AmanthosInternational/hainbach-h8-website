@@ -1023,25 +1023,47 @@ p:last-child { margin-bottom: 0; }
 }
 .h8-schema__name { font-weight:600; }
 .h8-schema__flaeche { text-transform:none; letter-spacing:0; }
-.h8-schema__band { display:flex; gap:4px; min-width:0; }
-.h8-schema__block {
-  display:flex; flex-direction:column; justify-content:center; gap:2px;
-  flex-basis:0; min-width:0; padding:14px 12px;
-  border:1px solid var(--h8-linie); background: var(--h8-karte);
-  color:inherit; text-decoration:none;
-  transition: border-color 120ms ease, background-color 120ms ease;
+/* EIN GESCHOSS IST EIN BAND, KEINE REIHE VON KAESTEN. Bis zum 13.09.2026 trug jeder Block
+   einen eigenen Rahmen auf vier Seiten, dazwischen 4 px Luft: das liest sich als lose
+   Rechtecke, nicht als ein Geschoss, das in Wohnungen geteilt ist. Jetzt traegt das Band den
+   Rahmen, und die Bloecke trennen sich durch eine Haarlinie. Dasselbe Bild, eine Kante statt
+   sechzehn. */
+.h8-schema__band {
+  display:flex; min-width:0;
+  border:1px solid var(--h8-linie); border-radius:3px;
+  background: var(--h8-karte);
+  /* Damit die Haarlinien und die Standfarben an der gerundeten Ecke enden. */
+  overflow:hidden;
 }
-.h8-schema__block:hover, .h8-schema__block:focus-visible { border-color: var(--h8-text); }
-.h8-schema__nr { font-family: var(--h8-titelschrift); font-size:19px; line-height:1.1; }
-.h8-schema__mass { font-size:13px; color: var(--h8-leise); white-space:nowrap; }
+.h8-schema__block {
+  display:flex; flex-direction:column; justify-content:center; gap:3px;
+  flex-basis:0; min-width:0; padding:13px 10px;
+  border:0; border-left:1px solid var(--h8-linie); background:none;
+  color:inherit; text-decoration:none;
+  transition: background-color 120ms ease;
+}
+.h8-schema__block:first-child { border-left:0; }
+.h8-schema__block:hover, .h8-schema__block:focus-visible {
+  background: color-mix(in srgb, var(--h8-akzent) 10%, var(--h8-karte));
+}
+.h8-schema__nr { font-family: var(--h8-titelschrift); font-size:17px; line-height:1.1; }
+.h8-schema__mass { font-size:12px; color: var(--h8-leise); white-space:nowrap; }
 /* Nur fuer Vorleseprogramme: der Titel und der Stand gehoeren in den Linktext, sonst heisst
    jeder Link nur "3". Sichtbar waere es Rauschen, das die schmalen Bloecke sprengt. */
 .h8-schema__lesehilfe {
   position:absolute; width:1px; height:1px; padding:0; margin:-1px;
   overflow:hidden; clip-path: inset(50%); white-space:nowrap; border:0;
 }
-.h8-schema__block[data-status='reserviert'] { background: color-mix(in srgb, var(--h8-gelb) 14%, var(--h8-karte)); }
-.h8-schema__block[data-status='verkauft'] { opacity:0.6; }
+/* Der Stand sprach zwei Sprachen: reserviert eine Gelbflaeche, verkauft blosse
+   Transparenz. Transparenz nimmt aber auch dem Fokusring die Kraft und laesst den Block
+   kaputt statt vergeben aussehen. Jetzt beides als Flaeche, in derselben Tonleiter. */
+.h8-schema__block[data-status='reserviert'] {
+  background: color-mix(in srgb, var(--h8-gelb) 12%, var(--h8-karte));
+}
+.h8-schema__block[data-status='verkauft'] {
+  background: color-mix(in srgb, var(--h8-linie) 30%, var(--h8-karte));
+  color: var(--h8-leise);
+}
 .h8-fussnote--schema { margin-top:-14px; }
 @media (max-width: 640px) {
   /* Auf dem Telefon reisst die Proportion die schmalen Bloecke unter die Lesbarkeit.
