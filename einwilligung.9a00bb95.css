@@ -109,6 +109,11 @@
 }
 
 .am-ew-link {
+  /* Eigenstaendiges Ziel unter den beiden Knoepfen, kein Verweis im Satz: also 44 px, auch
+     wenn der Text nur 16 px hoch ist. Am 12.09.2026 auf 360x640 gemessen. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--am-akzent, #0b5c8a);
   text-decoration: underline;
 }

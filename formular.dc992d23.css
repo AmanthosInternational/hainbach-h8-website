@@ -167,7 +167,9 @@
 
 .am-gate .am-fuss {
   margin: 14px 0 0;
-  font-size: 11.5px;
+  /* 12 px ist die Untergrenze des Hauses; bei 11,5 px war dies die kleinste Schrift der
+     ganzen Seite, und sie traegt den Hinweis zur Verwendung der Angaben. */
+  font-size: 12px;
   line-height: 1.5;
   color: #7b8590;
 }

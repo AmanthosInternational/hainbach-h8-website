@@ -149,7 +149,7 @@
      Dinge: den Abstand beim Anspringen (sonst verschwindet die Ueberschrift dahinter) und die
      Hoehe des Helden. Auf dem Telefon bricht die Navigation auf drei Zeilen um, deshalb je
      Breite ein eigener Wert. Wer die Navigation aendert, misst hier nach. */
-  --h8-kopfhoehe: 169px;
+  --h8-kopfhoehe: 99px;
 
   /* Luft, Bewegung und Tiefe. Drei Kennwerte statt verstreuter Zahlen, damit der
      Rhythmus der Seite an einer Stelle steht und nicht in vierzig Regeln driftet.
@@ -174,7 +174,6 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-@media (min-width: 700px) { :root { --h8-kopfhoehe: 123px; } }
 @media (min-width: 900px) { :root { --h8-kopfhoehe: 63px; } }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -254,23 +253,27 @@ p:last-child { margin-bottom: 0; }
 .h8-kopf__innen {
   max-width: calc(var(--h8-breite) + 2 * var(--h8-rand));
   margin-inline: auto;
-  padding: 10px var(--h8-rand);
+  /* Knapp, weil die Leiste klebt: was sie an Hoehe nimmt, nimmt sie dauerhaft. Auf einem
+     640 px hohen Telefon waren es mit zwei Zeilen Zielen 169 px, also 26 Prozent des
+     Bildschirms; jetzt sind es 99 px. Am 12.09.2026 gemessen. */
+  padding: 2px var(--h8-rand);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 16px;
+  gap: 0 16px;
 }
 .h8-kopf__marke {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   font-family: var(--h8-titelschrift);
-  font-size: 19px;
+  font-size: 17px;
   letter-spacing: 0.02em;
   text-decoration: none;
   /* Wortmarke und Knopf liegen in der ersten Zeile, die Ziele darunter. */
   margin-right: auto;
-  padding: 8px 0;
+  min-height: 44px;
+  padding: 6px 0;
 }
 /* Die Bildmarke erbt ueber currentColor die Textfarbe und steht deshalb ohne zweite
    Fassung auf Sand wie auf Tinte. Sie schrumpft nie mit: flex-shrink 0, sonst quetscht
@@ -278,15 +281,27 @@ p:last-child { margin-bottom: 0; }
 .h8-marke__zeichen { flex: 0 0 auto; width: 26px; height: 26px; }
 .h8-marke__wort { white-space: nowrap; }
 .h8-kopf__nav {
-  /* Auf dem Handy eine eigene Zeile ueber die volle Breite, damit die sechs Ziele
-     umbrechen koennen statt quer zu laufen. */
+  /* Auf dem Handy eine eigene Zeile ueber die volle Breite. Die Ziele brechen NICHT mehr um,
+     sie laufen quer und die Zeile scrollt: zwei Zeilen Ziele kosteten 44 px an einer Leiste,
+     die dauerhaft klebt. `min-width: 0` ist der Kern der Sache, ohne das waechst das
+     Flex-Kind ueber seine Spalte hinaus und die ganze Seite scrollt seitlich.
+     Der weiche Rand rechts sagt, dass es weitergeht; ein hart abgeschnittenes Wort sieht
+     nach Versehen aus. Die Leiste zieht sich dafuer bis an den Bildschirmrand. */
   order: 3;
   flex-basis: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-inline: calc(-1 * var(--h8-rand));
+  padding-inline: var(--h8-rand);
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
 }
+.h8-kopf__nav::-webkit-scrollbar { display: none; }
 .h8-kopf__liste {
   display: flex;
-  flex-wrap: wrap;
-  gap: 2px 18px;
+  flex-wrap: nowrap;
+  gap: 0 18px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -295,6 +310,7 @@ p:last-child { margin-bottom: 0; }
   position: relative;
   display: inline-flex;
   align-items: center;
+  white-space: nowrap;
   min-height: 44px;
   font-size: 13px;
   font-weight: 600;
@@ -334,9 +350,20 @@ p:last-child { margin-bottom: 0; }
 .h8-kopf__knopf { flex: 0 0 auto; }
 
 @media (min-width: 900px) {
-  .h8-kopf__innen { flex-wrap: nowrap; padding-block: 6px; }
-  .h8-kopf__marke { margin-right: 28px; }
-  .h8-kopf__nav { order: 0; flex-basis: auto; margin-right: auto; }
+  .h8-kopf__innen { flex-wrap: nowrap; padding-block: 6px; gap: 8px 16px; }
+  .h8-kopf__marke { margin-right: 28px; font-size: 19px; padding: 8px 0; }
+  /* Ab hier ist Platz: die Ziele stehen wieder neben der Wortmarke, ohne Querlauf und
+     ohne weichen Rand. */
+  .h8-kopf__nav {
+    order: 0;
+    flex-basis: auto;
+    margin-right: auto;
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow-x: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
   .h8-kopf__liste { flex-wrap: nowrap; gap: 22px; }
 }
 
@@ -900,7 +927,12 @@ p:last-child { margin-bottom: 0; }
 .h8-person__zeile {
   display: flex;
   align-items: center;
+  /* Umbruch erlaubt: eine Telefonnummer misst 162 px und sprengte auf einem 320 px breiten
+     Telefon die Seite um 3 px nach rechts. 44 px Mindesthoehe, weil das ein eigenstaendiges
+     Tippziel ist und kein Verweis im Satz. */
+  flex-wrap: wrap;
   gap: 8px;
+  min-height: 44px;
   margin: 0 0 4px;
   font-size: 15px;
   text-decoration: none;
@@ -1174,6 +1206,8 @@ p:last-child { margin-bottom: 0; }
    deshalb unter jedem Bild und nicht nur in der Fussnote: eine Kennzeichnung, die man suchen
    muss, ist keine. */
 .h8-karte__bildhinweis {
-  margin: 6px 0 0; font-size: 11px; letter-spacing: 0.04em;
+  /* 12 px ist die Untergrenze des Hauses. Bei 11 px war der Pflichthinweis zur KI-Erzeugung
+     auf dem Telefon die kleinste Schrift der ganzen Seite, und genau er muss lesbar sein. */
+  margin: 6px 0 0; font-size: 12px; letter-spacing: 0.04em;
   color: var(--h8-leise);
 }

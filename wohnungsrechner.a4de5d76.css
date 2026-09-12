@@ -19,7 +19,7 @@
  *
  *   .amk                das <dialog> selbst, zugleich die Huelle des Blattes
  *   .amk__zu            der Schliessen-Knopf, festes Ziel von 48 px in der oberen Ecke
- *   .amk__blatt         der Inhalt, und nur er scrollt
+ *   .amk__blatt         der Inhalt, und nur er scrollt; Schatten zeigt, wo es weitergeht
  *   .amk__wohnung       die Zeile ueber dem Titel; leer verschwindet sie ganz
  *   .amk__titel         die Ueberschrift des Blattes
  *   .amk__gross         der abgesetzte Block der grossen Zahl
@@ -124,6 +124,19 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 18px var(--h8-rand, 16px) calc(var(--h8-rand, 16px) + 8px);
+  /* Schatten an der Kante, solange in dieser Richtung noch etwas steht. Die beiden Verlaeufe
+     mit `local` scrollen mit und decken den Schatten am Anfang bzw. Ende ab; die beiden mit
+     `scroll` bleiben stehen und sind der Schatten. Ohne Skript: auf dem Telefon war der
+     letzte Satz mitten im Wort abgeschnitten und sah nach Fehler aus statt nach mehr. */
+  background-image:
+    linear-gradient(to bottom, var(--h8-karte, #fbfaf7) 42%, transparent),
+    linear-gradient(to top, var(--h8-karte, #fbfaf7) 42%, transparent),
+    linear-gradient(to bottom, rgba(32, 34, 33, 0.11), transparent),
+    linear-gradient(to top, rgba(32, 34, 33, 0.11), transparent);
+  background-position: 0 0, 0 100%, 0 0, 0 100%;
+  background-size: 100% 22px, 100% 22px, 100% 11px, 100% 11px;
+  background-repeat: no-repeat;
+  background-attachment: local, local, scroll, scroll;
 }
 
 .amk__wohnung {
