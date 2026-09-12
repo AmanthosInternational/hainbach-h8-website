@@ -20,14 +20,14 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/favicon.svg">
-<link rel="stylesheet" href="/stil.2a919cdf.css">
+<link rel="stylesheet" href="/stil.f3e158bb.css">
 <link rel="stylesheet" href="/einwilligung.9a00bb95.css">
 <link rel="stylesheet" href="/formular.dc992d23.css">
 <link rel="stylesheet" href="/wohnungsrechner.1891209b.css">
 <link rel="stylesheet" href="/kopf.30e96bee.css">
 <link rel="stylesheet" href="/vorteile.3528e7c7.css">
 <link rel="stylesheet" href="/lage.14c9b154.css">
-<link rel="stylesheet" href="/wohnungen.52318a82.css">
+<link rel="stylesheet" href="/wohnungen.1ce88608.css">
 <link rel="stylesheet" href="/ansprechpartner.8d68c454.css">
 <link rel="stylesheet" href="/held.47db7d34.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Residence","@id":"https://hainbach-h8.de/#residence","name":"H8 Wohnen am Hainbach","url":"https://hainbach-h8.de/","address":{"@type":"PostalAddress","streetAddress":"Hainbachstrasse 8","postalCode":"73730","addressLocality":"Esslingen am Neckar","addressRegion":"Baden-Wuerttemberg","addressCountry":"DE"},"numberOfAccommodationUnits":12,"floorSize":{"@type":"QuantitativeValue","minValue":27.49,"maxValue":82.92,"unitCode":"MTK"}},{"@type":"AggregateOffer","@id":"https://hainbach-h8.de/#angebot","itemOffered":{"@id":"https://hainbach-h8.de/#residence"},"url":"https://hainbach-h8.de/#wohnungen","priceCurrency":"EUR","lowPrice":188000.0,"highPrice":564000.0,"offerCount":12,"availability":"https://schema.org/InStock","businessFunction":"https://purl.org/goodrelations/v1#Sell"}]}</script>
@@ -36,9 +36,11 @@
 <script src="/js/wohnungsrechner.b0a8e0a4.js" defer></script>
 <script src="/js/einwilligung.f3e9ad29.js" defer></script>
 <script src="/js/messkette.aa5b87b1.js" defer></script>
-<script src="/js/formular.4593e6fb.js" defer></script>
+<script src="/js/formular.24ab40f2.js" defer></script>
 <script src="/js/feinschliff.9d4146b0.js" defer></script>
 <script src="/js/held.30713790.js" defer></script>
+<script src="/js/termin.a87a85f6.js" defer></script>
+<script src="/js/bildschau.244ab639.js" defer></script>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
 
 </head>
@@ -243,7 +245,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w1-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-01-960.webp" srcset="/bilder/wohnung-01-480.webp 480w, /bilder/wohnung-01-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 1, Gartenwohnung mit Terrasse, Gartengeschoss" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-01-960.webp" srcset="/bilder/wohnung-01-480.webp 480w, /bilder/wohnung-01-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 1, Gartenwohnung mit Terrasse, Gartengeschoss" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -260,10 +264,11 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=1" data-amr-karte="1">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%201%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%201%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-1">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
@@ -271,7 +276,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w2-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-02-960.webp" srcset="/bilder/wohnung-02-480.webp 480w, /bilder/wohnung-02-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 2, Familienwohnung mit Terrasse, Erdgeschoss" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-02-960.webp" srcset="/bilder/wohnung-02-480.webp 480w, /bilder/wohnung-02-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 2, Familienwohnung mit Terrasse, Erdgeschoss" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -288,10 +295,11 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=2" data-amr-karte="2">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%202%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%202%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-2">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
@@ -299,7 +307,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w3-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-03-960.webp" srcset="/bilder/wohnung-03-480.webp 480w, /bilder/wohnung-03-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 3, Apartment mit Balkon, 1. OG" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-03-960.webp" srcset="/bilder/wohnung-03-480.webp 480w, /bilder/wohnung-03-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 3, Apartment mit Balkon, 1. OG" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -316,10 +326,11 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=3" data-amr-karte="3">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%203%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%203%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-3">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
@@ -327,7 +338,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w4-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-04-960.webp" srcset="/bilder/wohnung-04-480.webp 480w, /bilder/wohnung-04-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 4, 2-Zimmer-Wohnung mit zwei Balkonen, 1. OG" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-04-960.webp" srcset="/bilder/wohnung-04-480.webp 480w, /bilder/wohnung-04-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 4, 2-Zimmer-Wohnung mit zwei Balkonen, 1. OG" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -344,10 +357,11 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=4" data-amr-karte="4">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%204%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%204%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-4">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
@@ -355,7 +369,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w5-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-05-960.webp" srcset="/bilder/wohnung-05-480.webp 480w, /bilder/wohnung-05-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 5, Kompaktes Apartment mit Balkon, 1. OG" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-05-960.webp" srcset="/bilder/wohnung-05-480.webp 480w, /bilder/wohnung-05-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 5, Kompaktes Apartment mit Balkon, 1. OG" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -372,10 +388,11 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=5" data-amr-karte="5">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%205%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%205%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-5">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
@@ -383,7 +400,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w6-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-06-960.webp" srcset="/bilder/wohnung-06-480.webp 480w, /bilder/wohnung-06-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 6, Apartment mit zwei Balkonen, 2. OG" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-06-960.webp" srcset="/bilder/wohnung-06-480.webp 480w, /bilder/wohnung-06-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 6, Apartment mit zwei Balkonen, 2. OG" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -400,10 +419,11 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=6" data-amr-karte="6">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%206%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%206%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-6">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
@@ -411,7 +431,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w7-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-07-960.webp" srcset="/bilder/wohnung-07-480.webp 480w, /bilder/wohnung-07-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 7, 2-Zimmer-Wohnung mit zwei Balkonen, 2. OG" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-07-960.webp" srcset="/bilder/wohnung-07-480.webp 480w, /bilder/wohnung-07-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 7, 2-Zimmer-Wohnung mit zwei Balkonen, 2. OG" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -428,10 +450,11 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=7" data-amr-karte="7">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%207%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%207%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-7">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
@@ -439,7 +462,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w8-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-08-960.webp" srcset="/bilder/wohnung-08-480.webp 480w, /bilder/wohnung-08-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 8, Kompaktes Apartment mit Balkon, 2. OG" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-08-960.webp" srcset="/bilder/wohnung-08-480.webp 480w, /bilder/wohnung-08-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 8, Kompaktes Apartment mit Balkon, 2. OG" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -456,10 +481,11 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=8" data-amr-karte="8">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%208%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%208%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-8">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
@@ -467,7 +493,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w9-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-09-960.webp" srcset="/bilder/wohnung-09-480.webp 480w, /bilder/wohnung-09-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 9, Apartment mit Balkon und Aussicht, 3. OG" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-09-960.webp" srcset="/bilder/wohnung-09-480.webp 480w, /bilder/wohnung-09-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 9, Apartment mit Balkon und Aussicht, 3. OG" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -484,10 +512,11 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=9" data-amr-karte="9">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%209%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%209%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-9">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
@@ -495,7 +524,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w10-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-10-960.webp" srcset="/bilder/wohnung-10-480.webp 480w, /bilder/wohnung-10-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 10, 2-Zimmer-Wohnung mit zwei Balkonen, 3. OG" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-10-960.webp" srcset="/bilder/wohnung-10-480.webp 480w, /bilder/wohnung-10-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 10, 2-Zimmer-Wohnung mit zwei Balkonen, 3. OG" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -512,10 +543,11 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=10" data-amr-karte="10">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%2010%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%2010%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-10">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
@@ -523,7 +555,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w11-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-11-960.webp" srcset="/bilder/wohnung-11-480.webp 480w, /bilder/wohnung-11-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 11, Kompaktes Apartment mit Balkon, 3. OG" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-11-960.webp" srcset="/bilder/wohnung-11-480.webp 480w, /bilder/wohnung-11-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 11, Kompaktes Apartment mit Balkon, 3. OG" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -540,10 +574,11 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=11" data-amr-karte="11">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%2011%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%2011%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-11">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
@@ -551,7 +586,9 @@
         <div class="amw-blatt">
           <ul class="amw-leiste">
             <li class="amw-feld" id="w12-1">
-              <img class="h8-bild amw-bild" src="/bilder/wohnung-12-960.webp" srcset="/bilder/wohnung-12-480.webp 480w, /bilder/wohnung-12-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 12, Penthouse mit zwei Balkonen und Arbeitszimmer, Dachgeschoss" loading="lazy" decoding="async">
+              <button type="button" class="amw-lupe" data-amw-schau aria-label="Bild vergrössern">
+                <img class="h8-bild amw-bild" src="/bilder/wohnung-12-960.webp" srcset="/bilder/wohnung-12-480.webp 480w, /bilder/wohnung-12-960.webp 960w" sizes="(max-width: 640px) 92vw, 360px" alt="Visualisierung der Wohnung 12, Penthouse mit zwei Balkonen und Arbeitszimmer, Dachgeschoss" loading="lazy" decoding="async">
+              </button>
               <p class="h8-karte__bildhinweis amw-hinweis">Visualisierung, mit KI erzeugt. Unverbindlich.</p>
             </li>
           </ul>
@@ -568,16 +605,20 @@
         </dl>
         <p class="h8-knopfreihe amw-ziele">
           <a class="h8-knopf h8-knopf--primaer" href="/rechner/?wohnung=12" data-amr-karte="12">DIESE WOHNUNG RECHNEN</a>
-          <a class="h8-knopf" href="#broschuere" data-am-gate>BROSCHÜRE ANFORDERN</a>
-          <a class="h8-knopf amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%2012%2C%20H8%20Wohnen%20am%20Hainbach">ANFRAGEN</a>
-          <a class="h8-knopf amw-anruf" href="tel:+4971120909575">ANRUFEN</a>
-          <a class="h8-knopf amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener">TERMIN VEREINBAREN</a>
+        </p>
+        <p class="amw-kontaktzeile">
+          <a class="amw-anfrage" href="mailto:julian.neyer@amanthos.com?subject=Wohnung%2012%2C%20H8%20Wohnen%20am%20Hainbach" data-am-gate="wohnung-12">Anfragen</a>
+          <a class="amw-anruf" href="tel:+4971120909575">Anrufen</a>
+          <a class="amw-termin" href="https://cal.com/julian-neyer/hainbach-h8" target="_blank" rel="noopener" data-cal-link="julian-neyer/hainbach-h8" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Termin</a>
         </p>
         
       </article>
     </div>
     <p class="h8-grosszahl">12 Wohnungen, ca. 529,88 m² Wohnfläche, 3.563.000 EUR Gesamtvolumen ohne Stellplätze.</p>
-    <p class="h8-fussnote">Wohnflächen inklusive 50 Prozent der Balkon- und Terrassenfläche, Stand Wohnungsliste v12. Die Wohnflächen sind Planungswerte und deshalb als ca.-Angaben ausgewiesen; verbindlich ist die Wohnflächenberechnung zur Teilungserklärung. Die Kaltmiete ist eine Marktannahme aus der Projektkalkulation. Die Kaufnebenkosten sind gerechnet mit 5,0 Prozent Grunderwerbsteuer für Baden-Württemberg sowie 2,0 Prozent für Notar und Grundbuch; der zweite Wert ist eine marktübliche Annahme und kein gesetzlicher Satz. Eine Maklerprovision fällt nicht an.</p>
+    <details class="h8-angaben">
+      <summary class="h8-angaben__schalter">Angaben, Annahmen und Kaufnebenkosten</summary>
+      <p class="h8-fussnote">Wohnflächen inklusive 50 Prozent der Balkon- und Terrassenfläche, Stand Wohnungsliste v12. Die Wohnflächen sind Planungswerte und deshalb als ca.-Angaben ausgewiesen; verbindlich ist die Wohnflächenberechnung zur Teilungserklärung. Die Kaltmiete ist eine Marktannahme aus der Projektkalkulation. Die Kaufnebenkosten sind gerechnet mit 5,0 Prozent Grunderwerbsteuer für Baden-Württemberg sowie 2,0 Prozent für Notar und Grundbuch; der zweite Wert ist eine marktübliche Annahme und kein gesetzlicher Satz. Eine Maklerprovision fällt nicht an.</p>
+    </details>
 <div class="amp" data-am-einblenden>
           <p class="amp__zeile">Ihre Ansprechpartner für jede Wohnung, direkt vom Bauherrn.</p>
           <ul class="amp__liste">
@@ -834,6 +875,12 @@
     </div>
   </div>
 </div>
+
+<dialog class="amw-schau" data-amw-schaufenster aria-label="Bild in gross">
+  <button type="button" class="amw-schau__zu" data-amw-schau-zu aria-label="Schliessen">×</button>
+  <img class="amw-schau__bild" data-amw-schau-bild src="" alt="" sizes="100vw" decoding="async">
+  <p class="amw-schau__hinweis" data-amw-schau-hinweis></p>
+</dialog>
 
 <dialog class="amk" id="amk" aria-labelledby="amk-titel" data-amk-dialog
         data-amr-module="/rechner/js/00-mandanten-h8.js /rechner/js/01-modell.js /rechner/js/02-ereignisse.js">

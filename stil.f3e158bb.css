@@ -1056,6 +1056,27 @@ p:last-child { margin-bottom: 0; }
    einem geschlossenen <details> wird vom Browser gar nicht erst angefordert. "Nachladen bei
    Bedarf" ist damit kein Bauteil, sondern Verhalten. */
 .h8-grundriss { margin-top: 10px; }
+/* Die Angaben unter der Summenzeile. Fuenf Zeilen Kleinschrift hat niemand gelesen; weg
+   duerfen sie nicht, denn die Flaechen sind Planungswerte und die Kaltmiete eine Annahme.
+   Also ein Schalter, der wie eine Fussnote aussieht und nicht wie ein Knopf: er soll
+   auffindbar sein, nicht werben. */
+.h8-angaben { margin: 18px 0 0; }
+.h8-angaben__schalter {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; cursor: pointer; list-style: none;
+  font-size: 13px; color: var(--h8-leise);
+  text-decoration: underline; text-underline-offset: 4px;
+  text-decoration-color: var(--h8-linie);
+}
+.h8-angaben__schalter::-webkit-details-marker { display: none; }
+.h8-angaben__schalter::after {
+  content: ''; width: 6px; height: 6px; flex: 0 0 auto;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px); transition: transform 140ms ease;
+}
+.h8-angaben[open] .h8-angaben__schalter::after { transform: rotate(225deg) translate(-2px, -2px); }
+.h8-angaben .h8-fussnote { margin-top: 10px; }
+
 .h8-grundriss__schalter {
   display:flex; align-items:center; justify-content:center; gap:10px;
   padding:13px 18px; border:1px solid var(--h8-linie); background: var(--h8-karte);

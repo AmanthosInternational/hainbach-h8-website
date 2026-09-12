@@ -447,11 +447,18 @@
         if (d.body && d.body.style) d.body.style.overflow = '';
       }
 
+      // Ein Ausloeser darf sagen, woher er kommt: `data-am-gate="wohnung-3"` traegt genau
+      // das in die Quelle des Leads. Ohne Wert bleibt die Vorgabe des Dialogs stehen.
+      // Grund: die Knoepfe ANFRAGEN auf den zwoelf Wohnungskarten oeffnen denselben Dialog,
+      // und ohne diese Zeile waere hinterher nicht zu sehen, um welche Wohnung es ging.
+      var quelleVorgabe = gate.getAttribute('data-am-quelle') || 'gate';
       var ausloeser = d.querySelectorAll('[data-am-gate]');
       for (var i = 0; i < ausloeser.length; i++) {
         (function (el) {
           el.addEventListener('click', function (e) {
             if (e && typeof e.preventDefault === 'function') e.preventDefault();
+            var eigen = el.getAttribute('data-am-gate');
+            gate.setAttribute('data-am-quelle', eigen ? eigen : quelleVorgabe);
             oeffnen();
           });
         })(ausloeser[i]);

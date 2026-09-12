@@ -32,10 +32,16 @@
  *   .amw-tafelkopf   ihre Ueberschrift mit der Summe
  *   .amw-sprungreihe die Reihe der Feldziele, nur bei mehr als einem Feld vorhanden
  *   .amw-sprung      ein Ziel daraus, zugleich die Anzeige der Stellung
- *   .amw-ziele       die Reihe der Ziele unter den Kennzahlen
+ *   .amw-ziele       die Reihe mit dem Hauptweg, dem Rechner dieser Wohnung
+ *   .amw-kontaktzeile  die leise Zeile darunter: Anfragen, Anrufen, Termin
  *   .amw-anfrage     die Anfrage zu genau dieser Wohnung, Betreff kommt aus dem Bau
  *   .amw-anruf       der Anruf beim ersten Ansprechpartner
  *   .amw-termin      der Termin, nur vorhanden, solange eine Adresse vorliegt
+ *   .amw-lupe        der Knopf um ein Feldbild, oeffnet die Schau
+ *   .amw-schau       die Schau selbst, ein <dialog> ueber der ganzen Seite
+ *   .amw-schau__zu   ihr Schliessknopf
+ *   .amw-schau__bild das vergroesserte Bild darin
+ *   .amw-schau__hinweis  der Pflichthinweis, der in der Karte darunter steht
  *
  * WARUM KEINE GEZEICHNETEN PUNKTE. Ein ::before je Feld kann die Zahl der Felder zeigen,
  * aber weder Fokus noch Klick annehmen, und welches Feld gerade steht, weiss es ohne Skript
@@ -164,22 +170,123 @@
 /* Der Weg zum Menschen ------------------------------------------------------ */
 
 .amw-ziele {
-  /* Gleichlautend mit .h8-knopfreihe. Der Umbruch ist hier keine Feinheit: fuenf Ziele
-     passen bei 320 px nicht in eine Zeile, und ohne Umbruch schiebt die Reihe die Karte
-     auf. */
+  /* Gleichlautend mit .h8-knopfreihe. Der Umbruch bleibt zugesagt, auch wenn hier heute nur
+     noch ein Knopf steht: er ist die Zusage, dass ein zweiter die Karte nicht aufschiebt. */
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   margin: 24px 0 0;
 }
 
+/* DIE ZEILE STATT DREI KAESTEN. Vorher trug jede Karte fuenf gleich laute Knoepfe. Bei
+   Kartenbreite brachen sie zur Treppe um, zwoelf Karten ergaben sechzig Kaesten, und welcher
+   davon der Hauptweg ist, war nicht zu sehen. Jetzt steht oben der eine Knopf und hier die
+   drei Wege zum Menschen als Zeile: gleiche Funktion, ein Zehntel der Lautstaerke. */
+.amw-kontaktzeile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 18px;
+  margin: 10px 0 0;
+}
+
 .amw-anfrage,
 .amw-anruf,
 .amw-termin {
-  /* Daumenmass. .h8-knopf bringt heute 48 px mit; die Zusage steht trotzdem hier, damit sie
-     den Zug der h8-Regeln aus stil.css ueberlebt. */
+  /* Daumenmass, und es bleibt eine Zusage: die Zeile ist leiser, nicht kleiner. 44 px hoch
+     bei 15 px Schrift heisst, dass der Daumen trifft, was das Auge als Text liest. */
   min-height: 44px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: var(--h8-text, #202221);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--h8-linie, #c9c4b8);
+}
+
+.amw-anfrage:hover,
+.amw-anruf:hover,
+.amw-termin:hover,
+.amw-anfrage:focus-visible,
+.amw-anruf:focus-visible,
+.amw-termin:focus-visible {
+  text-decoration-color: var(--h8-akzent, #7c8b7d);
+}
+
+/* --------------------------------------------------------------------------------------
+   Das Bild gross ansehen
+   --------------------------------------------------------------------------------------
+   In der Karte ist ein Foto 360 px breit. Wer die Kueche wirklich sehen will, hat dort zu
+   wenig. Der Knopf um das Bild bringt keine eigene Optik mit: er ist ein Knopf, weil er mit
+   der Tastatur erreichbar sein und sich als Bedienelement melden muss, und sieht aus wie das
+   Bild, das er umschliesst. */
+
+.amw-lupe {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  /* Ohne das setzt der Browser eine Grundlinie unter das Bild und das Feld wird hoeher. */
+  line-height: 0;
+}
+
+.amw-lupe:focus-visible {
+  outline: 3px solid var(--h8-akzent, #7c8b7d);
+  outline-offset: -3px;
+}
+
+.amw-schau {
+  /* Der Browser zentriert einen modalen Dialog selbst; gesetzt wird nur, wieviel Platz er
+     hoechstens nimmt, damit ein hochkantes Blatt nicht ueber den Bildschirm hinauswaechst. */
+  max-width: min(96vw, 1600px);
+  max-height: 94vh;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: var(--h8-karte, #fbfaf7);
+  color: var(--h8-text, #202221);
+  overflow: hidden;
+}
+
+.amw-schau::backdrop {
+  /* Der Textton der Seite (--h8-text, #202221) bei 72 Prozent. Ein eigener Grauwert
+     waere eine neue Farbe, und die faellt erst auf, wenn zwei Flaechen nebeneinander
+     liegen. */
+  background: rgba(32, 34, 33, .72);
+}
+
+.amw-schau__bild {
+  display: block;
+  max-width: 100%;
+  /* Platz fuer den Hinweis darunter; ohne die Rechnung schiebt ein hohes Bild ihn hinaus. */
+  max-height: calc(94vh - 52px);
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.amw-schau__zu {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--h8-karte, #fbfaf7);
+  color: var(--h8-text, #202221);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.amw-schau__hinweis {
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--h8-leise, #5e5d56);
 }
