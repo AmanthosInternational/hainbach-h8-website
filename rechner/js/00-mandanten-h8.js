@@ -68,7 +68,7 @@
   // heisst Hainbach H8 nach der Adresse Hainbachstrasse 8 und laeuft auf hainbach-h8.de.
   // Herleitung im Dossier, docs/research/projektname-und-domain-2026-09-10.md.
   var PROJEKT = {
-    name: 'Hainbach H8',
+    name: 'H8 Wohnen am Hainbach',
     kurz: 'H8',
     domain: 'hainbach-h8.de',
     pfad: '/rechner/',
@@ -116,7 +116,7 @@
     : '';
 
   // Wird von bauen.py durch acht Hexzeichen der SHA-256 ueber die Bausteine ersetzt.
-  var VERSION = '44e3843d';
+  var VERSION = 'ad2d0e71';
 
   // ---------------------------------------------------------------------------
   // K7 Steuer- und Rechenregeln Baden-Wuerttemberg. Jede Angabe am 09.09.2026 geprueft:
