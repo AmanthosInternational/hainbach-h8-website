@@ -98,8 +98,8 @@
     { name: 'Bosko Trifunovic', telefon: '+49 (0) 711 209 095 67', mail: 'bosko.trifunovic@amanthos.com' }
   ];
 
-  // Leer bis die Buchungsstrecke eingerichtet ist (V11); leer bedeutet: nur KONTAKT zeigen.
-  var TERMIN_URL = '';
+  // Seit 12.09.2026 gesetzt (V11): Ereignistyp im Konto julian-neyer, Duplikat von W5.
+  var TERMIN_URL = 'https://cal.com/julian-neyer/hainbach-h8';
 
   var CAL = {
     link: 'julian-neyer/hainbach-h8',
@@ -116,7 +116,7 @@
     : '';
 
   // Wird von bauen.py durch acht Hexzeichen der SHA-256 ueber die Bausteine ersetzt.
-  var VERSION = 'ad2d0e71';
+  var VERSION = 'ef394bb0';
 
   // ---------------------------------------------------------------------------
   // K7 Steuer- und Rechenregeln Baden-Wuerttemberg. Jede Angabe am 09.09.2026 geprueft:
