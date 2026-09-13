@@ -366,6 +366,24 @@ p:last-child { margin-bottom: 0; }
   background: var(--h8-karte);
 }
 
+/* Die Kennzeichnung unter einem Abschnittsbild.
+ *
+ * Seit dem 13.09.2026 sind alle acht Motive KI-ueberarbeitet: die Geometrie stammt weiter
+ * aus den Renderings von anitekt, Materialien, Licht und Vegetation kommen aus dem
+ * Bildmodell. Ein Objektbild ist damit sichtbar kennzeichnungspflichtig nach Artikel 50
+ * KI-VO. Vorher trug den Hinweis nur die Wohnungskarte, weil nur ihre Bilder aus KI kamen.
+ *
+ * Werte gleichlautend mit `.h8-karte__bildhinweis` oben und mit den Hinweisregeln in
+ * wohnungen.css, lage.css und held.css: dieselbe Pflicht darf auf derselben Seite nicht
+ * viererlei aussehen. 12 px ist die Untergrenze des Hauses.
+ *
+ * Die Namen jener Regeln stehen hier bewusst NICHT ausgeschrieben: ein Waechter verbietet
+ * fremde Praefixe in diesem Blatt und liest dabei auch Kommentare. */
+.h8-bildhinweis {
+  margin: 6px 0 0; font-size: 12px; letter-spacing: 0.04em;
+  color: var(--h8-leise);
+}
+
 /* Listen ------------------------------------------------------------------- */
 
 .h8-liste { margin: 0 0 16px; padding: 0 0 0 20px; }
