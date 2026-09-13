@@ -88,3 +88,33 @@
   .h8-hero__bild[data-amb-ebene] { transition: none; }
   [data-amb-pause] { display: none; }
 }
+
+/* Die Kennzeichnung im Helden ----------------------------------------------
+ *
+ * Seit dem 13.09.2026 sind die beiden Aussenmotive KI-ueberarbeitet: die
+ * Geometrie stammt weiter aus dem 3D-Modell von anitekt, Materialien, Licht und
+ * Vegetation kommen aus dem Bildmodell. Damit gilt fuer sie dieselbe Pflicht wie
+ * fuer die Wohnungsbilder, naemlich die sichtbare Kennzeichnung nach Artikel 50
+ * KI-VO (`docs/rendering-aus-grundriss.md`, Abschnitt Kennzeichnung).
+ *
+ * Sie steht IM Bild und nicht darunter, weil der Held das Fenster fuellt und es
+ * kein Darunter gibt, ohne seine Hoehe anzutasten. Dieses Blatt fasst die Hoehe
+ * des Helden nicht an, das bleibt die Zusage von oben.
+ *
+ * 12 px ist die Untergrenze des Hauses und gleichlautend mit `.amw-hinweis`.
+ * Der Schatten steht da, weil der Text auf einem Bild liegt, dessen Helligkeit
+ * je Motiv wechselt; ohne ihn verschwindet er auf der hellen Fassade.
+ */
+.amb-bildhinweis {
+  position: absolute;
+  right: clamp(12px, 4vw, 32px);
+  bottom: 10px;
+  z-index: 2;
+  margin: 0;
+  max-width: 60%;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}

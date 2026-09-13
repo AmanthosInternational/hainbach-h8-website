@@ -151,3 +151,20 @@
   --aml-fuellung: var(--h8-rot, #b3261e);
   --aml-tinte: var(--h8-karte, #fbfaf7);
 }
+
+/* Die Kennzeichnung unter dem Lagebild --------------------------------------
+ *
+ * Gleicher Grund wie im Helden: das Motiv `aussen-02` ist seit dem 13.09.2026
+ * KI-ueberarbeitet und damit sichtbar kennzeichnungspflichtig nach Artikel 50
+ * KI-VO. Hier steht der Satz unter dem Bild, weil es anders als der Held kein
+ * Vollbild ist.
+ *
+ * Werte gleichlautend mit `.amw-hinweis` in wohnungen.css: dieselbe Pflicht
+ * darf auf derselben Seite nicht zweierlei aussehen.
+ */
+.aml-bildhinweis {
+  margin: 6px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--h8-leise, #5e5d56);
+}
