@@ -64,18 +64,7 @@ jobs:
             const browser = await chromium.launch();
             let verstoesse = 0;
             for (const pfad of seiten) {
-              // Die Seite MUSS aus einem eigenen Kontext kommen, sonst wirft
-              // AxeBuilder.analyze() 'Please use browser.newContext()' und der Job
-              // bricht ab, bevor er eine einzige Regel geprueft hat.
-              //
-              // reducedMotion ist kein Beiwerk: die Bildbuehne des Helden blendet
-              // Motive ueber, und waehrend einer Ueberblendung misst axe den Text
-              // gegen ein halbdurchsichtiges Bild. Am 13.09.2026 je dreimal gemessen,
-              // ohne Ruhe 80, 83 und 24 Verstoesse, mit Ruhe dreimal null. Bei
-              // abbestellter Bewegung startet held.js gar keinen Zeitgeber; das
-              // Ergebnis haengt damit nicht mehr an der Sekunde des Aufrufs.
-              const kontext = await browser.newContext({ reducedMotion: 'reduce' });
-              const seite = await kontext.newPage();
+              const seite = await browser.newPage();
               await seite.goto(process.env.SITE_URL + pfad, { waitUntil: 'load' });
               const bericht = await new AxeBuilder({ page: seite })
                 .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
@@ -84,7 +73,7 @@ jobs:
                 verstoesse++;
                 console.log(pfad, fund.id, fund.impact, fund.nodes.length);
               }
-              await kontext.close();
+              await seite.close();
             }
             await browser.close();
             process.exit(verstoesse > 0 ? 1 : 0);
