@@ -338,6 +338,17 @@ p:last-child { margin-bottom: 0; }
 /* Zwei Spalten, auf dem Handy untereinander. --bild-links dreht die Reihenfolge auf
    breiten Bildschirmen um; im Quelltext steht das Bild immer hinter dem Text, damit die
    Vorlesereihenfolge stimmt. */
+/* Bild und seine Kennzeichnung als EINE Rasterzelle.
+ *
+ * Ohne diesen Behaelter waere der Hinweis das dritte Kind von `.h8-raster` und fiele
+ * damit in eine zweite Rasterzeile. Beim Energieabschnitt hat das am 13.09.2026 die
+ * Merkmalsliste nach unten geschoben, weil das Raster ab 860 px zwei Spalten hat und
+ * das dritte Kind eine neue Zeile oeffnet.
+ *
+ * `min-width: 0` ist Pflicht und kein Beiwerk: ein Rasterkind hat `min-width: auto`
+ * und kann seine Spalte sprengen, sobald der Inhalt breiter ist. */
+.h8-bildfeld { min-width: 0; }
+
 .h8-raster { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
 @media (min-width: 860px) {
   .h8-raster { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
