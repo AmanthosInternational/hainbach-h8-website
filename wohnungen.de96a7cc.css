@@ -33,10 +33,12 @@
  *   .amw-sprungreihe die Reihe der Feldziele, nur bei mehr als einem Feld vorhanden
  *   .amw-sprung      ein Ziel daraus, zugleich die Anzeige der Stellung
  *   .amw-ziele       die Reihe mit dem Hauptweg, dem Rechner dieser Wohnung
- *   .amw-kontaktzeile  die leise Zeile darunter: Anfragen, Anrufen, Termin
+ *   .amw-kontaktzeile  die leise Zeile darunter: Anfragen, Anrufen, Termin, Grundriss
  *   .amw-anfrage     die Anfrage zu genau dieser Wohnung, Betreff kommt aus dem Bau
  *   .amw-anruf       der Anruf beim ersten Ansprechpartner
  *   .amw-termin      der Termin, nur vorhanden, solange eine Adresse vorliegt
+ *   .amw-grundriss   der vierte Punkt der Zeile: Knopf in die Schau (frei) oder Verweis in
+ *                    das Formular (anfrage), gleiche Gestalt; bei aus nicht vorhanden
  *   .amw-lupe        der Knopf um ein Feldbild, oeffnet die Schau
  *   .amw-schau       die Schau selbst, ein <dialog> ueber der ganzen Seite
  *   .amw-schau__zu   ihr Schliessknopf
@@ -181,7 +183,8 @@
 /* DIE ZEILE STATT DREI KAESTEN. Vorher trug jede Karte fuenf gleich laute Knoepfe. Bei
    Kartenbreite brachen sie zur Treppe um, zwoelf Karten ergaben sechzig Kaesten, und welcher
    davon der Hauptweg ist, war nicht zu sehen. Jetzt steht oben der eine Knopf und hier die
-   drei Wege zum Menschen als Zeile: gleiche Funktion, ein Zehntel der Lautstaerke. */
+   drei Wege zum Menschen als Zeile: gleiche Funktion, ein Zehntel der Lautstaerke. Der
+   Grundriss kommt als vierter Punkt dazu (Regel .amw-grundriss unten). */
 .amw-kontaktzeile {
   display: flex;
   flex-wrap: wrap;
@@ -214,6 +217,40 @@
 .amw-anruf:focus-visible,
 .amw-termin:focus-visible {
   text-decoration-color: var(--h8-akzent, #7c8b7d);
+}
+
+/* DER GRUNDRISS MIT RAHMEN (Plan h8-grundriss-referenzen, Entscheid E5, Variante B). Er steht
+   in derselben Zeile, gleich hoch und in derselben Schrift wie seine drei Nachbarn, traegt aber
+   statt des Unterstrichs einen duennen Rahmen: er ist die Frage, die jeder Kaeufer zuerst hat,
+   und soll gefunden werden. Lauter als DIESE WOHNUNG RECHNEN wird er nicht: kein gefuellter
+   Grund, kein fettes Wort, 44 statt 48 px. Keine Seite der Vergleichsstichprobe setzt den
+   Grundriss ueber den Kontaktblock.
+
+   Knopf und Verweis sehen gleich aus. Deshalb nimmt die Regel dem Knopf alles, was der Browser
+   ihm mitgibt (Grund, Rand, Rundung, eigene Schrift, Aussenabstand), und dem Verweis den
+   Unterstrich aus stil.css. Die Zeile bricht bei 320 px um, statt die Karte aufzuschieben:
+   flex-wrap steht an .amw-kontaktzeile. */
+.amw-grundriss {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0 14px;
+  border: 1px solid var(--h8-linie, #c9c4b8);
+  border-radius: 0;
+  background: none;
+  appearance: none;
+  font: inherit;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: var(--h8-text, #202221);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.amw-grundriss:hover,
+.amw-grundriss:focus-visible {
+  border-color: var(--h8-text, #202221);
 }
 
 /* --------------------------------------------------------------------------------------

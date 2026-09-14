@@ -22,10 +22,11 @@
   var PRUEFDATUM = '09.09.2026';
 
   // ---------------------------------------------------------------------------
-  // K6 Fakten H8. Quellen: Wohnungsliste v12 (Wohnflaeche inkl. 50 % Balkon, Kaufpreis,
-  // Kaltmiete je m²), Faktenblatt 09.09.2026, Broschuere Juli Seite 31 (provisionsfrei).
+  // K6 Fakten H8. Quellen: Expose Planungsstand Juni (09.07.2026), Flaechen (Wohnflaeche
+  // inkl. 50 % Balkon, Entscheid des Inhabers vom 14.09.2026); Wohnungsliste v12, Preise
+  // (Kaufpreis, Kaltmiete je m²); Faktenblatt 09.09.2026, Broschuere Juli Seite 31 (provisionsfrei).
 
-  // Zwoelf Einheiten, Summe 529,88 m² und 3.563.000 EUR. Titel und Status sind Vertriebs-
+  // Zwoelf Einheiten, Summe 530,17 m² und 3.563.000 EUR. Titel und Status sind Vertriebs-
   // angaben: bis die Preis- und Reservierungsliste vorliegt (V5) stehen alle auf 'frei'.
   var WOHNUNGEN = [
     { nr: 1, lage: 'Gartengeschoss', zimmer: 2, wohnflaeche: 54.70, kaufpreis: 375000, mieteJeM2: 21.0, titel: 'Gartenwohnung mit Terrasse', status: 'frei' },
@@ -36,10 +37,10 @@
     { nr: 6, lage: '2. OG', zimmer: 1, wohnflaeche: 38.57, kaufpreis: 243000, mieteJeM2: 20.0, titel: 'Apartment mit zwei Balkonen', status: 'frei' },
     { nr: 7, lage: '2. OG', zimmer: 2, wohnflaeche: 44.31, kaufpreis: 304000, mieteJeM2: 23.0, titel: '2-Zimmer-Wohnung mit zwei Balkonen', status: 'frei' },
     { nr: 8, lage: '2. OG', zimmer: 1, wohnflaeche: 27.49, kaufpreis: 188000, mieteJeM2: 23.0, titel: 'Kompaktes Apartment mit Balkon', status: 'frei' },
-    { nr: 9, lage: '3. OG', zimmer: 1, wohnflaeche: 38.41, kaufpreis: 242000, mieteJeM2: 20.0, titel: 'Apartment mit Balkon und Aussicht', status: 'frei' },
-    { nr: 10, lage: '3. OG', zimmer: 2, wohnflaeche: 44.12, kaufpreis: 302000, mieteJeM2: 23.0, titel: '2-Zimmer-Wohnung mit zwei Balkonen', status: 'frei' },
+    { nr: 9, lage: '3. OG', zimmer: 1, wohnflaeche: 38.57, kaufpreis: 242000, mieteJeM2: 20.0, titel: 'Apartment mit Balkon und Aussicht', status: 'frei' },
+    { nr: 10, lage: '3. OG', zimmer: 2, wohnflaeche: 44.31, kaufpreis: 302000, mieteJeM2: 23.0, titel: '2-Zimmer-Wohnung mit zwei Balkonen', status: 'frei' },
     { nr: 11, lage: '3. OG', zimmer: 1, wohnflaeche: 27.49, kaufpreis: 188000, mieteJeM2: 23.0, titel: 'Kompaktes Apartment mit Balkon', status: 'frei' },
-    { nr: 12, lage: 'Dachgeschoss', zimmer: 3, wohnflaeche: 82.92, kaufpreis: 564000, mieteJeM2: 19.0, titel: 'Penthouse mit zwei Balkonen und Arbeitszimmer', status: 'frei' }
+    { nr: 12, lage: 'Dachgeschoss', zimmer: 3, wohnflaeche: 82.86, kaufpreis: 564000, mieteJeM2: 19.0, titel: 'Penthouse mit zwei Balkonen und Arbeitszimmer', status: 'frei' }
   ];
 
   // Zwoelf Doppelparker rueckwaerts auf dem Grundstueck, einer je Wohnung, keine Tiefgarage.
@@ -59,7 +60,7 @@
   // ist der Wert des AfA-Blatts der Wohnungsliste und der Preis, zu dem die Services GmbH
   // an die Projektgesellschaft verkaufen soll (Meeting 08.09.2026). Bis die
   // Kaufpreisaufteilung vorliegt, ist das eine Annahme (V7).
-  var BODEN = { art: 'grundstueck', wert: 900000, wohnflaecheGesamt: 529.88 };
+  var BODEN = { art: 'grundstueck', wert: 900000, wohnflaecheGesamt: 530.17 };
 
   // Startwerte fuer die freie Eingabe: ungefaehr eine mittlere Zwei-Zimmer-Wohnung.
   var FREI = { kaufpreis: 300000, wohnflaeche: 45 };
@@ -133,7 +134,7 @@
     : '';
 
   // Wird von bauen.py durch acht Hexzeichen der SHA-256 ueber die Bausteine ersetzt.
-  var VERSION = '868b158d';
+  var VERSION = '98d1e0c3';
 
   // ---------------------------------------------------------------------------
   // K7 Steuer- und Rechenregeln Baden-Wuerttemberg. Jede Angabe am 09.09.2026 geprueft:
@@ -178,10 +179,11 @@
     // Eigentumsrechten entsprechende Nutzflaeche des erworbenen Anteils massgebend, und
     // Rn. 51: alternativ darf die Bruttogrundflaeche nach DIN 277 herangezogen werden,
     // wenn sie aus den Bauunterlagen nachgewiesen wird. BGF 790,40 m² (Projektangebot
-    // 02.09.2026), Wohnflaeche 529,88 m² (Wohnungsliste v12). Auf Wohnflaechenbasis
-    // scheiterten neun der zwoelf Einheiten an der Grenze, auf BGF-Basis halten sie alle.
+    // 02.09.2026), Wohnflaeche 530,17 m² (Expose Planungsstand Juni, 09.07.2026). Auf
+    // Wohnflaechenbasis scheiterten neun der zwoelf Einheiten an der Grenze, auf BGF-Basis
+    // halten sie alle.
     // Die Lesart bestaetigt die Steuerberatung (V8). Geprueft 09.09.2026.
-    flaechenFaktorGrenze: 790.40 / 529.88
+    flaechenFaktorGrenze: 790.40 / 530.17
   };
 
   // Dieselben Angaben als Daten, damit Seite und PDF sie zeigen koennen, ohne sie zu
@@ -195,7 +197,7 @@
     { regel: 'Sonder-AfA Mietwohnungsneubau 5 % p. a. in vier Jahren', quelle: '§ 7b Abs. 1 bis 3 EStG, BMF-Schreiben vom 21.05.2025', geprueft: PRUEFDATUM },
     { regel: 'Baukostenobergrenze 5.200 EUR je m², Bauantrag vom 28.11.2025', quelle: '§ 7b Abs. 2 Satz 2 Nr. 2 EStG, BMF-Schreiben vom 21.05.2025 Rn. 48', geprueft: PRUEFDATUM },
     { regel: 'Nebenkosten zählen zum Gebäudeanteil und damit in die Baukostenobergrenze', quelle: '§ 255 Abs. 1 HGB, BMF-Schreiben vom 21.05.2025 Rn. 39 und 47', geprueft: PRUEFDATUM },
-    { regel: 'Prüfung je m² Nutzfläche des erworbenen Anteils, ersatzweise je m² Bruttogrundfläche nach DIN 277 (790,40 m² statt 529,88 m²)', quelle: 'BMF-Schreiben vom 21.05.2025 Rn. 49 und 51', geprueft: PRUEFDATUM },
+    { regel: 'Prüfung je m² Nutzfläche des erworbenen Anteils, ersatzweise je m² Bruttogrundfläche nach DIN 277 (790,40 m² statt 530,17 m²)', quelle: 'BMF-Schreiben vom 21.05.2025 Rn. 49 und 51', geprueft: PRUEFDATUM },
     { regel: 'Bemessungsgrundlage höchstens 4.000 EUR je m², hier auf die Wohnfläche gerechnet', quelle: '§ 7b Abs. 3 EStG, BMF-Schreiben vom 21.05.2025 Rn. 60', geprueft: PRUEFDATUM },
     { regel: 'Stellplatz 2 % linear auf Preis plus Nebenkosten, ohne § 7b', quelle: '§ 7 Abs. 1 EStG, Cashflowanalyse Blatt Stellplatz-Übersicht', geprueft: PRUEFDATUM },
     { regel: 'Restwert sinkt um reguläre und Sonder-AfA', quelle: '§ 7a Abs. 9 EStG', geprueft: PRUEFDATUM },
