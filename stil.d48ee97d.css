@@ -394,6 +394,9 @@ p:last-child { margin-bottom: 0; }
   margin: 6px 0 0; font-size: 12px; letter-spacing: 0.04em;
   color: var(--h8-leise);
 }
+/* Die Legende unter dem Referenzbild: eine Zeile je Kachel, gleiche Gestalt wie der Hinweis. */
+.h8-bildhinweis--legende { margin-bottom: 20px; }
+.h8-bildhinweis--legende span { display: block; }
 
 /* Listen ------------------------------------------------------------------- */
 
