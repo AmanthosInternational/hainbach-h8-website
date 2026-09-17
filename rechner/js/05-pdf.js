@@ -16,6 +16,11 @@
   function wirt() { return typeof window !== 'undefined' ? window : global; }
   function zahl(wert, min, max) { return AMR.lead.zahl(wert, min, max); }
   function eur(wert) { return zahl(Math.round(wert), 0, 0) + ' €'; } // Helvetica WinAnsi deckt das Zeichen
+  // Ergebniszeile je Ausgabeschluessel, soweit der Mandant sie ausblenden kann (K.AUSGEBLENDET).
+  var ZEILE_JE_AUSGABE = { nebenkosten: 'Kaufnebenkosten' };
+  function sichtbar(zeile) {
+    return !(K.AUSGEBLENDET || []).some(function (s) { return ZEILE_JE_AUSGABE[s] === zeile[0]; });
+  }
 
   function datum(jetzt) {
     var d = jetzt instanceof Date ? jetzt : new Date();
@@ -119,7 +124,7 @@
         ['durchschnittlicher Zuschuss', eur(ergebnis.zuschussMonatDurchschnitt) + ' im Monat'],
         ['Kaufnebenkosten', eur(ergebnis.nebenkosten)], ['Darlehen', eur(ergebnis.darlehen)],
         ['Annuität', eur(ergebnis.annuitaetMonat) + ' im Monat']
-      ] },
+      ].filter(sichtbar) },
       { schluessel: 'jahre', titel: 'Jahresübersicht, alle Werte in Euro', tabelle: {
         kopf: ['Jahr', 'Miete', 'Zinsen', 'Tilgung', 'AfA gesamt', 'Steuer', 'Cashflow n. St.', 'Restschuld'],
         zeilen: jahresZeilen(ergebnis)

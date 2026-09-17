@@ -358,6 +358,10 @@
     ziel.ownerDocument.addEventListener('keydown', function (fall) {
       if (fall.key === 'Escape' && ansicht === 'gate') aktionAusfuehren('gate-zu');
     });
+    // K.AUSGEBLENDET: die Kachel faellt vor dem ersten Schreiben aus dem Markup, die Rechnung behaelt den Wert.
+    jeder('[data-amr-ausgabe]', function (k) {
+      if ((K.AUSGEBLENDET || []).indexOf(k.getAttribute('data-amr-ausgabe')) >= 0 && k.parentNode && k.parentNode.parentNode) k.parentNode.parentNode.removeChild(k.parentNode);
+    });
     jeder('[data-amr-text]', function (knoten) {
       var wert = K.TEXTE[knoten.getAttribute('data-amr-text')];
       if (typeof wert === 'string') knoten.textContent = wert;

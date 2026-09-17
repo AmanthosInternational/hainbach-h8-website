@@ -45,6 +45,12 @@
  *   .amw-schau__bild das vergroesserte Bild darin
  *   .amw-schau__hinweis  der Pflichthinweis, der in der Karte darunter steht
  *
+ *   Seit 17.09.2026 legt bildschau.js vier weitere an, nur mit Skript und nie im Markup:
+ *   .amw-schau__buehne   der Bezugsrahmen um das Bild, traegt die Pfeile
+ *   .amw-schau__pfeil    ein Pfeil zum Blaettern, sichtbar ab zwei Bildern
+ *   .amw-schau__pfeil--zurueck, .amw-schau__pfeil--vor  seine Stellung, links oder rechts
+ *   .amw-schau__zaehler  die Stelle in der Folge, etwa 2 / 3
+ *
  * WARUM KEINE GEZEICHNETEN PUNKTE. Ein ::before je Feld kann die Zahl der Felder zeigen,
  * aber weder Fokus noch Klick annehmen, und welches Feld gerade steht, weiss es ohne Skript
  * ohnehin nicht. Die Sprungreihe leistet beides mit einem Element je Feld. Sie haengt an

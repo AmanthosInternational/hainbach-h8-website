@@ -134,7 +134,7 @@
     : '';
 
   // Wird von bauen.py durch acht Hexzeichen der SHA-256 ueber die Bausteine ersetzt.
-  var VERSION = '98d1e0c3';
+  var VERSION = '39b0b206';
 
   // ---------------------------------------------------------------------------
   // K7 Steuer- und Rechenregeln Baden-Wuerttemberg. Jede Angabe am 09.09.2026 geprueft:
@@ -392,6 +392,9 @@
     MIETE_JE_M2_VORGABE: MIETE_JE_M2_VORGABE,
     ZINS_VORGABE: ZINS_VORGABE,
     FOERDERUNG: FOERDERUNG,
+    // Kennzahlen, die Rechner und PDF nicht zeigen; gerechnet wird weiter mit ihnen. Die
+    // Kaufnebenkosten seit 17.09.2026 (Rueckmeldung Bosko, rund 7 % nicht anzeigen).
+    AUSGEBLENDET: ['nebenkosten'],
     // Annahmesaetze: NUR Annahmen, nie Kaufpreis, Flaeche, Miete oder Grenzsteuersatz.
   // Redaktionell gesetzt. Auflagen und Begruendung: rechner/tests/konstanten-h8.test.js.
   SZENARIEN: [
