@@ -78,31 +78,31 @@
     if (ziel) ziel.textContent = text;
   }
 
-  // Der Zinsvorteil des KfW-Darlehens, nach derselben Regel wie `kfw_de` in seite/bauen.py:
-  // min(maxJeEinheit, anteilVomKaufpreis * kaufpreis), auf 100 EUR gerundet, mal dem Abstand
-  // zwischen Bankzins und KfW-Zins. Bankzins ist ZINS_VORGABE, nicht der Regler: die Seite
-  // zeigt dieselbe Zahl neben der Wohnung. Ohne den Block entsteht keine Zahl, nie eine Null.
-  function zinsvorteil(kaufpreis) {
+  // Zinsvorteil des KfW-Darlehens: Betrag wie `kfw_de` in seite/bauen.py mal Abstand zwischen
+  // Sollzins des Reglers (seit 17.09.2026, vorher fest ZINS_VORGABE) und KfW-Zins. Ohne Block
+  // keine Zahl; ohne positiven Abstand Text, wer billiger bei der Bank leiht, hat keinen Vorteil.
+  function zinsvorteil(kaufpreis, bankzins) {
     var k = global.AMR && global.AMR.konstanten ? global.AMR.konstanten : null;
     var f = k && k.FOERDERUNG ? k.FOERDERUNG : null;
     if (!f) return null;
     var betrag = Math.floor(Math.min(f.maxJeEinheit, f.anteilVomKaufpreis * kaufpreis) / 100
       + 0.5) * 100;
-    return Math.floor(betrag * (k.ZINS_VORGABE - f.zinsEffektiv) / 100 + 0.5);
+    var vorteil = Math.floor(betrag * (bankzins - f.zinsEffektiv) / 100 + 0.5);
+    return vorteil > 0 ? vorteil : 'kein Zinsvorteil';
   }
 
-  // berechne() rechnet die Abschreibung, gibt sie aber nicht als eigene Zahl heraus. Abgeleitet
-  // wird sie deshalb hier und nicht im Modell: eine neue Ausgabe dort veraenderte die goldene
-  // Datei des Rechners, und die bleibt byteidentisch. Die Zeile zu 7b haengt am selben Ergebnis.
+  // Abgeleitet hier, nicht in berechne(): eine neue Ausgabe veraenderte die goldene Datei.
   function steuerzahlen(dialog, ergebnis, eingaben) {
     var afa = function (j) { return j.afaRegulaer + j.sonderAfa + j.afaStellplatz; };
     var jahre = ergebnis.jahre || [];
     ergebnis.abschreibungJahr1 = jahre.length ? afa(jahre[0]) : 0;
     ergebnis.afaSteuerwirkungSumme = jahre.reduce(function (s, j) { return s + afa(j); }, 0)
       * (eingaben.steuersatzProzent || 0) / 100;
-    ergebnis.zinsvorteilJahr = zinsvorteil(eingaben.kaufpreis);
+    ergebnis.zinsvorteilJahr = zinsvorteil(eingaben.kaufpreis, eingaben.zinsProzent);
     var zeile = dialog.querySelector('[data-amk-sonder]');
     if (zeile) zeile.setAttribute('data-amk-sonder', ergebnis.sonderAfaAktiv ? 'ja' : 'nein');
+    var satz = dialog.querySelector('[data-amk-bankzins]');
+    if (satz) satz.textContent = zahl(eingaben.zinsProzent, 1); // Hinweissatz nennt den Regler
   }
 
   function rechnen(dialog, eingaben) {
@@ -112,9 +112,10 @@
     steuerzahlen(dialog, ergebnis, eingaben);
     Object.keys(AUSGABEN).forEach(function (name) {
       var ziel = dialog.querySelector('[data-amk-ausgabe="' + name + '"]');
-      // Ohne Zahl bleibt die Zeile ganz leer; eine nackte Einheit sieht aus wie ein Wert.
+      // Ohne Zahl nur ein Text oder nichts: eine nackte Einheit sieht aus wie ein Wert.
+      var wort = typeof ergebnis[name] === 'string' ? ergebnis[name] : '';
       var text = zahl(ergebnis[name], AUSGABEN[name][0]);
-      if (ziel) ziel.textContent = text ? text + AUSGABEN[name][1] : '';
+      if (ziel) ziel.textContent = text ? text + AUSGABEN[name][1] : wort;
     });
   }
 
