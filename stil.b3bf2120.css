@@ -28,7 +28,7 @@
      Bausteine  .h8-knopf, .h8-knopf--primaer, .h8-knopfreihe
                 .h8-liste, .h8-liste--merkmale, .h8-fussnote, .h8-bild, .h8-vorspann
      Abschnitte .h8-hero (1), .h8-kennzahlen + .h8-kennzahl (2 und 9), .h8-ampel (3 und 5),
-                .h8-karten + .h8-karte (5), .h8-zeitleiste (8), .h8-personen (9)
+                .h8-karten + .h8-karte (5), .h8-zeitleiste (8), .h8-traeger (9)
      Tabelle    .h8-tabelle in .h8-tabelle__rahmen (laeuft quer, nie die Seite)
 
    Formular und Einwilligungsbanner haben ihren eigenen Stil (Arbeitspakete 7 und 5), und
@@ -105,6 +105,13 @@
      .h8-faq__eintrag      ein <details>, traegt den Zustand als [open]
      .h8-faq__frage        das <summary>, zugleich Klappziel, mindestens 44 px
      .h8-faq__antwort      der Text darunter
+
+   NACHGETRAGEN am 17.09.2026, Vertrauensabschnitt:
+
+     .h8-traeger           die Flaeche mit dem Querformat-Logo der Gruppe, ersetzt .h8-personen
+     .h8-traeger__logo     der Verweis um das Logo, auf amanthos.com
+     .h8-traeger__zeile    die Vorzeile unter dem Logo
+     .h8-referenzbild      das Referenzbild mit Legende unter dem Raster
 
    DIE KENNUNG DER ABSCHNITTE sitzt auf der Ueberschrift, nicht auf der Sektion: sieben der
    elf Abschnitte beginnen mit einem grossen Bild, und ein Sprung landete sonst darin. Die
@@ -855,17 +862,68 @@ p:last-child { margin-bottom: 0; }
    `.h8-person*`-Regeln, die bis zum 12.09.2026 hier standen, hatten danach kein Markup
    mehr und sind entfernt; die Zusicherungen (44 px je Weg, Umbruch zwischen Zeichen und
    Nummer, nie mitten in der Ziffernfolge) leben in ansprechpartner.css weiter und werden in
-   mobil-stil.test.js dort geprueft. `.h8-personen` bleibt: der Vertrauensabschnitt setzt
-   seine Kacheln mit derselben Liste. */
-.h8-personen {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 16px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+   mobil-stil.test.js dort geprueft. Die letzte Regel dieser Art, `.h8-personen`, ist am
+   17.09.2026 entfallen: der Vertrauensabschnitt setzt seine Liste seither als
+   `.h8-liste--merkmale`, wie der Energieabschnitt. */
+
+/* Wer hinter dem Projekt steht (Abschnitt 9) ----------------------------------- */
+
+/* GEBAUT WIE DER ENERGIEABSCHNITT, am 17.09.2026 auf Wunsch von Bogdan: zwei Spalten im
+   `.h8-raster`, links eine ruhige Flaeche mit dem Querformat-Logo der Gruppe, rechts Titel,
+   Absatz und Liste. Vorher begann der Abschnitt mit einem 560 px hohen Referenzbild, und das
+   Zeichen der Gruppe kam darin gar nicht vor. Das Bild steht jetzt unter dem Raster, damit
+   der Abschnitt mit Absender und Aussage beginnt.
+
+   Die Flaeche ist gestaltet wie ein Abschnittsbild (`.h8-bild`): Kartengrund, Haarlinie,
+   keine Rundung. Sie streckt sich auf die Hoehe der Textspalte, so wie dort das Bild die
+   Spalte fuellt; auf dem Telefon steht sie oben und haelt eine Mindesthoehe.
+
+   Das Logo ist eine Bilddatei mit den Markenfarben und wird NICHT eingefaerbt. 70 % Breite
+   auf dem Telefon, 360 px auf dem Schreibtisch; die Zeile darunter traegt die Gestalt der
+   Vorzeile, Farbe --h8-leise auf --h8-karte (6,3:1). Auf dem Telefon bricht sie um; enger
+   gesperrt und ausgeglichen, sonst stand am 17.09.2026 bei 390 px "2020" allein darunter. */
+.h8-traeger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  min-height: 220px;
+  padding: 40px var(--h8-rand);
+  background: var(--h8-karte);
+  border: 1px solid var(--h8-linie);
+  text-align: center;
 }
-@media (min-width: 700px) { .h8-personen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.h8-traeger__logo {
+  display: block;
+  width: min(360px, 70%);
+  text-decoration: none;
+}
+.h8-traeger__logo img { display: block; width: 100%; height: auto; }
+.h8-traeger__zeile {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--h8-leise);
+  text-wrap: balance;
+}
+@media (max-width: 859px) { .h8-traeger__zeile { letter-spacing: 0.16em; } }
+/* Die kurze Salbeilinie ueber der Zeile nimmt den Akzent der Merkmalsliste daneben auf. */
+.h8-traeger__zeile::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  margin: 0 auto 18px;
+  background: var(--h8-akzent);
+}
+@media (min-width: 860px) {
+  .h8-traeger { align-self: stretch; min-height: 420px; }
+}
+.h8-referenzbild { margin-top: var(--h8-luft); }
 
 /* Tabelle ------------------------------------------------------------------ */
 
