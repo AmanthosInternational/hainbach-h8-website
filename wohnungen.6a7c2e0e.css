@@ -327,3 +327,65 @@
   font-size: 12px;
   color: var(--h8-leise, #5e5d56);
 }
+
+/* Blaettern in der Schau ---------------------------------------------------------------
+   Pfeile und Zaehler legt bildschau.js an, nur wenn eine Karte mehr als ein zoombares Bild
+   hat. Die Pfeile sehen aus wie die Sprungpunkte der Leiste (runder Rahmen, Kartengrund,
+   44 px Daumenmass) und sitzen mittig an den Bildkanten, nie ueber dem Pflichthinweis. Die
+   Buehne ist der Bezugsrahmen dafuer; weil sie positioniert ist, braucht der Schliessknopf
+   eine eigene Ebene, sonst laege das Bild ueber ihm. */
+
+.amw-schau__buehne {
+  position: relative;
+}
+
+.amw-schau__zu {
+  z-index: 2;
+}
+
+.amw-schau__zu:focus-visible,
+.amw-schau__pfeil:focus-visible {
+  outline: 3px solid var(--h8-akzent, #7c8b7d);
+  outline-offset: 2px;
+}
+
+.amw-schau__pfeil {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  padding: 0 0 3px;
+  border: 1px solid var(--h8-linie, #c9c4b8);
+  border-radius: 50%;
+  background: var(--h8-karte, #fbfaf7);
+  color: var(--h8-text, #202221);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.amw-schau__pfeil:hover { border-color: var(--h8-text, #202221); }
+.amw-schau__pfeil--zurueck { left: 8px; }
+.amw-schau__pfeil--vor { right: 8px; }
+.amw-schau__pfeil[hidden],
+.amw-schau__zaehler[hidden] { display: none; }
+
+.amw-schau__zaehler {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  margin: 0;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: var(--h8-karte, #fbfaf7);
+  color: var(--h8-text, #202221);
+  font-size: 14px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
