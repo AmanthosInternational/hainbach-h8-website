@@ -135,7 +135,7 @@
     : '';
 
   // Wird von bauen.py durch acht Hexzeichen der SHA-256 ueber die Bausteine ersetzt.
-  var VERSION = '0cc3ea40';
+  var VERSION = '64c2a17e';
 
   // ---------------------------------------------------------------------------
   // K7 Steuer- und Rechenregeln Baden-Wuerttemberg. Jede Angabe am 09.09.2026 geprueft:
