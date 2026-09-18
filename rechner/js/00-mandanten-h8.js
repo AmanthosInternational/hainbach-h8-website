@@ -44,10 +44,11 @@
   ];
 
   // Zwoelf Doppelparker rueckwaerts auf dem Grundstueck, einer je Wohnung, keine Tiefgarage.
-  // Verkaufspreis je 20.000 EUR (Cashflowanalyse, Blatt Stellplatz-Uebersicht, 08.09.2026).
+  // Verkaufspreis je 25.000 EUR (Entscheid Abstimmungscall 17.09.2026; bis dahin 20.000 EUR
+  // nach der Cashflowanalyse, Blatt Stellplatz-Uebersicht, 08.09.2026).
   var STELLPLAETZE = [
     { schluessel: 'keiner', label: 'kein Stellplatz', preis: 0 },
-    { schluessel: 'doppelparker', label: 'Doppelparker', preis: 20000 }
+    { schluessel: 'doppelparker', label: 'Doppelparker', preis: 25000 }
   ];
 
   // Der Doppelparker ist kein Gebaeudeteil, sondern ein eigenes Wirtschaftsgut: eigene
@@ -134,7 +135,7 @@
     : '';
 
   // Wird von bauen.py durch acht Hexzeichen der SHA-256 ueber die Bausteine ersetzt.
-  var VERSION = '39b0b206';
+  var VERSION = '0cc3ea40';
 
   // ---------------------------------------------------------------------------
   // K7 Steuer- und Rechenregeln Baden-Wuerttemberg. Jede Angabe am 09.09.2026 geprueft:

@@ -97,7 +97,6 @@
                            Ueberschrift, die VOR dem Kapitelbild steht, mit mehr Luft darunter
      .h8-karte__zeile      ein Paar aus Bezeichnung und Wert in der Wohnungskarte
      .h8-karte__zeile--preis   nur diese eine Zeile steht gross
-     .h8-karte__zeile--breit   nimmt beide Spalten (Mietannahme)
 
    NACHGETRAGEN am 11.09.2026, siebte Runde:
 
@@ -801,8 +800,6 @@ p:last-child { margin-bottom: 0; }
   font-size: 22px;
   line-height: 1.2;
 }
-/* Die Mietannahme traegt den laengsten Wert und bekommt deshalb beide Spalten. */
-.h8-karte__zeile--breit { grid-column: 1 / -1; }
 
 /* Haeufige Fragen ----------------------------------------------------------
    Aufklappbar, weil zehn ausgeschriebene Antworten den Einseiter um mehrere Bildschirme
@@ -1264,7 +1261,8 @@ p:last-child { margin-bottom: 0; }
 
 
 /* Die Angaben unter der Summenzeile. Fuenf Zeilen Kleinschrift hat niemand gelesen; weg
-   duerfen sie nicht, denn die Flaechen sind Planungswerte und die Kaltmiete eine Annahme.
+   duerfen sie nicht, denn die Flaechen sind Planungswerte (die Kaltmiete steht seit dem
+   17.09.2026 nur noch im Rechner).
    Also ein Schalter, der wie eine Fussnote aussieht und nicht wie ein Knopf: er soll
    auffindbar sein, nicht werben. */
 .h8-angaben { margin: 18px 0 0; }
