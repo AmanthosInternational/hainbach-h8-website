@@ -36,7 +36,9 @@
   /* Projektwerte. Sie stehen so in der Sammelstelle des Mandanten und sind allesamt Werte,
      die ohnehin im ausgelieferten HTML jeder Werbeseite stehen. Ein leerer Wert ist ein
      offener Inhaberschritt und kein Fehler: der zugehoerige Pfad bleibt dann einfach aus.
-     pixelId ist am 10.09.2026 leer, weil das eigene H8-Pixel noch nicht angelegt ist. */
+     pixelId ist seit dem 18.09.2026 das gemeinsame Pixel (amanthos pixel), weil ein eigenes
+     H8-Pixel an den Pixel-Nutzungsbedingungen im Business Manager scheitert; die Trennung
+     je Domain macht die Custom Conversion "H8 Esslingen, Anfrage". */
   var VORGABEN = {
     adsKonto: 'AW-702540316',
     adsZiel: {
@@ -45,7 +47,7 @@
       termin: 'AW-702540316/M2U-CNOYxvIcEJzU_84C'
     },
     adsAnruf: 'AW-702540316/YjuZCNaYxvIcEJzU_84C',
-    pixelId: '',
+    pixelId: '516536478992095',
     anrufAnzeige: '+49 (0) 711 209 095 75',
     gtagQuelle: 'https://www.googletagmanager.com/gtag/js?id=',
     pixelQuelle: 'https://connect.facebook.net/en_US/fbevents.js',
