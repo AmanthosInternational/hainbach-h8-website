@@ -41,8 +41,14 @@
   // K6: die fuenf Messfelder, woertlich wie in K2 und in rechner/lead.js.
   var AM_FELDER = ['am_ereignis_id', 'am_consent', 'am_gclid', 'am_fbp', 'am_fbc'];
 
-  // Die Eingabefelder des Formulars. "firma" ist der Honigtopf und muss leer bleiben.
-  var FELDER = ['vorname', 'nachname', 'email', 'telefon', 'nachricht', 'firma'];
+  // Die Eingabefelder des Formulars.
+  var FELDER = ['vorname', 'nachname', 'email', 'telefon', 'nachricht'];
+
+  // Der Honigtopf. Im Markup heisst das Feld bewusst nicht "firma": Chrome und Safari
+  // fuellen ein so benanntes Feld aus der gespeicherten Adresse, auch mit
+  // autocomplete="off", und der Mensch bekaeme die Bot-Meldung. Im Koerper ans Relay
+  // heisst der Wert weiter "firma" (K6).
+  var HONIGTOPF = 'am_kontrolle';
 
   // Die Bausteine des Dialogs. Sie werden ueber data-am-rolle gefunden, nie ueber Klassen
   // oder Tagnamen: so bleibt der Stil frei aenderbar, ohne das Modul zu brechen.
@@ -294,6 +300,8 @@
           var el = feld(name);
           werte[name] = el ? el.value : '';
         });
+        var honig = feld(HONIGTOPF);
+        werte.firma = honig ? honig.value : '';
         werte.quelle = gate.getAttribute('data-am-quelle') || 'gate';
         return werte;
       }
@@ -491,6 +499,7 @@
     MELDUNGEN: MELDUNGEN,
     AM_FELDER: AM_FELDER,
     FELDER: FELDER,
+    HONIGTOPF: HONIGTOPF,
     ROLLEN: ROLLEN,
     ENDPUNKT: ENDPUNKT,
     TELEFON: TELEFON,
