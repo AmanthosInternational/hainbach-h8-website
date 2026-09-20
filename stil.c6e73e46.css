@@ -173,6 +173,26 @@
   --h8-schwung: cubic-bezier(0.23, 1, 0.32, 1);
   --h8-schatten: 0 18px 40px rgba(32, 34, 33, 0.10);
   --h8-schatten-tief: 0 26px 60px rgba(32, 34, 33, 0.16);
+
+  /* Bruecke zum Einwilligungsbanner (Arbeitspaket 5). Es faerbt sich ueber --am-*-Variablen
+     mit Rueckfallwerten und sollte laut seinem Kopf "spaeter mitfaerben"; die Zuweisung fehlte
+     aber, und so stand es mit seiner eigenen blauen Palette, runden Ecken und orangem Fokus
+     auf dem Sand der Seite (gemeldet 20.09.2026). Hier steht sie. Wer die Palette oben aendert,
+     aendert das Banner mit, ohne dessen Datei anzufassen. */
+  --am-schrift: var(--h8-textschrift);
+  --am-flaeche: var(--h8-karte);
+  --am-text: var(--h8-text);
+  --am-text-leise: var(--h8-leise);
+  --am-linie: var(--h8-linie);
+  /* Der Akzent des Banners ist die Textfarbe, nicht das Salbei: seine beiden Schaltflaechen
+     sind dieselben wie .h8-knopf und .h8-knopf--primaer, und die tragen Anthrazit. */
+  --am-akzent: var(--h8-text);
+  --am-akzent-text: var(--h8-karte);
+  --am-fokus: var(--h8-text);
+  /* Die Seite kennt genau einen Radius, und der sitzt an einem Diagrammbalken. Alles andere
+     hat scharfe Kanten, auch die Knoepfe. */
+  --am-radius: 0;
+  --am-ew-schleier: rgba(32, 34, 33, 0.35);
 }
 
 /* Grundlagen --------------------------------------------------------------- */

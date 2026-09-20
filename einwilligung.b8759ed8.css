@@ -4,6 +4,10 @@
  * Eigene Datei, damit das Banner ohne stil.css (Arbeitspaket 2) vollstaendig aussieht: faellt der
  * Seitenstil aus, bleibt die Wahl trotzdem bedienbar. Farben und Radius kommen als Variablen
  * mit Rueckfallwert, so faerbt Arbeitspaket 2 spaeter mit, ohne dass hier etwas geaendert wird.
+ * Seit dem 20.09.2026 tut es das auch wirklich: stil.css setzt die --am-*-Variablen aus der
+ * Palette der Seite. Bis dahin fehlte die Zuweisung, und die Rueckfallwerte hier waren blau,
+ * rund und mit orangem Fokus; auf dem Sand der Seite sah das nach fremdem Baustein aus. Die
+ * Rueckfallwerte tragen deshalb jetzt selbst die Seitenfarben.
  *
  * Der Kern dieser Datei in einem Satz: die beiden Schaltflaechen sind gleich gross, gleich
  * schwer und gleich sichtbar. Wer "Nur notwendige" kleiner, blasser oder weiter unten machen
@@ -19,7 +23,7 @@
   display: flex;
   justify-content: center;
   padding: 16px;
-  background: var(--am-ew-schleier, rgba(15, 23, 32, 0.35));
+  background: var(--am-ew-schleier, rgba(32, 34, 33, 0.35));
   font-family: var(--am-schrift, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
 }
 
@@ -29,9 +33,9 @@
   width: 100%;
   max-width: 720px;
   padding: 20px;
-  border-radius: var(--am-radius, 10px);
-  background: var(--am-flaeche, #ffffff);
-  color: var(--am-text, #14202b);
+  border-radius: var(--am-radius, 0);
+  background: var(--am-flaeche, #fbfaf7);
+  color: var(--am-text, #202221);
   box-shadow: 0 8px 32px rgba(15, 23, 32, 0.28);
 }
 
@@ -52,7 +56,7 @@
   margin: 0 0 12px;
   font-size: 0.85rem;
   line-height: 1.5;
-  color: var(--am-text-leise, #4a5a68);
+  color: var(--am-text-leise, #5e5d56);
 }
 
 /* Beide Schaltflaechen in einer Zeile, jede mit demselben Anteil an der Breite. */
@@ -71,8 +75,8 @@
   box-sizing: border-box;
   min-height: 48px;
   padding: 12px 20px;
-  border: 2px solid var(--am-akzent, #0b5c8a);
-  border-radius: var(--am-radius, 10px);
+  border: 1px solid var(--am-akzent, #202221);
+  border-radius: var(--am-radius, 0);
   font-family: inherit;
   font-size: 1rem;
   font-weight: 600;
@@ -82,13 +86,13 @@
 }
 
 .am-ew-knopf--ja {
-  background: var(--am-akzent, #0b5c8a);
-  color: var(--am-akzent-text, #ffffff);
+  background: var(--am-akzent, #202221);
+  color: var(--am-akzent-text, #fbfaf7);
 }
 
 .am-ew-knopf--nein {
-  background: var(--am-flaeche, #ffffff);
-  color: var(--am-akzent, #0b5c8a);
+  background: var(--am-flaeche, #fbfaf7);
+  color: var(--am-akzent, #202221);
 }
 
 .am-ew-knopf:hover {
@@ -98,7 +102,7 @@
 .am-ew-knopf:focus-visible,
 .am-ew-schliessen:focus-visible,
 .am-ew-link:focus-visible {
-  outline: 3px solid var(--am-fokus, #d97706);
+  outline: 3px solid var(--am-fokus, #202221);
   outline-offset: 2px;
 }
 
@@ -114,7 +118,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  color: var(--am-akzent, #0b5c8a);
+  color: var(--am-akzent, #202221);
   text-decoration: underline;
 }
 
@@ -129,10 +133,10 @@
   right: 8px;
   min-height: 36px;
   padding: 6px 12px;
-  border: 1px solid var(--am-linie, #c8d2da);
-  border-radius: var(--am-radius, 10px);
+  border: 1px solid var(--am-linie, #c9c4b8);
+  border-radius: var(--am-radius, 0);
   background: transparent;
-  color: var(--am-text-leise, #4a5a68);
+  color: var(--am-text-leise, #5e5d56);
   font-family: inherit;
   font-size: 0.85rem;
   cursor: pointer;
@@ -156,31 +160,10 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .am-ew-inhalt {
-    background: var(--am-flaeche-dunkel, #101b24);
-    color: var(--am-text-dunkel, #eef3f7);
-  }
-
-  .am-ew-stand {
-    color: var(--am-text-leise-dunkel, #b3c1cc);
-  }
-
-  .am-ew-knopf--nein {
-    background: transparent;
-    color: var(--am-akzent-dunkel, #7cc4ea);
-  }
-
-  .am-ew-knopf--ja {
-    background: var(--am-akzent-dunkel, #7cc4ea);
-    color: var(--am-akzent-text-dunkel, #06202e);
-  }
-
-  .am-ew-knopf {
-    border-color: var(--am-akzent-dunkel, #7cc4ea);
-  }
-
-  .am-ew-link {
-    color: var(--am-akzent-dunkel, #7cc4ea);
-  }
-}
+/*
+ * Kein Dunkelmodus. Diese Datei war die einzige der Seite mit `prefers-color-scheme: dark`,
+ * und die Seite selbst ist immer hell: bei dunkel gestelltem System stand ein dunkelblaues
+ * Banner vor einer sandfarbenen Seite (Bildschirmfoto vom 20.09.2026). Ein Banner folgt der
+ * Seite, nicht dem Betriebssystem. Kommt die Seite je in einen Dunkelmodus, gehoert er hierher
+ * zurueck, dann aber mit ihren Farben.
+ */
