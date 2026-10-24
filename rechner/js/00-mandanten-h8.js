@@ -101,7 +101,9 @@
   ];
 
   // Seit 12.09.2026 gesetzt (V11): Ereignistyp im Konto julian-neyer, Duplikat von W5.
-  var TERMIN_URL = 'https://cal.com/julian-neyer/hainbach-h8';
+  // Seit 24.10.2026 (Entscheid H3) der Team-Kalender, auf den auch die Meta-Formulare
+  // fuehren; vorher landete ein Besucher der Seite bei Julian, ein Meta-Lead bei Bosko.
+  var TERMIN_URL = 'https://cal.com/team/amanthos/hainbach-h8';
 
   // Das zinsguenstige KfW-Darlehen, der zweite Vorteil neben der Abschreibung (Broschuere
   // Seite 11). Der Betrag je Wohnung wird daraus abgeleitet, nie je Eintrag getippt:
@@ -121,7 +123,7 @@
   };
 
   var CAL = {
-    link: 'julian-neyer/hainbach-h8',
+    link: 'team/amanthos/hainbach-h8',
     raum: 'hainbach-h8',
     skript: 'https://app.cal.com/embed/embed.js',
     ursprung: 'https://app.cal.com'
@@ -135,7 +137,7 @@
     : '';
 
   // Wird von bauen.py durch acht Hexzeichen der SHA-256 ueber die Bausteine ersetzt.
-  var VERSION = '64c2a17e';
+  var VERSION = 'ef833b63';
 
   // ---------------------------------------------------------------------------
   // K7 Steuer- und Rechenregeln Baden-Wuerttemberg. Jede Angabe am 09.09.2026 geprueft:
