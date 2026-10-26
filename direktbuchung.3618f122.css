@@ -17,7 +17,9 @@
  *
  * DER ATTRIBUTVERTRAG dieses Blattes:
  *
- *   .h8-hero__hinweis   die Unterzeile unter der Knopfreihe im Held
+ *   .h8-hero__hauptweg  der Umschlag aus Hauptknopf und Unterzeile im Held
+ *   .h8-hero__hinweis   die Unterzeile: auf dem Telefon direkt unter dem Hauptknopf, ab 600 px
+ *                       unter der ganzen Knopfreihe
  *   [data-amn-termin]   der Knopf TERMIN BUCHEN in der Kopfleiste; erst ab 1080 px sichtbar,
  *                       darunter traegt die Leiste unten den Termin
  *   [data-h8-leiste]    die feste Leiste am unteren Rand, nur unter 900 px
@@ -26,8 +28,16 @@
 /* Held ----------------------------------------------------------------------------------- */
 
 /* Die Unterzeile sagt, was der Knopf verspricht: 30 Minuten, Videocall oder Telefon, freie
-   Zeiten sofort. Dieselbe Deckkraft wie die Vorzeile ueber dem Titel. */
+   Zeiten sofort. Dieselbe Deckkraft wie die Vorzeile ueber dem Titel.
+
+   Sie steht IM MARKUP neben dem Hauptknopf, in einem gemeinsamen Umschlag (.h8-hero__hauptweg),
+   nicht hinter der Knopfreihe: auf dem Telefon stehen die drei Knoepfe untereinander, und die
+   Zeile gehoert direkt unter den ersten, nicht unter den dritten (Entscheid Bogdan,
+   26.10.2026). Ab 600 px loest sich der Umschlag auf (display: contents), die Zeile wird selbst
+   Glied der Reihe, nimmt die ganze Breite und faellt als Letzte unter alle drei Knoepfe: der
+   Schreibtisch sieht aus wie zuvor. */
 .h8-hero__hinweis {
+  display: block;
   margin: 12px 0 0;
   max-width: 46ch;
   font-size: 14px;
@@ -35,11 +45,17 @@
   letter-spacing: 0.01em;
   color: rgba(255, 255, 255, 0.82);
 }
+.h8-hero__hauptweg { display: contents; }
+@media (min-width: 600px) {
+  .h8-hero__hinweis { flex: 1 1 100%; order: 10; margin-top: 0; }
+}
 
 /* Drei Knoepfe im Held brechen unter 600 px zur Treppe um; untereinander in voller Breite
-   liest sich die Reihenfolge, und der Daumen trifft jeden. */
+   liest sich die Reihenfolge, und der Daumen trifft jeden. Der Umschlag aus Hauptknopf und
+   Unterzeile wird hier zur Spalte, damit der Knopf darin die Breite behaelt. */
 @media (max-width: 599px) {
   .h8-hero .h8-knopfreihe .h8-knopf { flex: 1 1 100%; }
+  .h8-hero__hauptweg { display: flex; flex-direction: column; flex: 1 1 100%; }
 }
 
 /* Kopfleiste ----------------------------------------------------------------------------- */
