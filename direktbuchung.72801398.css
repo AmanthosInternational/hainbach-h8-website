@@ -1,0 +1,101 @@
+/*
+ * Direktbuchung: der Termin als Hauptweg (Briefing h8-direktbuchung, 26.10.2026).
+ *
+ * Bis dahin sass die Terminbuchung versteckt: im Held standen RENDITE BERECHNEN und
+ * BROSCHUERE ANFORDERN, der Termin tauchte erst in den Wohnungskarten und ganz unten im
+ * Kontakt auf. Jetzt traegt der Held den Termin als Hauptknopf, die Kopfleiste fuehrt ihn
+ * auf dem Schreibtisch, und auf dem Telefon steht er in einer festen Leiste am unteren Rand.
+ *
+ * Eigene Datei mit eigenem Praefix, wie kopf.css und held.css es halten; stil.css wird nicht
+ * angefasst. Farbe, Schrift und Mass kommen als Kennwerte aus dem :root von stil.css, jeweils
+ * mit dem dortigen Wert als Rueckfall. Hier wird keine Farbe erfunden.
+ *
+ * JEDER KNOPF BLEIBT EIN VERWEIS. Alle Terminknoepfe tragen dasselbe Muster wie die zwoelf
+ * Karten: href auf cal.com, target="_blank", data-cal-link und data-cal-config. js/termin.js
+ * haengt sich an data-cal-link und oeffnet den Kalender als Ueberblendung; ohne Skript greift
+ * der Verweis. Nur so wandern gclid und utm der Seitenadresse in die Buchung (forwardQueryParams).
+ *
+ * DER ATTRIBUTVERTRAG dieses Blattes:
+ *
+ *   .h8-hero__hinweis   die Unterzeile unter der Knopfreihe im Held
+ *   [data-amn-termin]   der Knopf TERMIN BUCHEN in der Kopfleiste; erst ab 1080 px sichtbar,
+ *                       darunter traegt die Leiste unten den Termin
+ *   [data-h8-leiste]    die feste Leiste am unteren Rand, nur unter 900 px
+ */
+
+/* Held ----------------------------------------------------------------------------------- */
+
+/* Die Unterzeile sagt, was der Knopf verspricht: 30 Minuten, Videocall oder Telefon, freie
+   Zeiten sofort. Dieselbe Deckkraft wie die Vorzeile ueber dem Titel. */
+.h8-hero__hinweis {
+  margin: 12px 0 0;
+  max-width: 46ch;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Drei Knoepfe im Held brechen unter 600 px zur Treppe um; untereinander in voller Breite
+   liest sich die Reihenfolge, und der Daumen trifft jeden. */
+@media (max-width: 599px) {
+  .h8-hero .h8-knopfreihe .h8-knopf { flex: 1 1 100%; }
+}
+
+/* Kopfleiste ----------------------------------------------------------------------------- */
+
+/* Unter 1080 px fehlt der Platz: Marke, fuenf Ziele, Anruf, TERMIN BUCHEN und RECHNER
+   messen zusammen 1036 px (am 26.10.2026 bei 1280 px gemessen), dazu zweimal 16 px Rand, und
+   die Ziele brechen nicht um (kopf.css). Bis dahin traegt der Held den Termin, auf dem
+   Telefon die Leiste unten. */
+[data-amn-termin] { display: none; }
+@media (min-width: 1080px) {
+  [data-amn-termin] {
+    display: inline-flex;
+    order: 0;
+    flex: 0 0 auto;
+    padding-inline: 22px;
+  }
+}
+
+/* Feste Leiste unten, nur auf dem Telefon ------------------------------------------------- */
+
+[data-h8-leiste] {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+  padding: 8px var(--h8-rand, 16px) calc(8px + env(safe-area-inset-bottom, 0px));
+  background: var(--h8-band, #ddd8ce);
+  border-top: 1px solid var(--h8-linie, #c9c4b8);
+}
+[data-h8-leiste] .h8-knopf {
+  flex: 2 1 0;
+  min-width: 0;
+  padding-inline: 12px;
+  white-space: nowrap;
+}
+[data-h8-leiste] .h8-knopf--primaer { flex: 3 1 0; }
+
+@media (max-width: 899px) {
+  /* Was die Leiste an Hoehe nimmt, bekommt die Seite unten dazu: 48 px Knopf und zweimal 8 px
+     Polster. Sonst steht der Fuss hinter der Leiste. */
+  body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  /* Der Held fuellt das Fenster und setzt seine Knoepfe an den unteren Rand, also genau
+     dorthin, wo die Leiste liegt. Die Knopfreihe und die Kennzeichnung ruecken um die Hoehe
+     der Leiste nach oben; die Hoehe des Helden selbst bleibt unangetastet. Die 40 px obendrauf
+     sind die zwei Zeilen der Kennzeichnung: auf 390 px lag sie sonst ueber der Unterzeile
+     (26.10.2026 im Browser gesehen, 732 bis 770 px gegen 708 bis 750 px). */
+  .h8-hero__innen { padding-bottom: calc(clamp(30px, 4.6vw, 54px) + 64px + 40px); }
+  .amb-bildhinweis { bottom: 74px; }
+  /* Solange das Einwilligungsbanner oder das Broschueren-Gate offen ist, tritt die Leiste
+     zurueck: beide liegen unten bzw. ueber der ganzen Seite, und ein Knopf, der halb unter
+     dem Banner hervorschaut, sieht nach Fehler aus. Ohne :has bleibt die Leiste stehen und
+     liegt dann unter dem Banner (z-index 9999 gegen 20). */
+  body:has(.am-einwilligung) [data-h8-leiste],
+  body:has(.am-gate.am-auf) [data-h8-leiste] { display: none; }
+}
+@media (min-width: 900px) {
+  [data-h8-leiste] { display: none; }
+}
